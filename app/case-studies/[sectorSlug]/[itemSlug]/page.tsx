@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 "use client";
 
 import React, {
@@ -298,9 +300,8 @@ function CarouselArrow({ direction, onClick }: { direction: "prev" | "next"; onC
   return (
     <Button
       type="text"
-      className={`absolute top-1/2 -translate-y-1/2 z-10 ${
-        direction === "prev" ? "-left-12" : "-right-12"
-      } rounded-full shadow-lg bg-white`}
+      className={`absolute top-1/2 -translate-y-1/2 z-10 ${direction === "prev" ? "-left-12" : "-right-12"
+        } rounded-full shadow-lg bg-white`}
       onClick={onClick}
       icon={direction === "prev" ? <ArrowLeft /> : <ArrowRight />}
     />

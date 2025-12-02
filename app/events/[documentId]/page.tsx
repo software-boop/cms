@@ -1,5 +1,9 @@
+
+
+export const runtime = "edge";
+
 import Image from "next/image";
-import ScrollToGalleryButton from "../ScrollToGalleryButton"; 
+import ScrollToGalleryButton from "../ScrollToGalleryButton";
 
 interface EventDetailsProps {
   params: Promise<{ documentId: string }>;

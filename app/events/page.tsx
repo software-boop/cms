@@ -33,7 +33,7 @@ export default function EventsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-      Events
+        Events
       </motion.h1>
 
       {/* Cards with animation */}
