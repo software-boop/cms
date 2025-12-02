@@ -16,7 +16,7 @@ interface JourneyItem {
 }
 
 /* =========
-   DATA (ASC: 2012 -> 2024) — each item uses your image
+   DATA
    ========= */
 const IMG_URL =
   "https://tse1.mm.bing.net/th/id/OIP.PW1EFVspJJjLXFTLyiy-SAHaHa?pid=Api&P=0&h=180";
@@ -115,26 +115,23 @@ const JOURNEY_RAW: JourneyItem[] = [
     year: 2025,
     title: "Examination survilence",
     summary:
-      "we have sucessfully expanded into education Survilence by installing  65,000+  for NEET exams cameras across the india",
+      "We have successfully expanded into education surveillance by installing 65,000+ cameras across India for NEET exams.",
     img: IMG_URL,
   },
 ];
 
 /* =========
-   ORDER: DESC (2025 → 2006)
+   ORDER DESC
    ========= */
-const JOURNEY: JourneyItem[] = [...JOURNEY_RAW].sort((a, b) => b.year - a.year);
+const JOURNEY = [...JOURNEY_RAW].sort((a, b) => b.year - a.year);
 
-/* =========
-   CONSTANTS
-   ========= */
 const BRAND = "#07518a";
 
 /* =========
-   HOOK (per-item parallax)
+   FIXED HOOK (works with HTMLLIElement too)
    ========= */
 function useParallax(
-  ref: React.RefObject<HTMLElement | null>
+  ref: React.RefObject<HTMLLIElement | HTMLElement | null>
 ): {
   contentY: MotionValue<number>;
   contentOpacity: MotionValue<number>;
@@ -158,13 +155,13 @@ function useParallax(
 }
 
 /* =========
-   CHILD: one item (animated image + animated content)
+   CHILD ITEM
    ========= */
 function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
-  const imageOnLeft = index % 2 === 1; // alternate sides even when reversed
+  const imageOnLeft = index % 2 === 1;
 
-  // ✅ TS-safe: HTMLElement | null, matches useParallax type
-  const liRef = useRef<HTMLElement | null>(null);
+  // FIXED: liRef type matches the <li> element
+  const liRef = useRef<HTMLLIElement | null>(null);
 
   const { contentY, contentOpacity, imageY, imageOpacity, imageScale } =
     useParallax(liRef);
@@ -176,9 +173,8 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
       className="relative scroll-mt-28 sm:scroll-mt-40 py-16 sm:py-24"
       style={{ contain: "content" }}
     >
-      {/* Sticky rail dot + animated image bubble (desktop) */}
+      {/* Desktop bubble */}
       <div className="hidden lg:block sticky top-[32vh] h-0 pointer-events-none">
-        {/* Center dot */}
         <div className="absolute left-1/2 -translate-x-1/2">
           <div
             className="h-2.5 w-2.5 rounded-full"
@@ -186,12 +182,10 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
               backgroundColor: BRAND,
               boxShadow: `0 0 0 8px #ffffff, 0 0 0 9px ${BRAND}40`,
               willChange: "transform",
-              transform: "translateZ(0)",
             }}
           />
         </div>
 
-        {/* Connector from rail to image */}
         <div
           className={[
             "absolute top-1/2 -translate-y-1/2 h-px w-[min(140px,16vw)]",
@@ -200,7 +194,6 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
           style={{ backgroundColor: `${BRAND}33` }}
         />
 
-        {/* Slightly larger image bubble (desktop) */}
         <motion.div
           style={{
             y: imageY,
@@ -221,21 +214,17 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
               : "left-[calc(50%+min(140px,16vw))]",
           ].join(" ")}
           role="img"
-          aria-label={j.title}
         >
-          {j.img ? (
-            <img
-              src={j.img}
-              alt={j.title}
-              className="h-full w-full object-cover"
-              loading="lazy"
-              style={{ transform: "translateZ(0)" }}
-            />
-          ) : null}
+          <img
+            src={j.img}
+            alt={j.title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
         </motion.div>
       </div>
 
-      {/* Mobile image bubble + dot */}
+      {/* Mobile bubble */}
       <div className="lg:hidden relative mb-6">
         <div className="absolute left-1/2 -translate-x-1/2 top-5">
           <div
@@ -260,7 +249,6 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
             y: imageY,
             opacity: imageOpacity,
             scale: imageScale,
-            willChange: "transform, opacity",
           }}
           transition={{
             type: "tween",
@@ -273,62 +261,43 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
             imageOnLeft ? "mr-auto" : "ml-auto",
           ].join(" ")}
         >
-          {j.img ? (
-            <img
-              src={j.img}
-              alt={j.title}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          ) : null}
+          <img
+            src={j.img}
+            alt={j.title}
+            className="h-full w-full object-cover"
+          />
         </motion.div>
       </div>
 
-      {/* Content (animated independently; opposite the image) */}
+      {/* CONTENT */}
       <motion.div
         style={{
           y: contentY,
           opacity: contentOpacity,
-          willChange: "transform, opacity",
         }}
-        transition={{ type: "tween", duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         className={[
           "relative mx-auto grid max-w-none items-start gap-6 lg:grid-cols-2",
           imageOnLeft ? "lg:pl-[min(54%,340px)]" : "lg:pr-[min(54%,340px)]",
         ].join(" ")}
       >
         <div
-          className={[
+          className={
             imageOnLeft
               ? "lg:col-start-2 lg:text-left"
-              : "lg:col-start-1 lg:text-right",
-          ].join(" ")}
+              : "lg:col-start-1 lg:text-right"
+          }
         >
-          {/* optional content-side connector */}
-          <div className="hidden lg:block">
-            <div
-              className={[
-                "absolute top-[32vh] h-px w-[min(120px,14vw)]",
-                imageOnLeft
-                  ? "right-[calc(50%-1px)]"
-                  : "left-[calc(50%-1px)]",
-              ].join(" ")}
-              style={{ backgroundColor: `${BRAND}33` }}
-            />
+          <div
+            className="text-4xl sm:text-5xl font-extrabold"
+            style={{ color: BRAND }}
+          >
+            {j.year}
           </div>
-
-          <div className={imageOnLeft ? "" : "lg:ml-auto"}>
-            <div
-              className="text-4xl sm:text-5xl font-extrabold leading-none"
-              style={{ color: BRAND }}
-            >
-              {j.year}
-            </div>
-            <h3 className="mt-3 text-2xl sm:text-3xl font-semibold text-neutral-900">
-              {j.title}
-            </h3>
-            <p className="mt-3 max-w-prose text-neutral-600">{j.summary}</p>
-          </div>
+          <h3 className="mt-3 text-2xl sm:text-3xl font-semibold text-neutral-900">
+            {j.title}
+          </h3>
+          <p className="mt-3 max-w-prose text-neutral-600">{j.summary}</p>
         </div>
       </motion.div>
     </li>
@@ -336,22 +305,14 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
 }
 
 /* =========
-   PARENT: OurJourney
+   PARENT
    ========= */
-const OurJourney: React.FC = () => {
+const OurJourney = () => {
   return (
     <section id="our-journey" className="relative bg-white">
-      {/* Smooth scroll + small perf wins */}
       <style jsx global>{`
         html {
           scroll-behavior: smooth;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
         }
       `}</style>
 
@@ -368,7 +329,7 @@ const OurJourney: React.FC = () => {
           >
             OUR JOURNEY
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900">
+          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900">
             A Roadmap of Milestones
           </h2>
           <p className="mt-3 text-neutral-600">
@@ -378,7 +339,7 @@ const OurJourney: React.FC = () => {
         </div>
       </div>
 
-      {/* Timeline + center rail */}
+      {/* Timeline */}
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div
           className="pointer-events-none absolute left-1/2 top-0 h-full w-px -translate-x-1/2"
