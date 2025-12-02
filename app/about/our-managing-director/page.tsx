@@ -84,14 +84,12 @@ const page1Data: PageOneProfile = {
 /* =========================================
    Motion Helpers
 ========================================= */
-const spring = { type: "spring" as const, stiffness: 120, damping: 18, mass: 0.7 };
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24, filter: "blur(4px)" },
-  whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
-  viewport: { once: true, amount: 0.25 },
-  transition: { ...spring, delay },
-});
+const spring = {
+  type: "spring" as const,
+  stiffness: 120,
+  damping: 18,
+  mass: 0.7,
+};
 
 /* =========================================
    HERO SECTION
@@ -107,7 +105,7 @@ function Hero({ data }: { data: PageOneProfile }) {
       : {
         type: "tween" as const,
         duration: 1.1,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
       },
   };
 
@@ -195,7 +193,7 @@ function Hero({ data }: { data: PageOneProfile }) {
               ? { duration: 0.01 }
               : {
                 duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
+                ease: [0.22, 1, 0.36, 1] as const,
                 delay: 0.1,
               }
           }
