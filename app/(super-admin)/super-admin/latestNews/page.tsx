@@ -1,7 +1,8 @@
 "use client";
 
 import React, { Suspense } from 'react'
-import Latest from './latest'
+
+import LatestNewsPage from './latest';
 
 
 function page() {
@@ -11,7 +12,7 @@ function page() {
 
 
 
-        <Latest />
+        <LatestNewsPage />
       </Suspense>
 
 
