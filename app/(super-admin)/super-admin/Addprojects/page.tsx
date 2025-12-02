@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react'
 
-import Onliveproject from "./Onliveproject"
+import Onliveproject from "./Projectspage"
 function page() {
   return (
     <div>
