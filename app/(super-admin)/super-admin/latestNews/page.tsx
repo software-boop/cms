@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react'
 
-import LatestNewsPage from './latest';
+import LatestNewsPage from './Latest';
 
 
 function page() {
