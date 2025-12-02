@@ -1,15 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Loader2, User, Mail, Phone, MessageSquare, Calendar, AlertTriangle } from "lucide-react";
+import {
+  Loader2,
+  User,
+  Mail,
+  Phone,
+  MessageSquare,
+  Calendar,
+  AlertTriangle,
+} from "lucide-react";
 
 const API = "http://172.30.0.200:1334/api";
 
-// Auth Header
-const getAuthHeaders = () => {
+// ✅ FIXED: Type-safe Auth Headers
+const getAuthHeaders = (): HeadersInit => {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  return token ? { Authorization: `Bearer ${token}` } : {};
+
+  // Never return Authorization: undefined (Vercel will fail)
+  if (!token) return {};
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
 };
 
 // Format date function
@@ -38,7 +52,10 @@ export default function ContactsPage() {
     const fetchContacts = async () => {
       try {
         const res = await fetch(`${API}/contacts?populate=*`, {
-          headers: getAuthHeaders(),
+          // ✅ FIXED: Spread headers to avoid undefined type errors
+          headers: {
+            ...getAuthHeaders(),
+          },
         });
 
         if (!res.ok) throw new Error(`Failed: ${res.status}`);
@@ -55,7 +72,9 @@ export default function ContactsPage() {
 
   return (
     <div className="min-h-screen p-6 bg-gradient-to-br from-slate-100 to-white dark:from-slate-900 dark:to-slate-800">
-      <h1 className="text-2xl font-bold mb-6 dark:text-white"> Contact Responses</h1>
+      <h1 className="text-2xl font-bold mb-6 dark:text-white">
+        Contact Responses
+      </h1>
 
       {/* Error State */}
       {error && (
@@ -70,7 +89,9 @@ export default function ContactsPage() {
           <Loader2 size={60} className="animate-spin text-blue-500" />
         </div>
       ) : contacts.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400">No contact responses found.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          No contact responses found.
+        </p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {contacts.map((contact, index) => (
@@ -84,8 +105,12 @@ export default function ContactsPage() {
                   {contact.Name?.[0]?.toUpperCase() || "?"}
                 </div>
                 <div className="ml-3">
-                  <p className="text-lg font-bold dark:text-white">{contact.Name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{formatDate(contact.createdAt)}</p>
+                  <p className="text-lg font-bold dark:text-white">
+                    {contact.Name}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {formatDate(contact.createdAt)}
+                  </p>
                 </div>
               </div>
 
@@ -98,20 +123,21 @@ export default function ContactsPage() {
                   <Mail size={18} /> <span>{contact.email || "N/A"}</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <Phone size={18} /> <span>{contact.mobilenumber || "N/A"}</span>
+                  <Phone size={18} />{" "}
+                  <span>{contact.mobilenumber || "N/A"}</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <MessageSquare size={18} /> <span>{contact.message || "No message provided"}</span>
+                  <MessageSquare size={18} />{" "}
+                  <span>{contact.message || "No message provided"}</span>
                 </p>
                 <p className="flex items-center gap-2">
-                  <Calendar size={18} /> <span>{formatDate(contact.createdAt)}</span>
+                  <Calendar size={18} />{" "}
+                  <span>{formatDate(contact.createdAt)}</span>
                 </p>
               </div>
 
               {/* Action */}
-              <div className="mt-4 text-right">
-
-              </div>
+              <div className="mt-4 text-right"></div>
             </div>
           ))}
         </div>
