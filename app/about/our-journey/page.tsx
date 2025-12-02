@@ -133,7 +133,9 @@ const BRAND = "#07518a";
 /* =========
    HOOK (per-item parallax)
    ========= */
-function useParallax(ref: React.RefObject<HTMLElement>): {
+function useParallax(
+  ref: React.RefObject<HTMLElement | null>
+): {
   contentY: MotionValue<number>;
   contentOpacity: MotionValue<number>;
   imageY: MotionValue<number>;
@@ -160,7 +162,10 @@ function useParallax(ref: React.RefObject<HTMLElement>): {
    ========= */
 function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
   const imageOnLeft = index % 2 === 1; // alternate sides even when reversed
-  const liRef = useRef<HTMLLIElement | null>(null);
+
+  // ✅ TS-safe: HTMLElement | null, matches useParallax type
+  const liRef = useRef<HTMLElement | null>(null);
+
   const { contentY, contentOpacity, imageY, imageOpacity, imageScale } =
     useParallax(liRef);
 
@@ -304,7 +309,9 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
             <div
               className={[
                 "absolute top-[32vh] h-px w-[min(120px,14vw)]",
-                imageOnLeft ? "right-[calc(50%-1px)]" : "left-[calc(50%-1px)]",
+                imageOnLeft
+                  ? "right-[calc(50%-1px)]"
+                  : "left-[calc(50%-1px)]",
               ].join(" ")}
               style={{ backgroundColor: `${BRAND}33` }}
             />
