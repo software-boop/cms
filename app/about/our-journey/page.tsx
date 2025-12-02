@@ -128,40 +128,32 @@ const JOURNEY = [...JOURNEY_RAW].sort((a, b) => b.year - a.year);
 const BRAND = "#07518a";
 
 /* =========
-   FIXED HOOK (works with HTMLLIElement too)
+   PARALLAX HOOK (FIXED)
    ========= */
 function useParallax(
   ref: React.RefObject<HTMLLIElement | HTMLElement | null>
-): {
-  contentY: MotionValue<number>;
-  contentOpacity: MotionValue<number>;
-  imageY: MotionValue<number>;
-  imageOpacity: MotionValue<number>;
-  imageScale: MotionValue<number>;
-} {
+) {
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 90%", "end 35%"],
   });
 
-  const contentY = useTransform(scrollYProgress, [0, 0.5, 1], [42, 0, -8]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.15, 1], [0, 1, 1]);
+  return {
+    contentY: useTransform(scrollYProgress, [0, 0.5, 1], [42, 0, -8]),
+    contentOpacity: useTransform(scrollYProgress, [0, 0.15, 1], [0, 1, 1]),
 
-  const imageY = useTransform(scrollYProgress, [0, 0.5, 1], [50, 0, -4]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.12, 1], [0, 1, 1]);
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 1]);
-
-  return { contentY, contentOpacity, imageY, imageOpacity, imageScale };
+    imageY: useTransform(scrollYProgress, [0, 0.5, 1], [50, 0, -4]),
+    imageOpacity: useTransform(scrollYProgress, [0, 0.12, 1], [0, 1, 1]),
+    imageScale: useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 1]),
+  };
 }
 
 /* =========
-   CHILD ITEM
+   TIMELINE ITEM
    ========= */
 function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
-  const imageOnLeft = index % 2 === 1;
-
-  // FIXED: liRef type matches the <li> element
   const liRef = useRef<HTMLLIElement | null>(null);
+  const imageOnLeft = index % 2 === 1;
 
   const { contentY, contentOpacity, imageY, imageOpacity, imageScale } =
     useParallax(liRef);
@@ -181,7 +173,6 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
             style={{
               backgroundColor: BRAND,
               boxShadow: `0 0 0 8px #ffffff, 0 0 0 9px ${BRAND}40`,
-              willChange: "transform",
             }}
           />
         </div>
@@ -194,17 +185,17 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
           style={{ backgroundColor: `${BRAND}33` }}
         />
 
+        {/* BUBBLE IMAGE */}
         <motion.div
           style={{
             y: imageY,
             opacity: imageOpacity,
             scale: imageScale,
-            willChange: "transform, opacity",
           }}
           transition={{
             type: "tween",
             duration: 0.55,
-            ease: [0.22, 1, 0.36, 1],
+            ease: "easeInOut", // FIXED
           }}
           className={[
             "absolute top-1/2 -translate-y-1/2 rounded-full bg-white overflow-hidden grid place-items-center",
@@ -215,12 +206,7 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
           ].join(" ")}
           role="img"
         >
-          <img
-            src={j.img}
-            alt={j.title}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
+          <img src={j.img} alt={j.title} className="h-full w-full object-cover" loading="lazy" />
         </motion.div>
       </div>
 
@@ -236,24 +222,12 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
           />
         </div>
 
-        <div
-          className={[
-            "absolute top-[22px] h-px w-[40%]",
-            imageOnLeft ? "left-1/2" : "right-1/2",
-          ].join(" ")}
-          style={{ backgroundColor: `${BRAND}33` }}
-        />
-
         <motion.div
-          style={{
-            y: imageY,
-            opacity: imageOpacity,
-            scale: imageScale,
-          }}
+          style={{ y: imageY, opacity: imageOpacity, scale: imageScale }}
           transition={{
             type: "tween",
             duration: 0.5,
-            ease: [0.22, 1, 0.36, 1],
+            ease: "easeInOut", // FIXED
           }}
           className={[
             "mx-auto rounded-full bg-white overflow-hidden grid place-items-center",
@@ -261,21 +235,17 @@ function TimelineItem({ j, index }: { j: JourneyItem; index: number }) {
             imageOnLeft ? "mr-auto" : "ml-auto",
           ].join(" ")}
         >
-          <img
-            src={j.img}
-            alt={j.title}
-            className="h-full w-full object-cover"
-          />
+          <img src={j.img} alt={j.title} className="h-full w-full object-cover" />
         </motion.div>
       </div>
 
       {/* CONTENT */}
       <motion.div
-        style={{
-          y: contentY,
-          opacity: contentOpacity,
+        style={{ y: contentY, opacity: contentOpacity }}
+        transition={{
+          duration: 0.65,
+          ease: "easeInOut", // FIXED
         }}
-        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         className={[
           "relative mx-auto grid max-w-none items-start gap-6 lg:grid-cols-2",
           imageOnLeft ? "lg:pl-[min(54%,340px)]" : "lg:pr-[min(54%,340px)]",
