@@ -8,7 +8,7 @@ import LatestNewsPage from './latest';
 function page() {
   return (
     <div>
-      <Suspense fallback={<div className="p-4">Loading departments...</div>} >
+      <Suspense fallback={<div className="p-4">Loading departments..</div>} >
 
 
 
