@@ -1,3 +1,5 @@
+
+export const runtime = "edge";
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -41,17 +43,17 @@ export default function SectorCaseStudiesPage() {
       {caseStudies.length === 0
         ? "No case studies found."
         : caseStudies.map((cs: any) => (
-            <Link
-              key={cs.id}
-              href={`/case-studies/${sectorSlug}/${cs.name
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-")}`}
-              className="block p-4 mt-4 bg-white shadow rounded hover:bg-gray-50 flex justify-between items-center"
-            >
-              <span>{cs.name}</span>
-              <ChevronRight className="h-5 w-5" />
-            </Link>
-          ))}
+          <Link
+            key={cs.id}
+            href={`/case-studies/${sectorSlug}/${cs.name
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")}`}
+            className="block p-4 mt-4 bg-white shadow rounded hover:bg-gray-50 flex justify-between items-center"
+          >
+            <span>{cs.name}</span>
+            <ChevronRight className="h-5 w-5" />
+          </Link>
+        ))}
     </div>
   );
 }
