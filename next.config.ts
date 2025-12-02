@@ -1,7 +1,22 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
 
-const nextConfig: NextConfig = {
-  /* config options here */
+  // IMPORTANT: Allow your Strapi server images
+  images: {
+    domains: ["172.30.0.200", "localhost"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "172.30.0.200",
+        port: "1334",
+        pathname: "/uploads/**",
+      },
+    ],
+  },
+
+  // Prevent turbopack source map issue in prod
+  productionBrowserSourceMaps: false,
 };
 
-export default nextConfig;
+module.exports = nextConfig;
