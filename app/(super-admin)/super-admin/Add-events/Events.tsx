@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -117,6 +116,7 @@ export default function Events() {
                     documentId: e.documentId,
                     title: e.eventTitle,
                     type: e.eventType,
+                    slug: e.slug,
                     date: e.eventDate,
                     image: resolveImageUrl(e.mainImage),
                 }))
@@ -152,6 +152,7 @@ export default function Events() {
                 eventType: event.eventType,
                 eventDate: event.eventDate ? dayjs(event.eventDate) : null,
                 eventDescription: event.eventDescription,
+                slug: event.slug, // ADDED HERE
                 mainImage: mapSingleImage(event.mainImage),
                 eventGallery: mapGalleryImages(event.eventGallery),
             });
@@ -159,7 +160,6 @@ export default function Events() {
             setModalOpen(true);
         } catch (err: any) {
             console.error("Edit error:", err);
-            console.error("Error response:", err.response?.data);
             message.error("Error loading event");
         } finally {
             setLoading(false);
@@ -175,7 +175,6 @@ export default function Events() {
             fetchEvents();
         } catch (err: any) {
             console.error("Delete error:", err);
-            console.error("Error response:", err.response?.data);
             message.error("Failed to delete event");
         }
     };
@@ -186,37 +185,27 @@ export default function Events() {
             const mainImageIds = await uploadFiles(values.mainImage || []);
             const galleryIds = await uploadFiles(values.eventGallery || []);
 
-            console.log("Main Image IDs:", mainImageIds);
-            console.log("Gallery IDs:", galleryIds);
-
             const payload = {
                 data: {
                     eventTitle: values.eventTitle,
                     eventType: values.eventType,
                     eventDate: values.eventDate?.format("YYYY-MM-DD"),
                     eventDescription: values.eventDescription,
+                    slug: values.slug || null, // ADDED HERE
                     mainImage: mainImageIds.length > 0 ? mainImageIds[0] : undefined,
                     eventGallery: galleryIds.length > 0 ? galleryIds : undefined,
                 },
             };
 
-            console.log("Payload:", JSON.stringify(payload, null, 2));
-
             if (editingDocumentId !== null) {
-                const response = await axios.put(
-                    `${API}/events/${editingDocumentId}`,
-                    payload,
-                    {
-                        headers: getHeaders(),
-                    }
-                );
-                console.log("Update response:", response.data);
-                message.success("Event updated successfully");
-            } else {
-                const response = await axios.post(`${API}/events`, payload, {
+                await axios.put(`${API}/events/${editingDocumentId}`, payload, {
                     headers: getHeaders(),
                 });
-                console.log("Create response:", response.data);
+                message.success("Event updated successfully");
+            } else {
+                await axios.post(`${API}/events`, payload, {
+                    headers: getHeaders(),
+                });
                 message.success("Event created successfully");
             }
 
@@ -226,10 +215,8 @@ export default function Events() {
             setEditingDocumentId(null);
         } catch (e: any) {
             console.error("Submit error:", e);
-            console.error("Error response:", e.response?.data);
-            console.error("Error status:", e.response?.status);
             message.error(
-                e.response?.data?.error?.message || "Error saving event. Check console for details."
+                e.response?.data?.error?.message || "Error saving event."
             );
         } finally {
             setLoading(false);
@@ -264,6 +251,7 @@ export default function Events() {
                 pagination={{ pageSize: 5 }}
                 columns={[
                     { title: "Title", dataIndex: "title", key: "title" },
+                    { title: "Slug", dataIndex: "slug", key: "slug" }, // ADDED COLUMN
                     { title: "Type", dataIndex: "type", key: "type" },
                     {
                         title: "Date",
@@ -315,6 +303,19 @@ export default function Events() {
             >
                 <Spin spinning={loading}>
                     <Form form={form} layout="vertical" onFinish={handleSubmit}>
+
+                        {/* SLUG FIELD */}
+                        <Form.Item
+                            name="slug"
+                            label="Slug"
+                            rules={[
+                                { required: true, message: "Please enter slug" },
+                                { pattern: /^[a-z0-9-]+$/, message: "Slug must be URL friendly" },
+                            ]}
+                        >
+                            <Input placeholder="event-slug-here" />
+                        </Form.Item>
+
                         <Form.Item
                             name="eventTitle"
                             label="Title"
@@ -331,10 +332,8 @@ export default function Events() {
                             <Select placeholder="Select event type">
                                 <Option value="CULTURAL">EXPO</Option>
                                 <Option value="CELEBRATION">CELEBRATION</Option>
-                                <Option value="TECHNICAL">AWARD </Option>
+                                <Option value="TECHNICAL">AWARD</Option>
                                 <Option value="TECHNICAL">DRIVE</Option>
-
-
                                 <Option value="TECHNICAL">TRIP</Option>
                                 <Option value="EXPO">SEMINAR</Option>
                             </Select>
@@ -350,21 +349,17 @@ export default function Events() {
 
                         <Form.Item
                             name="mainImage"
-                            label="Main Image"
-                            valuePropName="fileList"
-                            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                            rules={[{ required: true, message: "Please upload main image" }]}
-                        >
-                            <Upload
-                                listType="picture-card"
-                                beforeUpload={() => false}
-                                maxCount={1}
+                                label="Main Image"
+                                valuePropName="fileList"
+                                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                                rules={[{ required: true, message: "Please upload main image" }]}
                             >
-                                <div>
-                                    <UploadOutlined />
-                                    <div style={{ marginTop: 8 }}>Upload</div>
-                                </div>
-                            </Upload>
+                                <Upload listType="picture-card" beforeUpload={() => false} maxCount={1}>
+                                    <div>
+                                        <UploadOutlined />
+                                        <div style={{ marginTop: 8 }}>Upload</div>
+                                    </div>
+                                </Upload>
                         </Form.Item>
 
                         <Form.Item
@@ -373,11 +368,7 @@ export default function Events() {
                             valuePropName="fileList"
                             getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
                         >
-                            <Upload
-                                multiple
-                                listType="picture-card"
-                                beforeUpload={() => false}
-                            >
+                            <Upload multiple listType="picture-card" beforeUpload={() => false}>
                                 <div>
                                     <UploadOutlined />
                                     <div style={{ marginTop: 8 }}>Upload</div>

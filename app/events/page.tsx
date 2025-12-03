@@ -1,65 +1,72 @@
-"use client";
+// app/events/page.tsx
+import React from 'react';
+import EventCard from './components/EventCard';
 
-import React, { useEffect } from "react";
-import useSWR from "swr";
-import EventCard from "./EventCard";
-import { motion, AnimatePresence } from "framer-motion";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-export default function EventsPage() {
-  const { data, error } = useSWR(
-    "http://172.30.0.200:1334/api/events?populate=*",
-    fetcher
-  );
-
-  // Smooth scroll to top on mount
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  if (error)
-    return <div className="p-10 text-red-600">❌ Failed to load events.</div>;
-
-  if (!data?.data)
-    return <div className="p-10 text-gray-500 animate-pulse">⏳ Loading events...</div>;
+// ⭐ Make it async to fetch data
+export default async function Page() {
+  // Fetch events from your Strapi API
+  const API_URL = "http://172.30.0.200:1334/api/events?populate=*";
+  
+  let events = [];
+  
+  try {
+    const res = await fetch(API_URL, { 
+      cache: "no-store",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (res.ok) {
+      const json = await res.json();
+      const rawEvents = json?.data || [];
+      
+      // Transform data to match EventCard props
+      events = rawEvents.map((event: any) => {
+        const attrs = event.attributes || event;
+        return {
+          id: event.id,
+          slug: attrs.slug,
+          eventTitle: attrs.eventTitle,
+          eventType: attrs.eventType,
+          eventDate: attrs.eventDate,
+          eventDescription: attrs.eventDescription,
+          mainImage: attrs.mainImage?.data?.attributes || attrs.mainImage,
+          eventGallery: attrs.eventGallery?.data?.map((img: any) => img.attributes) || attrs.eventGallery || [],
+        };
+      });
+    }
+  } catch (error) {
+    console.error('Failed to fetch events:', error);
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      {/* Header */}
-      <motion.h1
-        className="text-3xl font-bold text-[#07518a] mb-6 text-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        Events
-      </motion.h1>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Our Events
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Discover and explore our upcoming and past events
+          </p>
+        </div>
 
-      {/* Cards with animation */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <AnimatePresence>
-          {data.data.map((event: any, idx: number) => (
-            <motion.div
-              key={event.documentId}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{
-                duration: 0.5,
-                delay: idx * 0.1, // Stagger animation
-                ease: "easeOut",
-              }}
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.2 },
-              }}
-              className="w-full"
-            >
-              <EventCard event={event} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+        {/* Events Grid */}
+        {events.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {events.map((event: any) => (
+              <EventCard key={event.id || event.slug} event={event} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16">
+            <p className="text-gray-500 text-xl">
+              No events available at the moment
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
