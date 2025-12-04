@@ -2,9 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // IMPORTANT: Allow your Strapi server images
+  // FIX: Correct image loading in Vercel + Netlify
   images: {
-    domains: ["172.30.0.200", "localhost"],
     remotePatterns: [
       {
         protocol: "http",
@@ -12,10 +11,20 @@ const nextConfig = {
         port: "1334",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "1334",
+        pathname: "/uploads/**",
+      },
     ],
   },
 
-  // Prevent turbopack source map issue in prod
+  // Avoid turbopack warnings & issues
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+
   productionBrowserSourceMaps: false,
 };
 
