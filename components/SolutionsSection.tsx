@@ -45,6 +45,7 @@ const BRAND_DARK = darken(BRAND, 0.08);
 
 const monoGradient = (base = BRAND) =>
   `linear-gradient(90deg, ${base} 0%, ${lighten(base, 0.18)} 100%)`;
+
 const softMonoGradient = (base = BRAND, opacity = 0.12) =>
   `linear-gradient(90deg, ${withAlpha(lighten(base, 0.18), opacity)} 0%, ${withAlpha(base, opacity)} 100%)`;
 
@@ -56,7 +57,7 @@ const THEME = {
   surfaceTint: withAlpha(BRAND, 0.08),
 };
 
-// Fixed: Proper cubic-bezier tuple typing
+// Fixed: Proper cubic-bezier typing
 const MOTION_TIMING = {
   duration: 0.75,
   ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
@@ -93,16 +94,6 @@ function randomDelay(index: number, base = 0.05, spread = 0.2) {
   const rnd = seeded(index)();
   return base + rnd * spread;
 }
-
-const floatForever = {
-  animate: { ...drift },
-  transition: {
-    duration: 8,
-    repeat: Infinity,
-    repeatType: "mirror",
-    ease: "easeInOut",
-  } as const,
-};
 
 const solutions = [
   {
@@ -164,32 +155,12 @@ const solutions = [
 
 const featureItem: Variants = {
   hidden: { opacity: 0, x: 12 },
-  show: (i: number) => ({
+  show: (i = 0) => ({
     opacity: 1,
     x: 0,
     transition: { ...MOTION_TIMING, delay: 0.05 * i },
   }),
 };
-
-function Badge({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`inline-flex items-center px-3 py-1 text-sm rounded-full ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-function Button({ children, variant = "primary", ...props }: any) {
-  const base = "px-6 py-3 font-semibold rounded-full transition-all duration-300 hover:scale-[1.02] hover:shadow-xl";
-  const primary = "text-white border-0";
-  const secondary = "border bg-transparent";
-
-  return (
-    <button className={`${base} ${variant === "primary" ? primary : secondary}`} {...props}>
-      {children}
-    </button>
-  );
-}
 
 export default function SolutionsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -210,28 +181,39 @@ export default function SolutionsSection() {
     >
       {/* Fixed Parallax Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Animated Orbs - FIXED: No duplicate style props */}
         <motion.div
-          style={{ y: backgroundY, opacity: backgroundOpacity }}
-          className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl"
+          style={{
+            y: backgroundY,
+            opacity: backgroundOpacity,
+            background: withAlpha(BRAND, 0.15),
+          }}
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          style={{ background: withAlpha(BRAND, 0.15) }}
+          className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl"
         />
         <motion.div
-          style={{ y: backgroundY, opacity: backgroundOpacity }}
-          className="absolute top-60 right-20 w-80 h-80 rounded-full blur-3xl"
+          style={{
+            y: backgroundY,
+            opacity: backgroundOpacity,
+            background: withAlpha(BRAND_LIGHT, 0.2),
+          }}
           animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          style={{ background: withAlpha(BRAND_LIGHT, 0.2) }}
+          className="absolute top-60 right-20 w-80 h-80 rounded-full blur-3xl"
         />
         <motion.div
-          style={{ y: backgroundY, opacity: backgroundOpacity }}
-          className="absolute bottom-40 left-1/3 w-72 h-72 rounded-full blur-3xl"
+          style={{
+            y: backgroundY,
+            opacity: backgroundOpacity,
+            background: withAlpha(BRAND_DARK, 0.12),
+          }}
           animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.45, 0.25] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-          style={{ background: withAlpha(BRAND_DARK, 0.12) }}
+          className="absolute bottom-40 left-1/3 w-72 h-72 rounded-full blur-3xl"
         />
 
+        {/* Subtle Grid */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -241,7 +223,7 @@ export default function SolutionsSection() {
         />
       </div>
 
-      {/* Content */}
+      {/* Main Content */}
       <div className="relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           {/* Header */}
@@ -252,8 +234,8 @@ export default function SolutionsSection() {
               transition={MOTION_TIMING}
               viewport={{ once: true }}
             >
-              <Badge
-                className="border"
+              <div
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
                 style={{
                   color: BRAND,
                   borderColor: THEME.ring,
@@ -261,8 +243,9 @@ export default function SolutionsSection() {
                   backdropFilter: "blur(6px)",
                 }}
               >
-                <Star className="w-3 h-3 mr-1" style={{ color: BRAND }} /> Our Expertise
-              </Badge>
+                <Star className="w-4 h-4" style={{ color: BRAND }} />
+                Our Expertise
+              </div>
             </motion.div>
 
             <motion.h2
@@ -288,8 +271,8 @@ export default function SolutionsSection() {
             </motion.p>
           </div>
 
-          {/* Solutions Grid */}
-          <div className="space-y-28 md:space-y-36">
+          {/* Solutions List */}
+          <div className="space-y-32 md:space-y-40">
             {solutions.map((solution, index) => {
               const isOdd = index % 2 === 1;
               const contentFrom = randomDirection(index);
@@ -303,31 +286,36 @@ export default function SolutionsSection() {
                       initial={{ opacity: 0, x: contentFrom.x, y: contentFrom.y }}
                       whileInView={{ opacity: 1, x: 0, y: 0 }}
                       transition={{ ...MOTION_TIMING, delay: randomDelay(index, 0.1, 0.2) }}
-                      viewport={{ once: false, amount: 0.4 }}
+                      viewport={{ once: false, amount: 0.3 }}
                       className={isOdd ? "lg:col-start-2" : ""}
                     >
-                      <div className="space-y-6">
+                      <div className="space-y-8">
                         {solution.popular && (
-                          <Badge
-                            style={{
-                              color: "#fff",
-                              background: monoGradient(BRAND),
-                            }}
+                          <div
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white"
+                            style={{ background: monoGradient(BRAND) }}
                           >
-                            <Star className="w-3 h-3 mr-1" /> Most Popular
-                          </Badge>
+                            <Star className="w-4 h-4" />
+                            Most Popular
+                          </div>
                         )}
 
                         <motion.div
-                          {...floatForever}
-                          className="inline-flex p-4 rounded-3xl"
+                          animate={drift}
+                          transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            repeatType: "mirror",
+                            ease: "easeInOut",
+                          }}
+                          className="inline-flex p-5 rounded-3xl"
                           style={{ background: softMonoGradient(BRAND, 0.12) }}
                         >
                           <div
                             className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
                             style={{ background: monoGradient(BRAND_DARK) }}
                           >
-                            <solution.icon className="h-8 w-8 text-white" />
+                            <solution.icon className="h-9 w-9 text-white" />
                           </div>
                         </motion.div>
 
@@ -359,14 +347,14 @@ export default function SolutionsSection() {
                         </motion.div>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                          <Button
-                            variant="primary"
+                          <button
+                            className="px-8 py-4 rounded-full font-semibold text-white hover:shadow-xl hover:scale-105 transition-all"
                             style={{ background: monoGradient(BRAND) }}
                           >
-                            Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="secondary"
+                            Learn More <ArrowRight className="inline ml-2 h-5 w-5" />
+                          </button>
+                          <button
+                            className="px-8 py-4 rounded-full font-semibold border hover:shadow-lg transition-all"
                             style={{
                               borderColor: THEME.ring,
                               background: softMonoGradient(BRAND, 0.08),
@@ -374,7 +362,7 @@ export default function SolutionsSection() {
                             }}
                           >
                             View Details
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     </motion.div>
@@ -384,15 +372,15 @@ export default function SolutionsSection() {
                       initial={{ opacity: 0, x: imageFrom.x, y: imageFrom.y }}
                       whileInView={{ opacity: 1, x: 0, y: 0 }}
                       transition={{ ...MOTION_TIMING, delay: randomDelay(index + 1, 0.15, 0.25) }}
-                      viewport={{ once: false, amount: 0.4 }}
+                      viewport={{ once: false, amount: 0.3 }}
                       className={isOdd ? "lg:col-start-1" : ""}
                     >
                       <div className="relative group">
                         <div className="absolute inset-0 rounded-[3rem] rotate-6 group-hover:rotate-3 transition-transform duration-500" style={{ background: softMonoGradient(BRAND, 0.16) }} />
                         <div className="absolute inset-0 rounded-[3rem] -rotate-6 group-hover:-rotate-3 transition-transform duration-500" style={{ background: softMonoGradient(BRAND, 0.08) }} />
 
-                        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl bg-white/90 backdrop-blur-sm group-hover:shadow-3xl transition-all duration-500 hover:-translate-y-3">
-                          <div className="aspect-[4/3] relative overflow-hidden">
+                        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl bg-white/90 backdrop-blur-sm group-hover:shadow-3xl transition-all duration-500 hover:-translate-y-4">
+                          <div className="aspect-[4/3] overflow-hidden">
                             <img
                               src={solution.image}
                               alt={solution.title}
@@ -411,7 +399,7 @@ export default function SolutionsSection() {
                       whileInView={{ opacity: 1, scaleX: 1 }}
                       transition={{ ...MOTION_TIMING, delay: 0.2 }}
                       viewport={{ once: true }}
-                      className="h-px w-full mt-28 md:mt-36"
+                      className="h-px w-full mt-32 md:mt-40"
                       style={{ backgroundColor: THEME.ring }}
                     />
                   )}
