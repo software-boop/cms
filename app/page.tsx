@@ -4,7 +4,8 @@ import Image from "next/image";
 
 import HeroSection from "@/components/Herosection";
 import SolutionsSection from "@/components/SolutionsSection";
-
+import Testimonials from "@/components/Testimonials";
+import Whybrihaspathi from '@/components/WhyChooseBrihaspathi'
 
 export default function Home() {
   return (
@@ -13,7 +14,9 @@ export default function Home() {
 <HeroSection />
 <div className="bg-black"><SolutionsSection/></div>
    
-  
+  <Testimonials/>
+
+<Whybrihaspathi/>
     </div>
   );
 }
