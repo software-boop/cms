@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useInView } from "framer-motion";
+import { motion, useMotionValue, useInView, Variants } from "framer-motion";
 import { Button } from "../components/Button";
 import { ArrowRight } from "lucide-react";
 
@@ -48,38 +48,43 @@ const Counter = ({ value, duration = 2000 }: { value: number; duration?: number 
 };
 
 /* =============================
-   Motion Variants (Fixed)
+   Motion Variants (Framer v12 Safe)
 ============================= */
-const easing = [0.16, 1, 0.3, 1];
 
-const leftCol = {
+// Replace numeric easing array with a named easing curve
+const easeCurve = "easeOut";
+
+// LEFT COLUMN ANIMATION
+const leftCol: Variants = {
   hidden: { opacity: 0, x: -50 },
   show: {
     opacity: 1,
     x: 0,
     transition: {
       duration: 0.7,
-      ease: easing,
+      ease: easeCurve,
       staggerChildren: 0.08,
     },
   },
 };
 
-const leftItem = {
+// LEFT ITEMS
+const leftItem: Variants = {
   hidden: { opacity: 0, x: -20 },
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, ease: easing },
+    transition: { duration: 0.5, ease: easeCurve },
   },
 };
 
-const rightCol = {
+// RIGHT COLUMN
+const rightCol: Variants = {
   hidden: { opacity: 0, x: 50 },
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease: easing },
+    transition: { duration: 0.7, ease: easeCurve },
   },
 };
 
@@ -100,6 +105,7 @@ export default function HeroSection() {
     tiltY.set((px - 0.5) * maxTilt);
     tiltX.set(-(py - 0.5) * maxTilt);
   };
+
   const onPointerLeave = () => {
     tiltX.set(0);
     tiltY.set(0);
@@ -137,7 +143,6 @@ export default function HeroSection() {
       <div className="relative z-10 w-full flex items-center">
         <div className="mx-auto max-w-7xl w-full px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 h-full">
-
             {/* LEFT TEXT SIDE */}
             <motion.div
               variants={leftCol}
@@ -146,7 +151,6 @@ export default function HeroSection() {
               viewport={{ once: true, amount: 0.3 }}
               className="text-center lg:text-left flex flex-col justify-center h-full"
             >
-              {/* Badge */}
               <motion.div
                 variants={leftItem}
                 className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-md border shadow-sm self-center lg:self-start"
@@ -160,7 +164,6 @@ export default function HeroSection() {
                 India’s Most Trusted System Integrator
               </motion.div>
 
-              {/* Heading */}
               <motion.h1
                 variants={leftItem}
                 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900"
@@ -171,7 +174,6 @@ export default function HeroSection() {
                 </span>
               </motion.h1>
 
-              {/* Description */}
               <motion.p
                 variants={leftItem}
                 className="mt-5 text-sm sm:text-base lg:text-lg text-gray-700 max-w-xl mx-auto lg:mx-0 leading-relaxed"
@@ -180,7 +182,6 @@ export default function HeroSection() {
                 ELV systems, IoT automation, and enterprise technology solutions.
               </motion.p>
 
-              {/* CTA */}
               <motion.div variants={leftItem} className="mt-7 flex justify-center lg:justify-start">
                 <Button
                   className="px-7 py-4 rounded-full text-white text-base font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
@@ -190,12 +191,11 @@ export default function HeroSection() {
                 </Button>
               </motion.div>
 
-              {/* Stats */}
               <motion.div
                 variants={leftItem}
                 className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-xl mx-auto lg:mx-0"
               >
-                {[ 
+                {[
                   { num: 300, label: "Workforce" },
                   { num: 12000, label: "Global Clients" },
                   { num: 99, label: "Success Rate (%)" },
@@ -214,7 +214,7 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
 
-            {/* RIGHT VISUAL SIDE */}
+            {/* RIGHT VISUAL PANEL */}
             <motion.div
               variants={rightCol}
               initial="hidden"
@@ -244,7 +244,7 @@ export default function HeroSection() {
                       ${withAlpha(BRAND_TINT, 0.18)} 100%)`,
                   }}
                   animate={{ opacity: [0.3, 0.55, 0.3] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: easing }}
+                  transition={{ duration: 6, repeat: Infinity, ease: easeCurve }}
                 />
 
                 {/* Frame */}
@@ -265,7 +265,6 @@ export default function HeroSection() {
                 </div>
               </motion.div>
             </motion.div>
-
           </div>
         </div>
       </div>
