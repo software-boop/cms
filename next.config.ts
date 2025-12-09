@@ -17,7 +17,9 @@ const nextConfig = {
         port: "1334",
         pathname: "/uploads/**",
       },
+    
     ],
+       domains: ["images.unsplash.com"], //
   },
 
   // Avoid turbopack warnings & issues

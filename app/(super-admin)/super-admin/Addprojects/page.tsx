@@ -1,7 +1,7 @@
 "use client";
 
-import ProjectsPage from '@/app/projects/page';
 import React, { Suspense } from 'react'
+import ProjectsPage from './ProjectsPage';
 
 
 function page() {
@@ -10,7 +10,7 @@ function page() {
       <Suspense fallback={<div className="p-4">Loading departments...</div>}>
 
 
-        <ProjectsPage />
+        <ProjectsPage/>
 
       </Suspense>
 

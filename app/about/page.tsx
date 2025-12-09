@@ -1,8 +1,13 @@
+
+import DemoPage from '@/components/aboutdemo'
 import React from 'react'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+<DemoPage/>
+
+    </div>
   )
 }
 

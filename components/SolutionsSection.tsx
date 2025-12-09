@@ -115,15 +115,15 @@ const solutions = [
     features: ["Face Recognition", "Fingerprint", "Card Access", "Time Tracking"],
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
   },
-  {
-    icon: Home,
-    title: "Smart Home Automation",
-    subtitle: "Intelligent Living Solutions",
-    description:
-      "Complete home automation with voice control, mobile apps, and energy-efficient smart devices for modern living.",
-    features: ["Voice Control", "Smart Lighting", "Climate Control", "Energy Saving"],
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
-  },
+  // {
+  //   icon: Home,
+  //   title: "Smart Home Automation",
+  //   subtitle: "Intelligent Living Solutions",
+  //   description:
+  //     "Complete home automation with voice control, mobile apps, and energy-efficient smart devices for modern living.",
+  //   features: ["Voice Control", "Smart Lighting", "Climate Control", "Energy Saving"],
+  //   image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+  // },
   {
     icon: Zap,
     title: "Solar & Renewable Energy",
@@ -133,15 +133,15 @@ const solutions = [
     features: ["Grid Integration", "Battery Storage", "Smart Monitoring", "ROI Tracking"],
     image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
   },
-  {
-    icon: Network,
-    title: "Data Center Setup",
-    subtitle: "Robust Networking & IT Infrastructure",
-    description:
-      "Secure, scalable communication and networking solutions to support enterprise operations.",
-    features: ["Fiber Optic", "WiFi 6", "Cloud Integration", "24/7 Support"],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-  },
+  // {
+  //   icon: Network,
+  //   title: "Data Center Setup",
+  //   subtitle: "Robust Networking & IT Infrastructure",
+  //   description:
+  //     "Secure, scalable communication and networking solutions to support enterprise operations.",
+  //   features: ["Fiber Optic", "WiFi 6", "Cloud Integration", "24/7 Support"],
+  //   image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+  // },
   {
     icon: Volume2,
     title: "Software Development",
