@@ -133,9 +133,13 @@ const Login: React.FC = () => {
         </div>
       </div>
 
+      {/* ===== Loading Overlay ===== */}
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm">
-          <Spin size="large" tip="Authenticating..." />
+          <Spin size="large" tip="Authenticating...">
+            {/* Invisible wrapper to satisfy AntD requirement */}
+            <div style={{ width: 0, height: 0 }}></div>
+          </Spin>
         </div>
       )}
     </div>

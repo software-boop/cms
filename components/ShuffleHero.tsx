@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 // ------------------------------------------------------------
 export const ShuffleHero = () => {
   return (
-    <section className="w-full px-0 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-56 max-w-6xl mx-auto  ">
+    <section className="w-full px-0 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-56 max-w-6xl mx-auto">
       <div>
-        <span className="block mb-4 text-xs md:text-sm  font-medium text-[#07518a]">
+        <span className="block mb-4 text-xs md:text-sm font-medium text-[#07518a]">
           Better every day
         </span>
 
@@ -45,24 +45,20 @@ export const ShuffleHero = () => {
 // ------------------------------------------------------------
 const shuffle = <T,>(array: T[]): T[] => {
   const arr = [...array];
-  let currentIndex = arr.length;
-  let randomIndex;
+  let curr = arr.length;
 
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+  while (curr !== 0) {
+    const rand = Math.floor(Math.random() * curr);
+    curr--;
 
-    [arr[currentIndex], arr[randomIndex]] = [
-      arr[randomIndex],
-      arr[currentIndex],
-    ];
+    [arr[curr], arr[rand]] = [arr[rand], arr[curr]];
   }
 
   return arr;
 };
 
 // ------------------------------------------------------------
-// YOUR IMAGES INSERTED HERE 🔥
+// IMAGES DATA
 // ------------------------------------------------------------
 const squareData = [
   { id: 1, src: "https://ik.imagekit.io/tsuss6ulm/Samarth%20Rashtra,%20P-8,%20Nov%2021.jpg" },
@@ -75,8 +71,6 @@ const squareData = [
   { id: 8, src: "https://ik.imagekit.io/tsuss6ulm/Satta%20Ki%20Khoj,%20P-2,%20Nov%2024.jpg" },
   { id: 9, src: "https://ik.imagekit.io/tsuss6ulm/Mithila%20Gaurav,%20P-3,%20Nov%2022.jpg" },
   { id: 10, src: "https://ik.imagekit.io/tsuss6ulm/Bihar%20Din%20Raat,%20P-8,%20Nov%2021.jpg" },
-
-  // Additional 6 from your gallery
   { id: 11, src: "https://ik.imagekit.io/waxuvuasch/news/1.jpeg" },
   { id: 12, src: "https://ik.imagekit.io/waxuvuasch/news/2.jpeg" },
   { id: 13, src: "https://ik.imagekit.io/waxuvuasch/news/3.jpeg" },
@@ -86,49 +80,50 @@ const squareData = [
 ];
 
 // ------------------------------------------------------------
-// GRID BUILDER (16 items, shuffled every time)
-// ------------------------------------------------------------
-const generateSquares = () => {
-  return shuffle(squareData).map((sq) => (
-    <motion.div
-      key={sq.id}
-      layout
-      transition={{ duration: 1.5, type: "spring" }}
-      className="w-full h-full rounded-md overflow-hidden bg-muted"
-      style={{
-        backgroundImage: `url(${sq.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    />
-  ));
-};
-
-// ------------------------------------------------------------
-// SHUFFLE GRID COMPONENT
+// SHUFFLE GRID
 // ------------------------------------------------------------
 const ShuffleGrid = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [squares, setSquares] = useState(generateSquares());
+
+  // Store IMAGE IDs instead of JSX (fixes TypeScript)
+  const [ids, setIds] = useState<number[]>([]);
 
   useEffect(() => {
-    shuffleSquares();
+    // Initial client-side shuffle
+    setIds(shuffle(squareData).map((item) => item.id));
+
+    const shuffleLoop = () => {
+      setIds(shuffle(squareData).map((item) => item.id));
+      timeoutRef.current = setTimeout(shuffleLoop, 3000);
+    };
+
+    shuffleLoop();
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
-  const shuffleSquares = () => {
-    setSquares(generateSquares());
-
-    timeoutRef.current = setTimeout(shuffleSquares, 3000); // reshuffle every 3 sec
-  };
-
   return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-2
-    ">
-      {squares}
+    <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-2">
+      {ids.map((id) => {
+        const item = squareData.find((x) => x.id === id);
+        if (!item) return null;
+
+        return (
+          <motion.div
+            key={id}
+            layout
+            transition={{ duration: 1.5, type: "spring" }}
+            className="w-full h-full rounded-md overflow-hidden bg-muted"
+            style={{
+              backgroundImage: `url(${item.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
