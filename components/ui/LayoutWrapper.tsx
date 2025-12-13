@@ -9,10 +9,10 @@ export default function LayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
-  // ❌ Do NOT show Header on /super-admin routes
-  const hideHeader = pathname.startsWith("/super-admin");
+  // Hide header on /super-admin and any nested routes
+  const hideHeader = pathname === "/super-admin" || pathname.startsWith("/super-admin/");
 
   return (
     <>

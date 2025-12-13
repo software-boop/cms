@@ -1,44 +1,82 @@
+"use client";
+
 import Image from "next/image";
 
 
-
-import HeroSection from "@/components/Herosection";
 import SolutionsSection from "@/components/SolutionsSection";
 import Testimonials from "@/components/Testimonials";
-import Whybrihaspathi from '@/components/WhyChooseBrihaspathi'
+
+import Whybrihaspathi from "@/components/WhyChooseBrihaspathi";
 import Weserve from "@/components/Weserve";
 import ClientsMarqueeHero from "@/components/ClientsMarqueeHero";
 import CertificationsGrid5 from "@/components/Certificatiions";
 import { HoverSliderDemo } from "@/components/HoverSliderDemo";
-// import SketchfabEmbed from "@/components/SketchfabEmbed";
 import { FeatureStepsDemo } from "@/components/Demo";
 import { ShuffleHero } from "@/components/ShuffleHero";
+import IntroAnimation from "@/components/IntroAnimation";
+import { SplineSceneBasic } from "@/components/Aidemo";
+// import DemoOne from "@/components/gallareydemo";
 
 export default function Home() {
   return (
-    <div className="overflow-x-hidden px-0 m-0 ">
-   
-<HeroSection />
-<div className="bg-black"><SolutionsSection/></div>
-   
-   <HoverSliderDemo/>
-  <Testimonials/>
- {/* <div className="p-6">
-      <SketchfabEmbed
-        modelId="571baf9cfcd74cc69eaa22d423678b25"
-        title="Tour IA"
-        height="600px"
-      />
-    </div> */}
-    <FeatureStepsDemo/>
-   <div className="flex px-10 w-full h-full space-x-10 ">
-      <ShuffleHero />
-    </div>
-<Whybrihaspathi/>
-<Weserve/>
-<ClientsMarqueeHero/>
+    <main className="w-full min-h-screen overflow-x-hidden bg-white ">
+      {/* <HeroSection/> */}
+      {/* HERO SECTION */}
+      <section className="w-full mb-48">
+        <SplineSceneBasic />
+      </section>
 
-<CertificationsGrid5/>
-    </div>
+      {/* SOLUTIONS SECTION */}
+      <section className="w-full bg-black">
+        <SolutionsSection />
+      </section>
+
+      {/* HOVER SLIDER */}
+      <section className="w-full py-10 md:py-16">
+        <HoverSliderDemo />
+      </section>
+
+      {/* INTRO ANIMATION */}
+       <div className="w-full h-[800px] border rounded-lg overflow-hidden relative">
+            <IntroAnimation />
+        </div>
+
+      {/* TESTIMONIALS */}
+      <section className="w-full py-10 md:py-16">
+        <Testimonials />
+      </section>
+
+      {/* FEATURE STEPS */}
+      <section className="w-full py-10 md:py-16">
+        <FeatureStepsDemo />
+      </section>
+
+      {/* SHUFFLE HERO */}
+      <section className="w-full px-4 md:px-10 py-10 md:py-16 flex justify-center">
+        <ShuffleHero />
+      </section>
+
+      {/* WHY BRIHASPATHI */}
+      <section className="w-full py-10 md:py-16">
+        <Whybrihaspathi />
+      </section>
+
+      {/* WE SERVE */}
+      <section className="w-full py-10 md:py-16">
+        <Weserve />
+      </section>
+
+{/* <DemoOne/> */}
+      {/* CLIENTS MARQUEE */}
+      <section className="w-full py-10 md:py-16">
+        <ClientsMarqueeHero />
+      </section>
+
+      {/* CERTIFICATIONS */}
+      <section className="w-full py-10 md:py-16">
+        <CertificationsGrid5 />
+      </section>
+
+    </main>
   );
 }
