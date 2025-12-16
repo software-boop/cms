@@ -167,9 +167,61 @@
 
 
 // // app/layout.tsx
+// import "./globals.css";
+// import { NavigationMenuDemo } from "@/components/NavigationMenuDemo";
+
+// import { Inter, Manrope } from "next/font/google";
+
+// // ===== Font Setup =====
+// const inter = Inter({
+//   subsets: ["latin"],
+//   variable: "--font-inter",
+//   weight: ["400", "500", "600", "700"],
+//   display: "swap",
+// });
+
+// const manrope = Manrope({
+//   subsets: ["latin"],
+//   variable: "--font-manrope",
+//   weight: ["400", "600", "700", "800"],
+//   display: "swap",
+// });
+
+// // ===== Metadata =====
+// export const metadata = {
+//   title: "SkyVolt | Powering India's Clean Energy Future",
+//   description:
+//     "SkyVolt Renewable Pvt. Ltd. – Driving India's solar revolution through smart EPC solutions and sustainable technology.",
+// };
+
+// // ===== Root Layout =====
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   return (
+//     <html
+//       lang="en"
+//       className={`${inter.variable} ${manrope.variable} scroll-smooth antialiased`}
+//     >
+      
+//         <body
+//         className="font-body text-gray-900 bg-white selection:bg-[#FCC012]/30 selection:text-[#0a6ab8] transition-colors duration-300"
+//       >
+//         {/* ===== Header Navigation ===== */}
+//         <NavigationMenuDemo />
+
+//         {/* ===== Main Content ===== */}
+//         <main className="min-h-[70vh]">
+//           {children}
+//         </main>
+
+//         {/* ===== Footer ===== */}
+    
+//       </body>
+//     </html>
+//   );
+// }
 import "./globals.css";
 import { NavigationMenuDemo } from "@/components/NavigationMenuDemo";
-
+import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 
 // ===== Font Setup =====
@@ -188,33 +240,32 @@ const manrope = Manrope({
 });
 
 // ===== Metadata =====
-export const metadata = {
+export const metadata: Metadata = {
   title: "SkyVolt | Powering India's Clean Energy Future",
   description:
     "SkyVolt Renewable Pvt. Ltd. – Driving India's solar revolution through smart EPC solutions and sustainable technology.",
 };
 
 // ===== Root Layout =====
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
       className={`${inter.variable} ${manrope.variable} scroll-smooth antialiased`}
     >
-      
-        <body
-        className="font-body text-gray-900 bg-white selection:bg-[#FCC012]/30 selection:text-[#0a6ab8] transition-colors duration-300"
-      >
+      <body className="font-body text-gray-900 bg-white selection:bg-[#FCC012]/30 selection:text-[#0a6ab8] transition-colors duration-300">
         {/* ===== Header Navigation ===== */}
         <NavigationMenuDemo />
 
         {/* ===== Main Content ===== */}
-        <main className="min-h-[70vh]">
-          {children}
-        </main>
+        <main className="min-h-[70vh]">{children}</main>
 
         {/* ===== Footer ===== */}
-    
+        {/* Add footer here if needed */}
       </body>
     </html>
   );

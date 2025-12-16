@@ -134,28 +134,28 @@ export default function AIVMSHeroLeft() {
     <div className="text-2xl sm:text-3xl font-bold" style={{ color: BRAND }}>
       <Counter value={300} />+
     </div>
-    <p className="text-xs sm:text-sm text-gray-600">Workforce</p>
+    <p className="text-xs sm:text-sm text-gray-950">Workforce</p>
   </div>
 
   <div>
     <div className="text-2xl sm:text-3xl font-bold" style={{ color: BRAND }}>
       <Counter value={12000} />+
     </div>
-    <p className="text-xs sm:text-sm text-gray-600">Global Clients</p>
+    <p className="text-xs sm:text-sm text-gray-950">Global Clients</p>
   </div>
 
   <div>
     <div className="text-2xl sm:text-3xl font-bold" style={{ color: BRAND }}>
       <Counter value={99} />%
     </div>
-    <p className="text-xs sm:text-sm text-gray-600">Success Rate</p>
+    <p className="text-xs sm:text-sm text-gray-950">Success Rate</p>
   </div>
 
   <div>
     <div className="text-2xl sm:text-3xl font-bold" style={{ color: BRAND }}>
       <Counter value={20} />+
     </div>
-    <p className="text-xs sm:text-sm text-gray-600">Years Experience</p>
+    <p className="text-xs sm:text-sm text-gray-950">Years Experience</p>
   </div>
 </motion.div>
 <ClientsCarousel/>

@@ -139,7 +139,7 @@ export default function ClientsCarousel() {
     <section className="w-full py-12 bg-transparent mr-28">
       <div className="max-w-7xl mx-auto px-4">
         {/* Carousel */}
-        <div className="overflow-hidden">
+        <div className="overflow-hidden bg-transparent rounded-2xl">
           <div
             className={`flex ${animate ? "transition-transform duration-700 ease-in-out" : ""}`}
             style={{

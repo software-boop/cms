@@ -10,56 +10,73 @@ import {
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-import ecommunication from './Serviceimages/260.jpg' 
+/* ----------- IMAGES ----------- */
+import ecommunication from "./Serviceimages/260.jpg";
+import ssoftware from "./Serviceimages/software.jpg";
+import it from "./Serviceimages/ethernet-switch (1).jpg";
+import security from "./Serviceimages/security.jpg";
+import home_from from "./Serviceimages/Home Automation.jpg";
 
-import ssoftware from './Serviceimages/software.jpg'
-
-import it from './Serviceimages/ethernet-switch (1).jpg'
-
-import security from './Serviceimages/security.jpg' 
-
-import home_from from './Serviceimages/Home Automation.jpg'
-
+/* ----------- SLIDES ----------- */
 const SLIDES = [
-  { id: "1", title: "E-Communication", imageUrl: ecommunication},
-  { id: "2", title: "Software-Services", imageUrl: ssoftware },
-  { id: "3", title: "IT & Telecom-Services", imageUrl: it },
-  { id: "4", title: "Security-Services", imageUrl: security },
-  { id: "5", title: "Home-Automation-&-Iot-services", imageUrl: home_from },
+  { id: "1", title: "E-Communication", imageUrl: ecommunication },
+  { id: "2", title: "Software Services", imageUrl: ssoftware },
+  { id: "3", title: "IT & Telecom Services", imageUrl: it },
+  { id: "4", title: "Security Services", imageUrl: security },
+  { id: "5", title: "Home Automation & IoT", imageUrl: home_from },
 ];
 
 export function HoverSliderDemo() {
-  // Scroll Reveal trigger
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <motion.div
+    <motion.section
       ref={ref}
       initial={{ opacity: 0, y: 80 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      className="w-full"
     >
-      <HoverSlider className="min-h-svh place-content-center p-6 md:px-12 text-[#07518a] ">
-        <h3 className="mb-6 uppercase tracking-wide text-[#07518a] text-center text-4xl font-bold">
-          our services
+      <HoverSlider className="min-h-screen flex flex-col justify-center px-4 sm:px-6 md:px-12 text-[#07518a]">
+        
+        {/* SECTION TITLE */}
+        <h3 className="mb-10 text-center text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-wide">
+          Our Services
         </h3>
 
-        <div className="flex flex-wrap items-center justify-evenly gap-6 md:gap-12">
+        {/* CONTENT */}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16">
+          
           {/* LEFT TEXT LIST */}
-          <div className="flex flex-col space-y-10">
+          <div className="flex flex-col space-y-6 sm:space-y-8 text-center lg:text-left">
             {SLIDES.map((slide, index) => (
               <TextStaggerHover
                 key={slide.id}
                 index={index}
                 text={slide.title}
-                className="text-4xl md:text-5xl font-bold uppercase tracking-tight"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight cursor-pointer"
               />
             ))}
           </div>
 
-          {/* RIGHT IMAGE DISPLAY */}
-          <HoverSliderImageWrap className="max-w-md max-h-96 rounded-xl overflow-hidden shadow-lg">
+          {/* RIGHT IMAGE */}
+          <HoverSliderImageWrap
+            className="
+              w-full 
+              max-w-xs 
+              sm:max-w-sm 
+              md:max-w-md 
+              lg:max-w-lg 
+              h-64 
+              sm:h-72 
+              md:h-80 
+              lg:h-96 
+              rounded-xl 
+              overflow-hidden 
+              shadow-xl
+            "
+          >
             {SLIDES.map((slide, index) => (
               <HoverSliderImage
                 key={slide.id}
@@ -70,8 +87,9 @@ export function HoverSliderDemo() {
               />
             ))}
           </HoverSliderImageWrap>
+
         </div>
       </HoverSlider>
-    </motion.div>
+    </motion.section>
   );
 }

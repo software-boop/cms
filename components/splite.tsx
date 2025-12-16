@@ -12,14 +12,15 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
   return (
     <Suspense 
       fallback={
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center text-white">
           <span className="loader"></span>
         </div>
       }
     >
       <Spline
         scene={scene}
-        className={className}
+        className={className } 
+        
       />
     </Suspense>
   )

@@ -7,7 +7,6 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  useVelocity,
 } from "framer-motion";
 
 /* ================= Types ================= */
@@ -15,7 +14,7 @@ export type WhyItem = {
   title: string;
   highlight?: string;
   description: string;
-  icon?: string;
+  points?: string[];
   imageSrc: string | StaticImageData;
 };
 
@@ -25,149 +24,144 @@ type Props = {
   brandHex?: string;
 };
 
-/* ====== Static Images ====== */
+/* ================= Images ================= */
 import Nationwide from "./Testimonialimages/nationawide.png";
 import Expertise from "./Testimonialimages/expertise (1).png";
 import Trusted from "./Testimonialimages/end---end (1).png";
 import Innovation from "./Testimonialimages/innovation-1 (1).png";
 
-/* =============== Default Items =============== */
+/* ================= Default Data ================= */
 const DEFAULT_ITEMS: WhyItem[] = [
   {
     title: "Nationwide Presence",
     description:
-      "with proven success across industries and government verticals",
+      "With operational reach across India, we deliver projects consistently across geographies while maintaining uniform quality, governance, and execution standards.",
+    points: [
+      "Pan-India execution capability",
+      "Urban, semi-urban & rural deployments",
+      "Dedicated regional operations teams",
+    ],
     imageSrc: Nationwide,
   },
   {
     title: "End-to-End Expertise",
-    description: "from design to deployment with full lifecycle support",
+    highlight: "Concept to Completion",
+    description:
+      "We manage the entire project lifecycle — from advisory and design to deployment, integration, and long-term operations.",
+    points: [
+      "Consulting & solution architecture",
+      "System integration & rollout",
+      "Operations & lifecycle management",
+    ],
     imageSrc: Expertise,
   },
   {
     title: "Trusted by Leading PSUs",
-    description: "Preferred partner for mission-critical projects",
+    description:
+      "Recognized as a dependable partner for large-scale, mission-critical public sector and government initiatives.",
+    points: [
+      "Strict compliance & governance",
+      "Transparent execution practices",
+      "Long-term institutional partnerships",
+    ],
     imageSrc: Trusted,
   },
   {
     title: "Innovation",
     highlight: "Built for Tomorrow",
     description:
-      "Designed to scale with your business and evolving technology.",
+      "We continuously invest in advanced technologies to future-proof solutions and support evolving business needs.",
+    points: [
+      "AI & analytics-driven platforms",
+      "Scalable & modular architectures",
+      "Security-first solution design",
+    ],
     imageSrc: Innovation,
   },
 ];
 
-/* =============== Motion Helpers =============== */
-/** Fade + slide in helper for any motion component */
+/* ================= Motion Helpers ================= */
 const appear = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
+  initial: { opacity: 0, y: 36 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.3 },
-  // use a string "easeOut" instead of numeric array to satisfy TS
-  transition: { duration: 0.6, delay, ease: "easeOut" as const },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.8, delay, ease: "easeOut" as const },
 });
 
-/* Parallax for vertical lane */
-function useLaneParallax(
+function useParallax(
   ref: React.RefObject<HTMLDivElement | null>,
-  travel = -140
+  distance = 120
 ) {
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 10%", "end 10%"],
+    offset: ["start 20%", "end 20%"],
   });
-  return useTransform(scrollYProgress, [0, 1], [0, travel]);
+
+  const raw = useTransform(scrollYProgress, [0, 1], [0, -distance]);
+
+  return useSpring(raw, {
+    stiffness: 110,
+    damping: 22,
+    mass: 0.6,
+  });
 }
 
-/* Panel follow on scroll */
-function usePanelFollow(
-  ref: React.RefObject<HTMLDivElement | null>,
-  amplitude = 26
-) {
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 30%", "end 15%"],
-  });
-
-  const raw = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [amplitude, 0, -amplitude]
-  );
-
-  const velocity = useVelocity(raw); // not used but harmless
-
-  const y = useSpring(raw, {
-    stiffness: 140,
-    damping: 18,
-    mass: 0.4,
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 1], [0.75, 1, 1]);
-
-  return { y, opacity, velocity };
-}
-
-/* Floating effect on image */
 function useImageFloat(ref: React.RefObject<HTMLDivElement | null>) {
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 60%", "end 20%"],
+    offset: ["start 70%", "end 25%"],
   });
 
-  return useTransform(scrollYProgress, [0, 1], [-8, 8]);
+  return useTransform(scrollYProgress, [0, 1], [-14, 14]);
 }
 
-/* =============== Panel Component =============== */
+/* ================= Panel ================= */
 function Panel({
   item,
   brandHex,
-  priority = false,
 }: {
   item: WhyItem;
   brandHex: string;
-  priority?: boolean;
 }) {
-  // IMPORTANT: generic is HTMLDivElement | null
   const panelRef = useRef<HTMLDivElement | null>(null);
-  const imgWrapRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLDivElement | null>(null);
 
-  const follow = usePanelFollow(panelRef, 28);
-  const imageFloatY = useImageFloat(imgWrapRef);
+  const y = useParallax(panelRef, 40);
+  const imgY = useImageFloat(imageRef);
 
   return (
     <motion.div
       ref={panelRef}
-      style={{ y: follow.y, opacity: follow.opacity }}
-      {...appear(0.05)}
+      style={{ y }}
+      {...appear(0.1)}
       className="w-full"
     >
-      {/* Image */}
+      {/* IMAGE */}
       <motion.div
-        ref={imgWrapRef}
-        style={{ y: imageFloatY }}
-        className="relative w-full aspect-[32/10]"
+        ref={imageRef}
+        style={{ y: imgY }}
+        className="relative w-full aspect-[16/6] md:aspect-[16/5]"
       >
         <Image
           src={item.imageSrc}
           alt={item.title}
           fill
-          priority={priority}
-          className="object-contain p-4 md:p-6"
+          className="object-contain px-6 md:px-10"
+          priority
         />
       </motion.div>
 
-      {/* Content */}
-      <div className="mt-4 md:mt-5 flex items-start gap-4">
+      {/* CONTENT */}
+      <div className="mt-8 flex gap-6">
+        {/* Accent */}
         <div
-          className="self-stretch w-[2px] rounded-full"
+          className="w-[3px] rounded-full"
           style={{ backgroundColor: brandHex }}
         />
 
-        <div>
+        <div className="max-w-xl">
           <h3
-            className="text-2xl md:text-3xl font-semibold tracking-tight"
+            className="text-2xl md:text-3xl font-semibold leading-tight"
             style={{ color: brandHex }}
           >
             {item.title}
@@ -175,23 +169,40 @@ function Panel({
 
           {item.highlight && (
             <p
-              className="mt-1 text-[11px] md:text-xs uppercase tracking-widest font-semibold"
+              className="mt-1 text-xs md:text-sm uppercase tracking-widest font-semibold"
               style={{ color: brandHex }}
             >
               {item.highlight}
             </p>
           )}
 
-          <p className="mt-3 text-gray-700 leading-relaxed text-base md:text-lg">
+          <p className="mt-4 text-gray-700 text-base md:text-lg leading-relaxed">
             {item.description}
           </p>
+
+          {item.points && (
+            <ul className="mt-5 space-y-3">
+              {item.points.map((pt, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-3 text-gray-700 text-sm md:text-base"
+                >
+                  <span
+                    className="mt-2 h-2 w-2 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: brandHex }}
+                  />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </motion.div>
   );
 }
 
-/* =============== Lane Component =============== */
+/* ================= Lane ================= */
 function Lane({
   items,
   brandHex,
@@ -206,28 +217,28 @@ function Lane({
   align?: "start" | "end";
 }) {
   const laneRef = useRef<HTMLDivElement | null>(null);
-  const y = useLaneParallax(laneRef, travel);
+  const y = useParallax(laneRef, travel);
 
   return (
     <motion.div
       ref={laneRef}
       style={{ y }}
-      className={`flex flex-col gap-16 md:gap-24 ${
+      className={`flex flex-col gap-28 ${
         align === "end" ? "items-end" : ""
       }`}
     >
       {offsetTop > 0 && <div style={{ height: offsetTop }} />}
 
       {items.map((it, i) => (
-        <div key={i} className="w-full md:max-w-[560px]">
-          <Panel item={it} brandHex={brandHex} priority={i < 2} />
+        <div key={i} className="w-full max-w-[640px]">
+          <Panel item={it} brandHex={brandHex} />
         </div>
       ))}
     </motion.div>
   );
 }
 
-/* =============== MAIN EXPORT =============== */
+/* ================= MAIN ================= */
 export default function WhyChooseBrihaspathi({
   items,
   title = "Why Brihaspathi?",
@@ -238,28 +249,21 @@ export default function WhyChooseBrihaspathi({
   const left: WhyItem[] = [];
   const right: WhyItem[] = [];
 
-  data.forEach((it, idx) => (idx % 2 === 0 ? left.push(it) : right.push(it)));
+  data.forEach((it, i) => (i % 2 === 0 ? left.push(it) : right.push(it)));
 
   return (
-    <section
-      className="relative bg-white"
-      style={{
-        paddingTop: 100,
-        paddingLeft: 100,
-        paddingRight: 100,
-      }}
-    >
+    <section className="relative bg-white py-28 px-6 md:px-16 ">
       <motion.h2
         {...appear(0)}
-        className="text-3xl md:text-4xl font-semibold tracking-tight text-center text-black"
+        className="text-3xl md:text-4xl font-semibold text-center text-black"
       >
         {title}
       </motion.h2>
 
-      <div className="mx-auto max-w-7xl mt-10 md:mt-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
-          <Lane items={left} brandHex={brandHex} travel={-110} offsetTop={60} />
-          <Lane items={right} brandHex={brandHex} travel={-150} align="end" />
+      <div className="mx-auto max-w-7xl mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+          <Lane items={left} brandHex={brandHex} travel={140} offsetTop={100} />
+          <Lane items={right} brandHex={brandHex} travel={180} align="end" />
         </div>
       </div>
     </section>

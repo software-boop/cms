@@ -1,8 +1,11 @@
+import { TeamHoverGrid } from '@/components/Team'
 import React from 'react'
-
+import { ORG_GROUPS } from "@/app/about/org-groups";
 function page() {
   return (
-    <div>page</div>
+     <div className="p-8">
+      <TeamHoverGrid group={ORG_GROUPS[0]} />
+    </div>
   )
 }
 

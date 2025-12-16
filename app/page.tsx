@@ -15,6 +15,17 @@ import { FeatureStepsDemo } from "@/components/Demo";
 import { ShuffleHero } from "@/components/ShuffleHero";
 import IntroAnimation from "@/components/IntroAnimation";
 import { SplineSceneBasic } from "@/components/Aidemo";
+import { ScrollTrigger } from "gsap-trial/src/all";
+import { ScrollingFeatureShowcase } from "@/components/Intractive";
+import { HeroParallax } from "@/components/hero-parallal";
+import { HeroParallaxDemo } from "@/components/About-parallel";
+import DemoOne from "@/components/homeabout/heroaboutdemo";
+import IndustriesSection from "@/components/homeabout/IndustriesSection";
+import ProjectCard from "./projects/components/ProjectCard";
+import IndiaBranchesMap from "@/components/homeabout/Indiabranch";
+import { TestimonialCarousel } from "@/components/homeabout/bard";
+import Indiawide from "@/components/homeabout/Indiawide";
+
 // import DemoOne from "@/components/gallareydemo";
 
 export default function Home() {
@@ -22,34 +33,55 @@ export default function Home() {
     <main className="w-full min-h-screen overflow-x-hidden bg-white ">
       {/* <HeroSection/> */}
       {/* HERO SECTION */}
-      <section className="w-full mb-48">
+  
         <SplineSceneBasic />
-      </section>
+          <DemoOne/>
+   {/* <div className="">     <HeroParallaxDemo/></div> */}
 
+ 
+   {/* <div className="h-22"></div> */}
+
+        <ScrollingFeatureShowcase/>|
+           
+        <Whybrihaspathi />
+      
+           <HoverSliderDemo />
+        <IndustriesSection/>
+
+
+ 
+       
+   {/* HOVER SLIDER */}
+      <section className="w-full py-10 md:py-16 ">
+      
+      </section>
       {/* SOLUTIONS SECTION */}
-      <section className="w-full bg-black">
+      {/* <section className="w-full bg-black">
         <SolutionsSection />
-      </section>
+      </section> */}
 
-      {/* HOVER SLIDER */}
-      <section className="w-full py-10 md:py-16">
-        <HoverSliderDemo />
-      </section>
+  
 
       {/* INTRO ANIMATION */}
-       <div className="w-full h-[800px] border rounded-lg overflow-hidden relative">
+       {/* <div className="w-full h-[800px] border rounded-lg overflow-hidden relative">
             <IntroAnimation />
-        </div>
+        </div> */}
 
+<Indiawide/>
+{/* <IndiaBranchesMap/> */}
+ <div className="min-h-screen flex items-center justify-center">
+      <TestimonialCarousel />
+    </div>
       {/* TESTIMONIALS */}
       <section className="w-full py-10 md:py-16">
         <Testimonials />
       </section>
 
       {/* FEATURE STEPS */}
-      <section className="w-full py-10 md:py-16">
+      {/* <section className="w-full py-10 md:py-16">
         <FeatureStepsDemo />
-      </section>
+      </section> */}
+
 
       {/* SHUFFLE HERO */}
       <section className="w-full px-4 md:px-10 py-10 md:py-16 flex justify-center">
@@ -57,9 +89,7 @@ export default function Home() {
       </section>
 
       {/* WHY BRIHASPATHI */}
-      <section className="w-full py-10 md:py-16">
-        <Whybrihaspathi />
-      </section>
+    
 
       {/* WE SERVE */}
       <section className="w-full py-10 md:py-16">

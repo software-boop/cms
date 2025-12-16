@@ -87,31 +87,46 @@ function FlipCard({
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 20;
-const MAX_SCROLL = 3000; // Virtual scroll range
+const MAX_SCROLL = 1500; // Virtual scroll range
 
 // Unsplash Images
 const IMAGES = [
-    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300&q=80",
-    "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=300&q=80",
-    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300&q=80",
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&q=80",
-    "https://images.unsplash.com/photo-1506765515384-028b60a970df?w=300&q=80",
-    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&q=80",
-    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300&q=80",
-    "https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?w=300&q=80",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300&q=80",
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&q=80",
-    "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=300&q=80",
-    "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=300&q=80",
-    "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=300&q=80",
-    "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=300&q=80",
-    "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=300&q=80",
-    "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=300&q=80",
-    "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=300&q=80",
-    "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=300&q=80",
-    "https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?w=300&q=80",
+  "/teams/1.jpg",
+  "/teams/2.jpg",
+  "/teams/3.jpg",
+  "/teams/Accounts team photo Rambabu.jpg",
+  "/teams/ARVIND DURGAM.jpg",
+  "/teams/Ashish Bandabuche - Sr. Purchase Manager.jpg",
+  "/teams/Ganesh Headshot.jpg",
+  "/teams/Hemanth-Key Account Manager.jpg",
+  "/teams/HYMAVATHI.jpg",
+  "/teams/IMG_20251125_053029.jpg",
+  "/teams/Jack-Key Account Manager.jpg",
+  "/teams/Kiran - General Manager.jpg",
+  "/teams/Mayuram Barooah.jpg",
+  "/teams/MD'S Corporate Head shot..png",
+  "/teams/me.jpg",
+  "/teams/Murali.jpg",
+  "/teams/Prasad - General Manager.jpg",
+  "/teams/Praveen.jpg",
+  "/teams/Rajendra Photo.jpg",
+  "/teams/Ramu.jpg",
+  "/teams/Reshal - Hr manager.jpg",
+  "/teams/Sagar.jpg",
+  "/teams/Saketh.jpg",
+  "/teams/Sandeep.jpg",
+  "/teams/Sasank.jpg",
+  "/teams/Sukesh - Accounts Manager.jpg",
+  "/teams/Venu Gopal.jpg",
+  "/teams/Vikranth - Brand Manager.jpg",
+  "/teams/WhatsApp Image 2025-09-25 at 11.14.32_03cf16cf.jpg",
+  "/teams/WhatsApp Image 2025-10-07 at 11.44.22 AM (1).jpg",
+  "/teams/WhatsApp Image 2025-10-07 at 11.44.22 AM (2).jpg",
+  "/teams/WhatsApp Image 2025-10-07 at 12.17.36 PM.jpg",
+  "/teams/WhatsApp Image 2025-10-14 at 11.35.20 AM.jpg",
+  "/teams/WhatsApp Image 2025-11-05 at 3.38.58 PM.jpg",
 ];
+
 
 // Helper for linear interpolation
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
@@ -261,7 +276,7 @@ export default function IntroAnimation() {
     const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full bg-[#FAFAFA] overflow-hidden">
+        <div ref={containerRef} className="relative  h-[100vh] bg-[#FAFAFA] overflow-hidden " style={{width:"700px"}}>
             {/* Container */}
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
@@ -273,7 +288,7 @@ export default function IntroAnimation() {
                         transition={{ duration: 1 }}
                         className="text-2xl font-medium tracking-tight text-gray-800 md:text-4xl"
                     >
-                        The future is built on AI.
+                        Meet Brihaspathi team.
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}

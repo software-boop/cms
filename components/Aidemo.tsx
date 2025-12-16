@@ -6,13 +6,13 @@ import { Spotlight } from "@/components/spotlight";
 import AIVMSHeroLeft from "./Surveillance";
 
 const videoSrc =
-  "https://ik.imagekit.io/25nablagi/GettyImages-1134199160.mov";
+  "https://ik.imagekit.io/tsuss6ulm/corpo%20video%202%20-.mp4";
 
 export function SplineSceneBasic() {
   return (
     <Card className="relative w-full min-h-[100vh] md:min-h-[730px] overflow-hidden border-0 rounded-none">
-      
-      {/* Background Video */}
+
+      {/* ================= BACKGROUND VIDEO ================= */}
       <video
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
         src={videoSrc}
@@ -23,14 +23,27 @@ export function SplineSceneBasic() {
         preload="auto"
       />
 
+      {/* ================= OVERLAY GRADING ================= */}
+      {/* Base dark overlay */}
+      <div className="absolute inset-0 z-[1] bg-white/55" />
+
+      {/* Brand blue cinematic tint */}
+      <div className="absolute inset-0 z-[2] bg-white/80 mix-blend-multiply" />
+
+      {/* Gradient depth overlay */}
+      <div className="absolute inset-0 z-[3] bg-gradient-to-b fromite via-white/40 to-white/80" />
+
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 z-[4] shadow-[inset_0_0_200px_rgba(0,0,0,0.75)]" />
+
+      {/* ================= SPOTLIGHT ================= */}
       <Spotlight
         size={320}
         fill="#07518a"
-          //  fill="black"
         className="-top-40 left-1/2 -translate-x-1/2 md:left-60 md:translate-x-0 md:-top-20 z-10"
       />
 
-      {/* Content */}
+      {/* ================= CONTENT ================= */}
       <div className="relative z-20 max-w-[1400px] mx-auto h-full px-5 sm:px-8 lg:px-12 pt-[85px] flex flex-col lg:flex-row items-center">
         <AIVMSHeroLeft />
 
@@ -44,4 +57,3 @@ export function SplineSceneBasic() {
     </Card>
   );
 }
-

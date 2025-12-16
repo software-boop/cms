@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
 
-  // FIX: Correct image loading in Vercel + Netlify
   images: {
     remotePatterns: [
       {
@@ -17,12 +16,14 @@ const nextConfig = {
         port: "1334",
         pathname: "/uploads/**",
       },
-    
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
-       domains: ["images.unsplash.com"], //
   },
 
-  // Avoid turbopack warnings & issues
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
@@ -30,4 +31,4 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
 };
 
-module.exports = nextConfig;
+export default nextConfig;
