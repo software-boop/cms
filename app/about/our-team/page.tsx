@@ -1,6 +1,6 @@
 import { TeamHoverGrid } from '@/components/Team'
 import React from 'react'
-import { ORG_GROUPS } from "@/app/about/org-groups";
+import { ORG_GROUPS } from "@/app/about/our-team/org-groups";
 function page() {
   return (
      <div className="p-8">
