@@ -157,4 +157,17 @@
 
 
   background-color: red;
+}  
+
+.perspective {
+  perspective: 1200px;
+}
+
+/* hide scrollbar but keep scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

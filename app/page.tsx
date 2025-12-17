@@ -15,7 +15,7 @@ import { FeatureStepsDemo } from "@/components/Demo";
 import { ShuffleHero } from "@/components/ShuffleHero";
 import IntroAnimation from "@/components/IntroAnimation";
 import { SplineSceneBasic } from "@/components/Aidemo";
-import { ScrollTrigger } from "gsap-trial/src/all";
+
 import { ScrollingFeatureShowcase } from "@/components/Intractive";
 import { HeroParallax } from "@/components/hero-parallal";
 import { HeroParallaxDemo } from "@/components/About-parallel";
@@ -25,12 +25,13 @@ import ProjectCard from "./projects/components/ProjectCard";
 import IndiaBranchesMap from "@/components/homeabout/Indiabranch";
 import { TestimonialCarousel } from "@/components/homeabout/bard";
 import Indiawide from "@/components/homeabout/Indiawide";
+import { Achievements, Process, Work } from "@/components/homeabout/Achiementsdemo";
 
 // import DemoOne from "@/components/gallareydemo";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen overflow-x-hidden bg-white ">
+    <main className=" bg-white ">
       {/* <HeroSection/> */}
       {/* HERO SECTION */}
   
@@ -76,6 +77,9 @@ export default function Home() {
       <section className="w-full py-10 md:py-16">
         <Testimonials />
       </section>
+
+<Achievements/>
+
 
       {/* FEATURE STEPS */}
       {/* <section className="w-full py-10 md:py-16">

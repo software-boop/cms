@@ -25,7 +25,7 @@ export function SplineSceneBasic() {
 
       {/* ================= OVERLAY GRADING ================= */}
       {/* Base dark overlay */}
-      <div className="absolute inset-0 z-[1] bg-white/55" />
+      <div className="absolute inset-0 z-[1] bg-white/80" />
 
       {/* Brand blue cinematic tint */}
       <div className="absolute inset-0 z-[2] bg-white/80 mix-blend-multiply" />

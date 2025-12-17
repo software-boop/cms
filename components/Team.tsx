@@ -1,11 +1,7 @@
 "use client";
 
-import React from "react";
-import {
-  CardHoverReveal,
-  CardHoverRevealMain,
-  CardHoverRevealContent,
-} from "@/components/reaveaal-on-hover";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Linkedin } from "lucide-react";
 import type { OrgGroup, OrgPerson } from "@/app/about/org-groups";
 
@@ -16,86 +12,101 @@ interface TeamHoverGridProps {
 export const TeamHoverGrid: React.FC<TeamHoverGridProps> = ({ group }) => {
   return (
     <section className="space-y-10">
-      {/* Section Header */}
       <div className="space-y-2">
         <h2 className="text-3xl font-bold tracking-tight text-slate-900">
           {group.title}
         </h2>
         <p className="max-w-2xl text-sm text-slate-500">
-          Leadership team driving strategy, innovation, and operational
-          excellence across the organization.
+          Leadership team driving strategy, innovation, and operational excellence.
         </p>
       </div>
 
-      {/* Grid */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {group.people.map((person) => (
-          <TeamHoverCard key={person.id} person={person} />
+          <FlipCard key={person.id} person={person} />
         ))}
       </div>
     </section>
   );
 };
 
-/* ---------------------------------------------------------------- CARD */
+/* ---------------------------------------------------------------- */
 
-interface TeamHoverCardProps {
+interface FlipCardProps {
   person: OrgPerson;
 }
 
-const TeamHoverCard: React.FC<TeamHoverCardProps> = ({ person }) => {
+const FlipCard: React.FC<FlipCardProps> = ({ person }) => {
+  const [flipped, setFlipped] = useState(false);
+
   return (
-    <CardHoverReveal className="group h-[440px] w-full overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      {/* IMAGE + NAME */}
-      <CardHoverRevealMain className="relative">
-        <img
-          src={person.photo}
-          alt={person.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-        {/* Name + designation (always visible) */}
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <h3 className="text-lg font-semibold text-white leading-tight">
-            {person.name}
-          </h3>
-          <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-200">
-            {person.designation}
-          </p>
+    <div
+      className="relative h-[360px] w-full perspective"
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
+    >
+      <motion.div
+        className="relative h-full w-full"
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.55, ease: "easeInOut" }}
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* FRONT */}
+        <div
+          className="absolute inset-0 overflow-hidden rounded-2xl shadow-lg"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <img
+            src={person.photo}
+            alt={person.name}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 p-4 text-white">
+            <h3 className="text-base font-semibold">{person.name}</h3>
+            <p className="text-xs uppercase tracking-wide text-slate-200">
+              {person.designation}
+            </p>
+          </div>
         </div>
-      </CardHoverRevealMain>
 
-      {/* HOVER CONTENT */}
-      <CardHoverRevealContent className="rounded-2xl bg-white/95 text-slate-800 shadow-2xl ring-1 ring-black/5">
-        <div className="flex h-full flex-col justify-between gap-5">
-          {/* Bio */}
-          <div className="space-y-3">
-            <span className="inline-block rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+        {/* BACK — PROFESSIONAL */}
+        <div
+          className="absolute inset-0 flex flex-col justify-between rounded-2xl bg-slate-900 p-5 text-white shadow-xl"
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
+        >
+          <div className="space-y-2">
+            <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide">
               Leadership Profile
             </span>
 
-            <p className="text-sm leading-relaxed text-slate-700 line-clamp-7">
-              {person.bio}
+            <h3 className="text-lg font-bold">{person.name}</h3>
+            <p className="text-xs uppercase tracking-wide text-slate-400">
+              {person.designation}
             </p>
           </div>
 
-          {/* LinkedIn */}
+          {/* CLEAN BIO – NO SCROLL */}
+          <p className="mt-3 text-sm leading-relaxed text-slate-200 line-clamp-6">
+            {person.bio}
+          </p>
+
           {person.linkedin && (
             <a
               href={person.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-900 hover:text-white"
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200"
             >
               <Linkedin className="h-4 w-4" />
               Connect on LinkedIn
             </a>
           )}
         </div>
-      </CardHoverRevealContent>
-    </CardHoverReveal>
+      </motion.div>
+    </div>
   );
 };

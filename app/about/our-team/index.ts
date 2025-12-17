@@ -1,0 +1,1 @@
+export { TeamHoverGrid } from "./TeamHoverGrid";

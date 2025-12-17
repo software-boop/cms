@@ -8,6 +8,7 @@ export interface SubPoint {
 export interface Component {
   name: string;
   description: string;
+  icon?: any; // Added to support component-level icons
 }
 
 export interface FeatureList {
@@ -18,6 +19,10 @@ export interface FeatureList {
 export interface Section {
   title: string;
   slug?: string;
+  icon?: any;
+  image?: any;
+  mainimage?: any;
+  mainbanner?: any;
   description?: string;
   subPoints?: SubPoint[];
   components?: Component[];
@@ -25,260 +30,272 @@ export interface Section {
   subsections?: Section[];
 }
 
-import Img293 from "@/app/casestudy/solutionimages/293.jpg";
-import Img890 from "@/app/casestudy/solutionimages/890.jpg";
-import Img6677 from "@/app/casestudy/solutionimages/6677.jpg";
-import Img19106 from "@/app/casestudy/solutionimages/19106.jpg";
-import Img30848 from "@/app/casestudy/solutionimages/30848.jpg";
-import Img32382 from "@/app/casestudy/solutionimages/32382.jpg";
-import Img110017 from "@/app/casestudy/solutionimages/110017.jpg";
-import Img124911 from "@/app/casestudy/solutionimages/124911.jpg";
-import Img175332 from "@/app/casestudy/solutionimages/175332.jpg";
-import Img22891404 from "@/app/casestudy/solutionimages/22891404.jpg";
-import ImgCustom from "@/app/casestudy/solutionimages/IMG_20231130_033658.jpg";
+/* ===================== ICON IMPORTS ===================== */
+import AiCctvSurveillanceIcon from "../../components/smart bus icons/AI CCTV Surveillance.png";
+import BatterySupportEnergyStorageIcon from "../../components/smart bus icons/Battery Support & Energy Storage.png";
+import BenefitsForOperatorsIcon from "../../components/smart bus icons/Benefits for Operators.png";
+import BenefitsForPassengersIcon from "../../components/smart bus icons/Benefits for Passengers.png";
+import BigDataAnalyticsIcon from "../../components/smart bus icons/Big Data Analytics.png";
+import BreathAnalyzerSystemIcon from "../../components/smart bus icons/Breath Analyzer System.png";
 
-/* ===================== ALL SOLUTIONS DATA ===================== */
+import EmergencyBroadcastFeatureIcon from "../../components/smart bus icons/Emergency Broadcast Feature.png";
+import FoamFireSuppressionSystemIcon from "../../components/smart bus icons/Foam Fire Suppression System.png";
+import GpsTrackingIcon from "../../components/smart bus icons/GPS Tracking.png";
 
-// Smart Bus Data
+import LedSignageIcon from "../../components/smart bus icons/LED Signage.png";
+import LedTvIcon from "../../components/smart bus icons/LED TV.png";
+
+import PublicAddressSystemIcon from "../../components/smart bus icons/Public Address System.png";
+
+import SmartTicketingForFutureIcon from "../../components/smart bus icons/Smart Ticketing (For Future).png";
+import TechnologyIcon from "../../components/smart bus icons/Technology.png";
+import WifiHotspotIcon from "../../components/smart bus icons/Wi-Fi Hotspot.png";
+/* ===================== SMART BUS PICTURE IMPORTS ===================== */
+
+import AlcoholDetectionForSaferBusOperationsPic from "./bussollutionimage/breth.png";
+
+import CctvSurveillanceArchitectureDiagramPic from "../../components/smart bus pictures/CCTV Surveillance Architecture Diagram.png";
+import CctvSurveillanceInBusesPic from "./bussollutionimage/Gemini_Generated_Image_o69vgho69vgho69v (1).png";
+import DashboardSmartBusSolutionPic from "./bussollutionimage/smart bus web.jpg";
+
+import EnhancedPassengerAccessFeaturesPic from "./bussollutionimage/dashobard.jpg";
+
+import PeopleCountingAndOccupancyPic from "../../components/smart bus pictures/People Counting and Occupancy.png";
+import ResultsOfSmartBusSolutionsPic from "../../components/smart bus pictures/Results of Smart Bus Solutions.png";
+
+import SmartFeaturesForBusesPic from "./bussollutionimage/modern-city-street-scene-featuring-bus-driving.jpg";
+
+import WifiHotspotInBusesPic from "../../components/smart bus pictures/WiFi Hotspot in Buses_ Enabling Smart, Connected Travel.png";
+import Sb1Img from "./bussollutionimage/sb1.png";
+import Sb2Img from "./bussollutionimage/sb2.png";
+import Sb3Img from "./bussollutionimage/sb3.png";
+import Sb4Img from "./bussollutionimage/sb4.png";
+import Sb5Img from "./bussollutionimage/sb5.png";
+import Sb6Img from "./bussollutionimage/sb6.png";
+
+
+
 export const smartBusData: Section = {
   title: "Empowering Public Transport: The Next-Gen Smart Bus Experience",
   slug: "smart-bus-solution",
+  mainimage: DashboardSmartBusSolutionPic,
+  mainbanner: DashboardSmartBusSolutionPic,
+  icon: TechnologyIcon,
   subsections: [
     {
       title: "Smart Bus Systems Overview",
+      // image: ResultsOfSmartBusSolutionsPic,
       subPoints: [
         {
           title: "Safety Improvement",
-          description:
-            "Implementing smart technologies increases safety protocols for both passengers and drivers.",
+          description: "Implementing smart technologies increases safety protocols for both passengers and drivers.",
         },
         {
           title: "Real-Time Tracking",
-          description:
-            "Real-time data enables effective tracking and communication with passengers, enhancing their travel experience.",
+          description: "Real-time data enables effective tracking and communication with passengers, enhancing their travel experience.",
         },
         {
           title: "Operational Efficiency",
-          description:
-            "Integration of IoT enhances the operational efficiency of public transport systems, leading to better resource management.",
+          description: "Integration of IoT enhances the operational efficiency of public transport systems, leading to better resource management.",
         },
         {
           title: "Enhanced Rider Experience",
-          description:
-            "Smart systems contribute to a more enjoyable and seamless travel experience for riders through improved services.",
+          description: "Smart systems contribute to a more enjoyable and seamless travel experience for riders through improved services.",
         },
         {
           title: "IoT Integration",
-          description:
-            "Utilizing IoT, surveillance, and data technologies creates a more connected public transport system.",
+          description: "Utilizing IoT, surveillance, and data technologies creates a more connected public transport system.",
         },
       ],
     },
     {
       title: "What is Smart Bus Solution?",
-      description:
-        "A Smart Bus Solution is an advanced transportation system that leverages technology to enhance safety, efficiency, and convenience in public or private bus services. It integrates GPS tracking, CCTV surveillance, driver behavior monitoring, and passenger tracking for real-time monitoring and management. Smart displays provide route, stop, and safety information to passengers. This solution improves operational control, passenger experience, and overall transportation reliability.",
+      description: "A Smart Bus Solution is an advanced transportation system that leverages technology to enhance safety, efficiency, and convenience in public or private bus services. It integrates GPS tracking, CCTV surveillance, driver behavior monitoring, and passenger tracking for real-time monitoring and management.",
+      image: SmartFeaturesForBusesPic,
     },
+
+{
+  title: "Driver Behaviour",
+  components: [
+    {
+      name: "Driver Behaviour",
+      description: "Monitors driver actions to improve safety and compliance.",
+      icon: Sb1Img,
+    },
+     {
+          name: "Drowsiness Detection",
+          description: "Detects fatigue and alerts to prevent accidents.",
+          icon: Sb2Img,
+        },
+                {
+          name: "Harsh Braking & Acceleration",
+          description: "Tracks aggressive driving events for safer operations.",
+          icon: Sb3Img,
+        },
+          {
+          name: "Overspeed Monitoring",
+          description: "Alerts when the driver exceeds configured speed limits.",
+          icon: Sb4Img,
+        }, 
+           {
+          name: "Mobile Usage Detection",
+          description: "Detects distraction from phone usage while driving.",
+          icon: Sb5Img,
+        }, 
+         {
+          name: "Compliance Reports",
+          description: "Generates driver performance reports for training and audits.",
+          icon: Sb6Img,
+        },
+
+  ],
+},
+
     {
       title: "Core Components",
       components: [
         {
           name: "AI CCTV Surveillance",
-          description:
-            "Smart cameras for real-time monitoring, threat detection, and enhanced security.",
+          description: "Smart cameras for real-time monitoring, threat detection, and enhanced security.",
+          icon: AiCctvSurveillanceIcon,
         },
         {
           name: "GPS Tracking",
-          description:
-            "Live location updates for efficient route management and passenger convenience.",
+          description: "Live location updates for efficient route management and passenger convenience.",
+          icon: GpsTrackingIcon,
         },
         {
           name: "LED Signage",
-          description:
-            "Screens showing routes, stops, alerts, and travel information.",
+          description: "Screens showing routes, stops, alerts, and travel information.",
+          icon: LedSignageIcon,
         },
         {
           name: "LED TV",
-          description:
-            "Dynamic advertising screens to generate revenue through targeted content.",
+          description: "Dynamic advertising screens to generate revenue through targeted content.",
+          icon: LedTvIcon,
         },
         {
           name: "Wi-Fi Hotspot",
-          description:
-            "Free internet access onboard to enhance passenger experience and connectivity.",
+          description: "Free internet access onboard to enhance passenger experience and connectivity.",
+          icon: WifiHotspotIcon,
         },
         {
           name: "Public Address System",
-          description:
-            "Driver mic and internal speakers for announcements regarding stops or emergencies.",
+          description: "Driver mic and internal speakers for announcements regarding stops or emergencies.",
+          icon: PublicAddressSystemIcon,
         },
         {
           name: "Breath Analyzer System",
-          description:
-            "Prevents bus ignition if alcohol is detected in the driver's breath, ensuring sober driving and enhancing passenger safety.",
+          description: "Prevents bus ignition if alcohol is detected in the driver's breath.",
+          icon: BreathAnalyzerSystemIcon,
         },
         {
           name: "Foam Fire Suppression System",
-          description:
-            "Extinguishes flammable liquid fires by smothering them with a cooling, oxygen-blocking foam layer.",
+          description: "Extinguishes flammable liquid fires by smothering them with cooling foam.",
+          icon: FoamFireSuppressionSystemIcon,
         },
         {
           name: "Big Data Analytics",
-          description:
-            "Enables real-time analysis of routes, passenger patterns, and vehicle performance to improve efficiency, safety, and service reliability.",
+          description: "Enables real-time analysis of routes, patterns, and vehicle performance.",
+          icon: BigDataAnalyticsIcon,
         },
         {
           name: "Smart Ticketing",
-          description:
-            "Digital fare payments via cards or mobile apps, streamlining boarding and improving efficiency.",
+          description: "Digital fare payments via cards or mobile apps, streamlining boarding.",
+          icon: SmartTicketingForFutureIcon,
         },
       ],
     },
     {
       title: "CCTV Surveillance in Buses",
+      image: CctvSurveillanceInBusesPic,
+      mainimage: CctvSurveillanceArchitectureDiagramPic,
       subPoints: [
         {
           title: "AI-Based CCTV Cameras",
-          description:
-            "Strategically installed cameras cover entry points, seating areas, and the driver cabin.",
+          description: "Strategically installed cameras cover entry points, seating areas, and the driver cabin.",
         },
         {
           title: "24/7 Recording",
-          description:
-            "Continuous recording ensures incidents are captured and reviewed when needed.",
+          description: "Continuous recording ensures incidents are captured and reviewed when needed.",
         },
         {
           title: "Crime Deterrence",
-          description:
-            "Visible surveillance acts as a strong deterrent against criminal activities.",
-        },
-        {
-          title: "Passenger Safety",
-          description:
-            "CCTV systems improve passenger confidence and perceived safety.",
-        },
-        {
-          title: "Incident Resolution",
-          description:
-            "Recorded footage enables quick investigation and resolution of incidents.",
-        },
-        {
-          title: "Cloud or Onboard Storage",
-          description:
-            "Flexible storage options allow secure access to recorded footage.",
+          description: "Visible surveillance acts as a strong deterrent against criminal activities.",
         },
       ],
     },
-    {
-      title: "Driver Monitoring with CCTV Technology",
-      subPoints: [
-        {
-          title: "Driver Cabin Monitoring",
-          description:
-            "Cameras monitor driver behavior to ensure compliance with safety standards.",
-        },
-        {
-          title: "Real-Time Oversight",
-          description:
-            "Control centers monitor live feeds for immediate intervention if required.",
-        },
-        {
-          title: "Behavior Analytics",
-          description:
-            "Detects drowsiness, distraction, and mobile phone usage.",
-        },
-        {
-          title: "Aggressive Driving Detection",
-          description:
-            "Identifies speeding, harsh braking, and unsafe maneuvers.",
-        },
-        {
-          title: "Automated Alerts",
-          description:
-            "Instant notifications enable quick corrective action.",
-        },
-        {
-          title: "Driver Training Support",
-          description:
-            "Analytics support training programs and performance improvement.",
-        },
-      ],
-    },
+    // {
+    //   title: "Driver Monitoring with CCTV Technology",
+    //   image: DriverBehaviorPic,
+    //   subPoints: [
+    //     {
+    //       title: "Behavior Analytics",
+    //       description: "Detects drowsiness, distraction, and mobile phone usage.",
+    //     },
+    //     {
+    //       title: "Aggressive Driving Detection",
+    //       description: "Identifies speeding, harsh braking, and unsafe maneuvers.",
+    //     },
+    //     {
+    //       title: "Automated Alerts",
+    //       description: "Instant notifications enable quick corrective action.",
+    //     },
+    //   ],
+    // },
     {
       title: "Alcohol Detection for Safer Bus Operations",
-      description:
-        "Drivers must complete a breath test before ignition. If alcohol exceeds permissible limits, the vehicle will not start. This system ensures only sober drivers operate buses and integrates seamlessly into smart bus platforms for real-time reporting.",
+      image: AlcoholDetectionForSaferBusOperationsPic,
+      description: "Drivers must complete a breath test before ignition. If alcohol exceeds limits, the vehicle will not start.",
+      icon: BreathAnalyzerSystemIcon,
       featureLists: [
         {
-          title: "Key Features",
-          items: [
-            "IR Sensor",
-            "Proximity Sensor",
-            "IR Illuminator",
-            "White Fill Light",
-            "RGB Sensor",
-          ],
+          title: "Key Hardware Features",
+          items: ["IR Sensor", "Proximity Sensor", "IR Illuminator", "White Fill Light", "RGB Sensor"],
         },
       ],
     },
     {
-      title: "Smart Features for Buses",
+      title: "Smart Passenger Features",
+      image: EnhancedPassengerAccessFeaturesPic,
       components: [
         {
           name: "Automatic Passenger Counting (APC)",
-          description:
-            "Accurately tracks passenger flow using advanced sensors.",
+          description: "Accurately tracks passenger flow using advanced sensors.",
+          icon: PeopleCountingAndOccupancyPic,
         },
         {
-          name: "Door Sensors",
-          description:
-            "Monitors boarding and deboarding activity in real time.",
+          name: "Wi-Fi Connectivity",
+          description: "Providing seamless high-speed internet for passengers.",
+          icon: WifiHotspotInBusesPic,
         },
         {
           name: "Panic Buttons",
-          description:
-            "Instant alerts for emergencies triggered by drivers or passengers.",
-        },
-        {
-          name: "Smart Ticketing Integration",
-          description:
-            "QR code and NFC-based ticket validation for seamless boarding.",
+          description: "Instant alerts for emergencies triggered by drivers or passengers.",
+          icon: EmergencyBroadcastFeatureIcon,
         },
       ],
     },
-    {
-      title: "Smart Bus Solution Benefits",
-      subPoints: [
-        {
-          title: "Enhanced Safety and Security",
-          description:
-            "Advanced surveillance and emergency response systems protect passengers and staff.",
-        },
-        {
-          title: "Improved Passenger Satisfaction",
-          description:
-            "Reliable schedules and modern amenities increase rider confidence.",
-        },
-        {
-          title: "Cost Optimization",
-          description:
-            "Automation reduces operational costs and improves resource utilization.",
-        },
-        {
-          title: "Operational Efficiency",
-          description:
-            "Real-time tracking and analytics minimize delays and inefficiencies.",
-        },
-        {
-          title: "Data-Driven Planning",
-          description:
-            "Analytics enable smarter route planning and service optimization.",
-        },
-      ],
-    },
+    // {
+    //   title: "Smart Bus Solution Benefits",
+    //   image: SmartBusSolutionBenefitsPic,
+    //   subPoints: [
+    //     {
+    //       title: "Enhanced Safety and Security",
+    //       description: "Advanced surveillance and emergency response systems protect passengers and staff.",
+    //     },
+    //     {
+    //       title: "Improved Passenger Satisfaction",
+    //       description: "Reliable schedules and modern amenities increase rider confidence.",
+    //     },
+    //     {
+    //       title: "Cost Optimization",
+    //       description: "Automation reduces operational costs and improves resource utilization.",
+    //     },
+    //   ],
+    // },
   ],
 };
-
 // AI VMS Data
 export const aiVmsData: Section = {
   title: "Revolutionizing Surveillance: AI-Powered Video Management System",
