@@ -47,7 +47,7 @@ export function SplineSceneBasic() {
       <div className="relative z-20 max-w-[1400px] mx-auto h-full px-5 sm:px-8 lg:px-12 pt-[85px] flex flex-col lg:flex-row items-center">
         <AIVMSHeroLeft />
 
-        <div className="w-full lg:w-1/2 h-[320px] sm:h-[380px] md:h-[460px] lg:h-[620px] sm:mt-20 mt-10 lg:mt-20 relative">
+        <div className="w-full lg:w-1/2 h-[320px] sm:h-[380px] md:h-[460px] lg:h-[620px] sm:mt-20 mt-10 lg:mt-20 relative ">
           <SplineScene
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
             className="w-full h-full"

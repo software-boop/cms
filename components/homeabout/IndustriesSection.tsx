@@ -1,226 +1,188 @@
 "use client";
 
 import React from "react";
-import { motion, cubicBezier, type Variants } from "framer-motion";
-import { useRouter } from "next/navigation";
-import {
-  Landmark,
-  Globe,
-  Shield,
-  Factory,
-  Zap,
-  Banknote,
-  ArrowRight,
-  MapPin,
-} from "lucide-react";
+import { motion, Transition } from "framer-motion";
+import Image, { StaticImageData } from "next/image";
 
-/* ================= BRAND ================= */
+/* ---------------- BRAND ---------------- */
 const BRAND = "#07518a";
 
-/* ================= TYPES ================= */
+/* ---------------- HELPERS ---------------- */
+const EASING: Transition["ease"] = [0.22, 1, 0.36, 1];
+
+const MOTION_TIMING: Transition = {
+  duration: 1,
+  ease: EASING,
+};
+
+const randomDelay = (index: number, min = 0.1, max = 0.3) =>
+  (index * 0.15) % (max - min) + min;
+
+const softMonoGradient = (color: string, opacity: number) =>
+  `linear-gradient(135deg, ${color}${Math.floor(opacity * 255).toString(
+    16
+  )} 0%, transparent 100%)`;
+
+/* ---------------- IMAGE IMPORTS ---------------- */
+import img4 from "./weserver/4.jpg";
+import img7192 from "./weserver/7192.jpg";
+import img11709 from "./weserver/11709.jpg";
+import img20979 from "./weserver/20979.jpg";
+import img317011 from "./weserver/317011.jpg";
+import img9561348 from "./weserver/9561348.jpg";
+
+/* ---------------- TYPES ---------------- */
 type Industry = {
   slug: string;
   title: string;
   description: string;
-  icon: React.ElementType;
-  domains: string[];
+  image: StaticImageData;
 };
 
-/* ================= INDUSTRIES DATA ================= */
+/* ---------------- DATA ---------------- */
 const INDUSTRIES: Industry[] = [
   {
     slug: "manufacturing",
     title: "Manufacturing",
-    icon: Factory,
+    image: img4,
     description:
-      "Industry 4.0 driven manufacturing ecosystems leveraging AI, automation, analytics, and cloud technologies to improve productivity, quality, and sustainability.",
-    domains: ["Process Safety", "Asset Protection", "Automation"],
+      "Modern manufacturing depends on automation, precision, and constant monitoring. Our AI-driven systems improve productivity by identifying inefficiencies and predicting failures early, reducing downtime and enhancing product quality.",
   },
   {
     slug: "smart-city",
     title: "Smart City",
-    icon: Globe,
+ image: img20979,
     description:
-      "Integrated urban intelligence platforms combining IoT, AI video analytics, and command centers to enhance public safety and city-wide governance.",
-    domains: ["Traffic Analytics", "Crowd Monitoring", "Command Control"],
+      "Smart cities rely on integrated systems that monitor traffic, safety, and environmental conditions. Our AI platform improves mobility, supports emergency response, and boosts urban efficiency.",
   },
   {
     slug: "defence",
-    title: "Defence",
-    icon: Shield,
+    title: "Defence & Security",
+   
+      image: img7192,
     description:
-      "Advanced AR/VR, simulation, and AI-powered situational awareness solutions for training, surveillance, and mission-critical operations.",
-    domains: ["Simulation", "Surveillance", "Mission Readiness"],
+      "Defense operations require real-time situational awareness. Our AI analyzes surveillance feeds, detects threats instantly, and enhances mission readiness in high-security environments.",
   },
   {
     slug: "banking",
     title: "Banking & BFSI",
-    icon: Banknote,
+   
+     image: img317011,
     description:
-      "Secure, compliant, and scalable surveillance and analytics systems for branches, ATMs, vaults, and fraud prevention.",
-    domains: ["ATM Security", "Compliance", "Fraud Detection"],
+      "Banking environments require strict security and compliance. Our AI protects ATMs, branches, and digital transactions, reducing fraud and improving operational efficiency.",
   },
   {
     slug: "healthcare",
     title: "Healthcare",
-    icon: Zap,
+    
+      image: img11709,
     description:
-      "AI-powered monitoring, patient safety, and operational intelligence solutions for hospitals and public health infrastructure.",
-    domains: ["Patient Safety", "Public Health", "Automation"],
+      "Healthcare systems rely on timely insights. Our AI monitors patient conditions, detects anomalies early, and automates infection control for improved treatment outcomes.",
   },
   {
     slug: "government",
-    title: "Government & Public Sector",
-    icon: Landmark,
+    title: "Government",
+    image: img9561348,
     description:
-      "Nationwide, mission-critical deployments supporting governance, elections, judiciary, and public safety initiatives.",
-    domains: ["Public Safety", "Elections", "Judiciary"],
+      "Government operations require scalable, secure intelligence. Our AI enhances public safety, speeds crisis response, and supports nationwide digital governance.",
   },
 ];
 
-/* ================= MOTION ================= */
-const containerMotion: Variants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: cubicBezier(0.16, 1, 0.3, 1),
-    },
-  },
-};
-
-/* ================= UTIL ================= */
-const hexToRgba = (hex: string, alpha: number): string => {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
-
-const softMonoGradient = (color: string, alpha: number): string =>
-  `linear-gradient(135deg, ${hexToRgba(color, alpha)}, transparent)`;
-
-/* ================= COMPONENT ================= */
+/* ---------------- COMPONENT ---------------- */
 export default function IndustriesWeServeSection() {
-  const router = useRouter();
-
   return (
-    <section className="bg-white py-24 sm:py-28 lg:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* ================= HEADER ================= */}
-        <motion.div
-          variants={containerMotion}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.6 }}
-          className="mx-auto mb-20 sm:mb-24 max-w-4xl text-center flex flex-col items-center"
-        >
-          <motion.span
-            variants={fadeUp}
-            className="mb-4 text-sm font-medium uppercase tracking-wide"
-            style={{ color: BRAND }}
-          >
-            Our Expertise
-          </motion.span>
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto px-6">
 
-          <motion.h2
-            variants={fadeUp}
-            className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900"
-          >
-            Industries We Serve
-          </motion.h2>
+        {/* HEADER */}
+        <h2 className="text-center text-5xl font-bold mb-4 text-gray-900">
+          Industries We <span className="text-[#07518a]">Serve</span>
+        </h2>
+        <p className="text-center text-gray-600 text-lg max-w-2xl mx-auto mb-20">
+          Premium AI-powered solutions designed to transform every major sector.
+        </p>
 
-          <motion.p
-            variants={fadeUp}
-            className="mt-6 text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl"
-          >
-            Delivering AI-driven, scalable, and mission-critical technology
-            solutions across diverse industries and complex operating
-            environments.
-          </motion.p>
-        </motion.div>
-
-        {/* ================= GRID ================= */}
-        <motion.div
-          variants={containerMotion}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16"
-        >
-          {INDUSTRIES.map((industry) => {
-            const Icon = industry.icon;
+        {/* GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {INDUSTRIES.map((item, index) => {
+            const isOdd = index % 2 !== 0;
 
             return (
-              <motion.div key={industry.slug} variants={fadeUp}>
-                <div
-                  onClick={() => router.push(`/industries/${industry.slug}`)}
-                  className="relative group cursor-pointer"
-                >
+              <motion.div
+                key={item.slug}
+                initial={{ opacity: 0, x: isOdd ? 80 : -80, y: 80 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{
+                  ...MOTION_TIMING,
+                  delay: randomDelay(index, 0.15, 0.25),
+                }}
+                viewport={{ once: false, amount: 0.3 }}
+              >
+                {/* CARD */}
+                <div className="relative group">
+
+                  {/* BACKGROUND LAYER 1 */}
                   <div
-                    className="absolute inset-0 rounded-[2.25rem] rotate-6 group-hover:rotate-3 transition-transform duration-500"
-                    style={{ background: softMonoGradient(BRAND, 0.14) }}
+                    className="absolute inset-0 rounded-[3rem] rotate-6
+                    group-hover:rotate-3 transition-transform duration-500"
+                    style={{ background: softMonoGradient(BRAND, 0.16) }}
                   />
+
+                  {/* BACKGROUND LAYER 2 */}
                   <div
-                    className="absolute inset-0 rounded-[2.25rem] -rotate-6 group-hover:-rotate-3 transition-transform duration-500"
-                    style={{ background: softMonoGradient(BRAND, 0.06) }}
+                    className="absolute inset-0 rounded-[3rem] -rotate-6
+                    group-hover:-rotate-3 transition-transform duration-500"
+                    style={{ background: softMonoGradient(BRAND, 0.1) }}
                   />
 
-                  <div className="relative rounded-[2.25rem] bg-white border border-slate-200 p-8 sm:p-10 shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-3 group-hover:shadow-[0_30px_70px_rgba(7,81,138,0.22)] overflow-hidden">
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                      style={{ backgroundColor: BRAND }}
-                    />
+                  {/* MAIN CARD */}
+                  <div className="relative rounded-[3rem] overflow-hidden bg-white shadow-2xl backdrop-blur-sm 
+                      transition-all duration-500 group-hover:shadow-3xl group-hover:-translate-y-4">
 
-                    <div className="relative z-10">
-                      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[rgba(7,81,138,0.12)] group-hover:bg-white/20 transition-colors">
-                        <Icon className="h-6 w-6 text-[#07518a] group-hover:text-white transition-colors" />
-                      </div>
+                    {/* IMAGE */}
+                    <div className="aspect-[4/3] w-full overflow-hidden rounded-t-[3rem] relative">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-700 
+                        group-hover:scale-110"
+                      />
 
-                      <h3 className="text-xl font-semibold text-slate-900 group-hover:text-white transition-colors">
-                        {industry.title}
-                      </h3>
-
-                      <p className="mt-4 text-sm leading-relaxed text-slate-600 group-hover:text-white/90 transition-colors">
-                        {industry.description}
-                      </p>
-
-                      <div className="mt-5 flex flex-wrap gap-2">
-                        {industry.domains.map((d) => (
-                          <span
-                            key={d}
-                            className="rounded-full px-3 py-1 text-xs bg-slate-100 text-slate-700 group-hover:bg-white/15 group-hover:text-white transition-colors"
-                          >
-                            {d}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="mt-6 flex items-center gap-2 text-xs text-slate-600 group-hover:text-white/80 transition-colors">
-                        <MapPin className="h-4 w-4" />
-                        Pan-India & enterprise-scale deployments
-                      </div>
-
-                      <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-800 group-hover:text-white transition-colors">
-                        Explore solutions
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      {/* HOVER OVERLAY */}
+                      <div
+                        className="
+                          absolute inset-0 
+                          bg-black/70 
+                          opacity-0 
+                          group-hover:opacity-100 
+                          transition-opacity 
+                          duration-500 
+                          flex 
+                          items-center 
+                          justify-center 
+                          p-6
+                        "
+                      >
+                        <p className="text-white text-sm leading-relaxed text-center">
+                          {item.description}
+                        </p>
                       </div>
                     </div>
+
+                    {/* TITLE */}
+                    <div className="p-8">
+                      <h3 className="text-2xl font-bold text-[#07518a] text-center">
+                        {item.title}
+                      </h3>
+                    </div>
+
                   </div>
                 </div>
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
+
       </div>
     </section>
   );

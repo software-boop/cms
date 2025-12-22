@@ -85,14 +85,14 @@ const FlipCard: React.FC<FlipCardProps> = ({ person }) => {
           }}
         >
           <div className="space-y-2">
-            <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide">
+            {/* <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide">
               Leadership Profile
-            </span>
+            </span> */}
 
-            <h3 className="text-lg font-bold">{person.name}</h3>
+            {/* <h3 className="text-lg font-bold">{person.name}</h3>
             <p className="text-xs uppercase tracking-wide text-slate-400">
               {person.designation}
-            </p>
+            </p> */}
           </div>
 
           <p className="mt-3 text-sm leading-relaxed text-slate-200 line-clamp-6">

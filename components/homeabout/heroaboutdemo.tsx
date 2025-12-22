@@ -121,7 +121,7 @@ export default function AboutEnterpriseSplit() {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 items-start">
+        <div className="grid grid-cols-1  lg:grid-cols-12 items-start">
           {/* ================= LEFT ABOUT CONTENT ================= */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}

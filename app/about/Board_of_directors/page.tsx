@@ -132,7 +132,7 @@ function ZigZagRow({ person, index }: { person: Person; index: number }) {
       initial="hidden"
       whileInView="show"
       viewport={{ amount: 0.35, once: false }}
-      className="grid items-center gap-8 py-10 md:grid-cols-2"
+      className="grid items-center gap-8 py-10 md:grid-cols-2 "
       style={{ scrollMarginTop: 80 }}
     >
       {/* Image */}
@@ -183,7 +183,7 @@ function ZigZagRow({ person, index }: { person: Person; index: number }) {
           },
         }}
       >
-        <div className="mx-auto max-w-[640px] overflow-hidden rounded-2xl border border-neutral-200/60 bg-white/80 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur">
+        <div className="mx-auto max-w-[640px] overflow-hidden rounded-2xl border border-neutral-200/60 bg-white/80 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur lg:mt-36">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h3
               className="text-2xl font-bold leading-tight"
@@ -234,7 +234,7 @@ export default function Page() {
 
   return (
     <MotionConfig transition={{ duration: 0.9, ease }} reducedMotion={reduce ? "always" : "never"}>
-      <main className="relative">
+      <main className="relative mt-24">
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{

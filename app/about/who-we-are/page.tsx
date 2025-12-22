@@ -1,8 +1,14 @@
 import React from 'react'
+import BannerSection from '../components/BannerSection'
+import Who from '../components/who'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+<BannerSection/>
+<Who/>
+    
+    </div>
   )
 }
 

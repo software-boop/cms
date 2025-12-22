@@ -1,37 +1,66 @@
 import { ContainerScroll, CardSticky } from "@/components/homeabout/Card-stack"
 import { motion } from "framer-motion";
-const PROCESS_PHASES = [
+import Image from "next/image";
+import {
+  Cpu,
+  Lightbulb,
+  Factory,
+  ShieldCheck,
+  RefreshCcw,
+  LucideIcon,
+  Icon,
+} from "lucide-react";
+const BRAND = "#07518a";
+import Secure from "../../app/images/sollutionimages/only B logo white (2).png"
+import { ImageBitmapLoader } from "three/src/Three.Core.js";
+const rightimage_ai="/cyborg-robot-hand-uniform-background-3d-rendering.png"
+
+type Phase = {
+  id: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+};
+
+
+/* ================= BRIHASPATI / BTL PHASES ================= */
+const BTL_PHASES = [
   {
-    id: "process-1",
-    title: "Research and Analysis",
+    id: "btl-1",
+    title: "Future-Ready Engineering",
+    icon: Cpu,
     description:
-      "With your vision in mind, we enter the Research and Analysis phase. Here, we examine your competitors, industry trends, and user preferences. This informed approach ensures your website stands out and provides an excellent user experience.",
+      "We design surveillance and digital infrastructure systems with a long-term vision. Our architectures are scalable, modular, and resilient—ensuring seamless evolution as technologies, regulations, and operational needs change.",
   },
   {
-    id: "process-2",
-    title: "Wireframing and Prototyping",
+    id: "btl-2",
+    title: "Innovation-Driven R&D",
+    icon: Lightbulb,
     description:
-      "We move on to Wireframing and Prototyping, where we create skeletal representations of your website's pages. These visual indigoprints allow us to test and refine the user experience before diving into design.",
+      "Our in-house research teams continuously develop next-generation solutions, including AI-powered video analytics, COVID-19 safety devices, and solar-powered smart poles—driving meaningful, real-world impact.",
   },
   {
-    id: "process-3",
-    title: "Design Creation",
+    id: "btl-3",
+    title: "Make-in-India Manufacturing",
+    icon: Factory,
     description:
-      "Now, it's time for the Design Creation phase. Our talented designers bring your vision to life. We focus on aesthetics, ensuring your website not only looks stunning but also aligns perfectly with your brand identity.",
+      "As a fully integrated enterprise, we design and manufacture key components in-house. This enables quality control, faster deployment, cost efficiency, and direct contribution to India’s technological self-reliance.",
   },
   {
-    id: "process-4",
-    title: "Development and Testing",
+    id: "btl-4",
+    title: "Mission-Critical Reliability",
+    icon: ShieldCheck,
     description:
-      "In the Development and Testing phase, our skilled developers turn designs into a fully functional website. Rigorous testing ensures everything works seamlessly, providing an exceptional user experience.",
+      "With over 2 million cameras deployed nationwide, our platforms operate in 24×7, high-availability environments, meeting stringent reliability and compliance standards.",
   },
   {
-    id: "process-5",
-    title: "Launch and Support",
+    id: "btl-5",
+    title: "Lifecycle Partnership",
+    icon: RefreshCcw,
     description:
-      "Our commitment continues beyond launch. We offer post-launch support to address questions, provide assistance, and ensure your website remains updated and optimized. The Website Design Process isn't just about creating a website; it's about crafting a digital experience that resonates, engages, and converts.",
+      "Our engagement extends beyond deployment. We provide long-term support, upgrades, and continuous optimization—ensuring systems remain secure, relevant, and performant throughout their lifecycle.",
   },
-]
+];
 
 const WORK_PROJECTS = [
   {
@@ -100,43 +129,79 @@ const Process = () => {
   return (
     <div className="container min-h-svh place-content-center bg-stone-50 px-6 text-stone-900 xl:px-12">
       <div className="grid md:grid-cols-2 md:gap-8 xl:gap-12">
-        <div className="left-0 top-0 md:sticky md:h-svh md:py-12">
-          <h5 className=" text-xs uppercase tracking-wide">our process</h5>
-          <h2 className="mb-6 mt-4 text-4xl font-bold tracking-tight">
-            Planning your{" "}
-            <span className="text-indigo-500">project development</span> journey
-          </h2>
-          <p className="max-w-prose text-sm">
-            Our journey begins with a deep dive into your vision. In the
-            Discovery phase, we engage in meaningful conversations to grasp your
-            brand identity, goals, and the essence you want to convey. This
-            phase sets the stage for all that follows.
-          </p>
-        </div>
-        <ContainerScroll className="min-h-[400vh] space-y-8 py-12">
-          {PROCESS_PHASES.map((phase, index) => (
-            <CardSticky
-              key={phase.id}
-              index={index + 2}
-              className="rounded-2xl border p-8 shadow-md backdrop-blur-md"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="my-6 text-2xl font-bold tracking-tighter">
-                  {phase.title}
-                </h2>
-                <h3 className="text-2xl font-bold text-indigo-500">
-                  {String(index + 1).padStart(2, "0")}
-                </h3>
-              </div>
 
-              <p className="text-foreground">{phase.description}</p>
-            </CardSticky>
-          ))}
+        {/* LEFT */}
+        <div className="left-0 top-0 md:sticky md:h-svh md:py-12">
+          <h5 className="text-xs uppercase tracking-wide">our process</h5>
+
+          <h2 className="mb-6 mt-4 text-4xl font-bold tracking-tight">
+            The <span className="text-[#07518a]">Brihaspathi Edge</span>
+          </h2>
+
+          <p className="max-w-prose text-xl text-slate-600">
+            Brihaspathi Technologies delivers future-proof engineering at national
+            scale. We design and deploy scalable security and surveillance
+            ecosystems that adapt to rapid technological shifts, ensuring
+            long-term operational reliability and sustained ROI. Driven by an
+            innovation-first culture, our in-house R&D teams pioneer solutions
+            such as AI-enabled video intelligence, COVID-19 safety devices, and
+            solar-powered smart poles. With over{" "}
+            <strong>2 million cameras deployed nationwide</strong>, we manage
+            some of the largest mission-critical security infrastructures in the
+            world, delivering tailored solutions across Defense, Banking,
+            Healthcare, Education, and Smart Cities.
+          </p>
+
+          <div className="mt-6 flex gap-6">
+            <Image src={rightimage_ai} alt="AI Infra" width={500} height={150} />
+            {/* <img src={Secure.src} alt="BTL Logo" width={80} height={80} className="" /> */}
+          </div>
+        </div>
+
+        {/* RIGHT */}
+        <ContainerScroll className="min-h-[400vh] space-y-8 py-12">
+          {BTL_PHASES.map((phase, index) => {
+            const Icon = phase.icon;
+
+            return (
+              <CardSticky
+                key={phase.id}
+                index={index + 2}
+                className="rounded-2xl border p-8 shadow-md backdrop-blur-md"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-xl"
+                      style={{
+                        backgroundColor: `${BRAND}10`,
+                        color: BRAND,
+                      }}
+                    >
+                      <Icon size={24} />
+                    </div>
+
+                    <h2 className="text-2xl font-bold tracking-tighter">
+                      {phase.title}
+                    </h2>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-indigo-500">
+                    {String(index + 1).padStart(2, "0")}
+                  </h3>
+                </div>
+
+                <p className="mt-4 text-foreground">
+                  {phase.description}
+                </p>
+              </CardSticky>
+            );
+          })}
         </ContainerScroll>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Work = () => {
   return (

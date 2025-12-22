@@ -15,6 +15,8 @@ import { FeatureStepsDemo } from "@/components/Demo";
 import { ShuffleHero } from "@/components/ShuffleHero";
 import IntroAnimation from "@/components/IntroAnimation";
 import { SplineSceneBasic } from "@/components/Aidemo";
+import DemoOnep from "@/components/homeabout/Demo";
+
 
 import { ScrollingFeatureShowcase } from "@/components/Intractive";
 import { HeroParallax } from "@/components/hero-parallal";
@@ -26,12 +28,16 @@ import IndiaBranchesMap from "@/components/homeabout/Indiabranch";
 import { TestimonialCarousel } from "@/components/homeabout/bard";
 import Indiawide from "@/components/homeabout/Indiawide";
 import { Achievements, Process, Work } from "@/components/homeabout/Achiementsdemo";
+import { Ourcapabilities } from "@/components/homeabout/our-capabilities";
+import Clientvideo from "@/components/homeabout/Clientvideo";
+import BTPL from "@/components/homeabout/Soline";
 
 // import DemoOne from "@/components/gallareydemo";
 
 export default function Home() {
   return (
-    <main className=" bg-white ">
+    <div className=" bg-white 
+    ">
       {/* <HeroSection/> */}
       {/* HERO SECTION */}
   
@@ -44,7 +50,12 @@ export default function Home() {
 
         <ScrollingFeatureShowcase/>|
            
+<Ourcapabilities/>
+{/* <SolutionsSection/> */}
+
         <Whybrihaspathi />
+<DemoOnep/>
+        <Achievements/>
       
            <HoverSliderDemo />
         <IndustriesSection/>
@@ -53,9 +64,9 @@ export default function Home() {
  
        
    {/* HOVER SLIDER */}
-      <section className="w-full py-10 md:py-16 ">
+      {/* <section className="w-full py-10 md:py-16 ">
       
-      </section>
+      </section> */}
       {/* SOLUTIONS SECTION */}
       {/* <section className="w-full bg-black">
         <SolutionsSection />
@@ -73,12 +84,13 @@ export default function Home() {
  <div className="min-h-screen flex items-center justify-center">
       <TestimonialCarousel />
     </div>
+    <Clientvideo/>
       {/* TESTIMONIALS */}
       <section className="w-full py-10 md:py-16">
         <Testimonials />
       </section>
 
-<Achievements/>
+{/* <BTPL/> */}
 
 
       {/* FEATURE STEPS */}
@@ -111,6 +123,6 @@ export default function Home() {
         <CertificationsGrid5 />
       </section>
 
-    </main>
+    </div>
   );
 }
