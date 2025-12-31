@@ -364,37 +364,52 @@ const Achievements = () => {
       </motion.div>
 
       {/* ================= RIGHT CONTENT ================= */}
-      <div className="w-full lg:w-1/2">
-        <ContainerScroll className="min-h-[300vh] lg:min-h-[400vh] space-y-8 p-4 text-center text-zinc-50">
-          {ACHIEVEMENTS.map((achievement, index) => (
-            <CardSticky
-              key={achievement.id}
-              incrementY={20}
-              index={index + 2}
-              className="
-                mx-auto 
-                flex h-72 w-[340px] sm:w-[380px] lg:w-[420px]
-                flex-col justify-evenly 
-                rounded-2xl border border-current p-8 shadow-md
-              "
-              style={{
-                rotate: index + 2,
-                background: achievement.bg,
-              }}
-            >
-              <h1 className="text-left text-6xl font-semibold opacity-80">
-                {achievement.title}
-              </h1>
+    <div className="w-full lg:w-1/2">
+  <ContainerScroll className="min-h-[220vh] sm:min-h-[260vh] lg:min-h-[400vh] space-y-5 sm:space-y-7 lg:space-y-8 p-3 sm:p-4 text-center text-zinc-50">
+    {ACHIEVEMENTS.map((achievement, index) => (
+      <CardSticky
+        key={achievement.id}
+        incrementY={14} // smaller push on mobile (was 20)
+        index={index + 2}
+        className="
+          mx-auto 
+          flex
+          h-52 w-[260px]
+          sm:h-60 sm:w-[320px]
+          md:h-64 md:w-[360px]
+          lg:h-72 lg:w-[420px]
+          flex-col justify-evenly
+          rounded-2xl border border-current
+          p-5 sm:p-6 lg:p-8
+          shadow-md
+        "
+        style={{
+          rotate: index >= 2 ? 0 : index + 1, // reduce rotation on mobile for better layout
+          background: achievement.bg,
+        }}
+      >
+        <h1 className="text-left text-4xl sm:text-5xl lg:text-6xl font-semibold opacity-85">
+          {achievement.title}
+        </h1>
 
-              <div className="text-right">
-                <h3 className="max-w-[10ch] text-wrap text-4xl font-semibold capitalize tracking-tight">
-                  {achievement.description}
-                </h3>
-              </div>
-            </CardSticky>
-          ))}
-        </ContainerScroll>
-      </div>
+        <div className="text-right">
+          <h3
+            className="
+              max-w-[14ch] 
+              text-wrap
+              text-xl sm:text-2xl lg:text-4xl
+              font-semibold capitalize tracking-tight
+              leading-snug
+            "
+          >
+            {achievement.description}
+          </h3>
+        </div>
+      </CardSticky>
+    ))}
+  </ContainerScroll>
+</div>
+
     </section>
   );
 };

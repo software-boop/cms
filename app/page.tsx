@@ -20,7 +20,7 @@ import DemoOnep from "@/components/homeabout/Demo";
 
 import { ScrollingFeatureShowcase } from "@/components/Intractive";
 import { HeroParallax } from "@/components/hero-parallal";
-import { HeroParallaxDemo } from "@/components/About-parallel";
+
 import DemoOne from "@/components/homeabout/heroaboutdemo";
 import IndustriesSection from "@/components/homeabout/IndustriesSection";
 import ProjectCard from "./projects/components/ProjectCard";
@@ -31,6 +31,7 @@ import { Achievements, Process, Work } from "@/components/homeabout/Achiementsde
 import { Ourcapabilities } from "@/components/homeabout/our-capabilities";
 import Clientvideo from "@/components/homeabout/Clientvideo";
 import BTPL from "@/components/homeabout/Soline";
+import HeroReveal from "@/components/ui/HeroReveal";
 
 // import DemoOne from "@/components/gallareydemo";
 
@@ -42,7 +43,10 @@ export default function Home() {
       {/* HERO SECTION */}
   
         <SplineSceneBasic />
-          <DemoOne/>
+        <div className="">
+
+            <DemoOne/>
+        </div>
    {/* <div className="">     <HeroParallaxDemo/></div> */}
 
  
@@ -53,14 +57,14 @@ export default function Home() {
 <Ourcapabilities/>
 {/* <SolutionsSection/> */}
 
-        <Whybrihaspathi />
+         <Whybrihaspathi />
 <DemoOnep/>
         <Achievements/>
       
            <HoverSliderDemo />
-        <IndustriesSection/>
+        <IndustriesSection/> 
 
-
+ {/* <FeatureStepsDemo /> */}
  
        
    {/* HOVER SLIDER */}
@@ -81,47 +85,33 @@ export default function Home() {
 
 <Indiawide/>
 {/* <IndiaBranchesMap/> */}
- <div className="min-h-screen flex items-center justify-center">
-      <TestimonialCarousel />
-    </div>
+
     <Clientvideo/>
       {/* TESTIMONIALS */}
       <section className="w-full py-10 md:py-16">
-        <Testimonials />
+        {/* <Testimonials /> */}
       </section>
 
 {/* <BTPL/> */}
-
+ 
 
       {/* FEATURE STEPS */}
       {/* <section className="w-full py-10 md:py-16">
-        <FeatureStepsDemo />
-      </section> */}
-
+       
+     
+     {/* <ShuffleHero /> */}
 
       {/* SHUFFLE HERO */}
-      <section className="w-full px-4 md:px-10 py-10 md:py-16 flex justify-center">
-        <ShuffleHero />
-      </section>
+      {/* <section className="w-full px-4 md:px-10 py-10 md:py-16 flex justify-center">
+   
+      </section> */}
 
       {/* WHY BRIHASPATHI */}
     
-
-      {/* WE SERVE */}
-      <section className="w-full py-10 md:py-16">
-        <Weserve />
-      </section>
-
-{/* <DemoOne/> */}
-      {/* CLIENTS MARQUEE */}
-      <section className="w-full py-10 md:py-16">
-        <ClientsMarqueeHero />
-      </section>
-
-      {/* CERTIFICATIONS */}
-      <section className="w-full py-10 md:py-16">
-        <CertificationsGrid5 />
-      </section>
+ <Weserve />
+ <ClientsMarqueeHero />
+ <CertificationsGrid5 />
+ 
 
     </div>
   );

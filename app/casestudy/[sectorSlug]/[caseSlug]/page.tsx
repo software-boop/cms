@@ -1,72 +1,263 @@
+"use client";
+
+import { use, useRef } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  Variants,
+} from "framer-motion";
+import {
+  ChevronLeft,
+  AlertTriangle,
+  CheckCircle,
+} from "lucide-react";
+
 import { getCaseStudy } from "../../data";
 
-export default async function CaseStudyPage({
+import challengeImg from "../../casestudyimages/c1-01.png";
+import solutionImg from "../../casestudyimages/c2-01.png";
+
+/* ================= BACKGROUND ================= */
+
+const bgcase = "/futuristic-hexagon-mobile-phone-wallpaper-story.png";
+
+/* ================= VARIANTS ================= */
+
+const container: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const itemVariant: Variants = {
+  hidden: { opacity: 0, x: -20, y: 10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+};
+
+/* ================= PAGE ================= */
+
+export default function CaseStudyPage({
   params,
 }: {
   params: Promise<{ sectorSlug: string; caseSlug: string }>;
 }) {
-  // ✅ unwrap params
-  const { sectorSlug, caseSlug } = await params;
+  const { sectorSlug, caseSlug } = use(params);
 
   const study = getCaseStudy(sectorSlug, caseSlug);
+  if (!study) notFound();
 
-  if (!study) {
-    notFound();
-  }
+  /* ================= SCROLL REFS ================= */
+
+  const challengeRef = useRef<HTMLDivElement>(null);
+  const solutionRef = useRef<HTMLDivElement>(null);
+
+  /* ================= SCROLL PROGRESS ================= */
+
+  const { scrollYProgress: challengeScroll } = useScroll({
+    target: challengeRef,
+    offset: ["start end", "end center"],
+  });
+
+  const { scrollYProgress: solutionScroll } = useScroll({
+    target: solutionRef,
+    offset: ["start end", "end center"],
+  });
+
+  /* ================= TRANSFORMS ================= */
+
+  const challengeX = useTransform(challengeScroll, [0, 1], ["0%", "-40%"]);
+  const challengeY = useTransform(challengeScroll, [0, 1], ["24px", "0px"]);
+
+  const solutionX = useTransform(solutionScroll, [0, 1], ["0%", "40%"]);
+  const solutionY = useTransform(solutionScroll, [0, 1], ["24px", "0px"]);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-14">
-      <div className="max-w-4xl mx-auto">
-        <Link
-          href={`/casestudy/${sectorSlug}`}
-          className="text-blue-600 mb-6 inline-block"
-        >
-          ← Back to sector
-        </Link>
+    <div
+      className="min-h-screen overflow-y-scroll no-scrollbar bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${bgcase})` }}
+    >
+      {/* ================= HERO ================= */}
+      <motion.section
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center"
+      >
+        <motion.div variants={fadeUp}>
+          <Link
+            href="/casestudy"
+            className="inline-flex items-center gap-2 text-[#07518a] font-medium mb-8"
+          >
+            <ChevronLeft size={18} />
+            Go back
+          </Link>
 
-        <div className="bg-white rounded-xl p-8 shadow">
-          <h1 className="text-3xl font-bold mb-2">{study.name}</h1>
-          <p className="text-gray-500 mb-6">
-            {study.company} • {study.role}
-          </p>
+          <motion.h1
+            variants={fadeUp}
+            className="text-4xl md:text-5xl font-bold text-gray-900"
+          >
+            {study.name}
+          </motion.h1>
 
-          <Section title="Challenges" items={study.challenges} />
-          <Section title="Solutions" items={study.solutions} />
-          <Section title="Results" items={study.results} />
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 text-gray-600 text-lg"
+          >
+            {study.company} • {study.role} • {study.city}
+          </motion.p>
 
-          {study.pdf && (
-            <a
-              href={study.pdf}
-              target="_blank"
-              className="inline-block mt-6 bg-gray-900 text-white px-6 py-3 rounded"
-            >
-              Download PDF
-            </a>
-          )}
+          <motion.blockquote
+            variants={fadeUp}
+            className="mt-8 border-l-4 border-[#07518a] pl-6 text-xl italic text-gray-700"
+          >
+            “{study.quote}”
+          </motion.blockquote>
+        </motion.div>
+
+        <div className="relative w-full h-[420px]">
+          <Image
+            src={study.avatar}
+            alt={study.name}
+            fill
+            priority
+            className="object-contain"
+          />
         </div>
-      </div>
-    </div>
-  );
-}
+      </motion.section>
 
-function Section({
-  title,
-  items,
-}: {
-  title: string;
-  items: string[];
-}) {
-  if (!items?.length) return null;
-  return (
-    <section className="mb-6">
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <ul className="list-disc list-inside space-y-2 text-gray-700">
-        {items.map((i, idx) => (
-          <li key={idx}>{i}</li>
-        ))}
-      </ul>
-    </section>
+      {/* ================= CHALLENGES ================= */}
+      <section ref={challengeRef} className="py-28 overflow-hidden">
+        <motion.div
+          style={{ x: challengeX, y: challengeY }}
+          className="relative mx-auto max-w-[720px]"
+        >
+          <div className="relative h-[240px] sm:h-[320px] md:h-[380px]">
+            <Image
+              src={challengeImg}
+              alt="Challenges"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-5xl mx-auto px-6 mt-16"
+        >
+          <h3 className="text-3xl font-bold text-[#07518a] mb-8">
+            Challenges
+          </h3>
+
+          <ul className="space-y-6">
+            {study.challenges.map((item, idx) => (
+              <motion.li
+                key={idx}
+                variants={itemVariant}
+                className="flex gap-4 items-start text-gray-700"
+              >
+                <AlertTriangle
+                  className="text-[#07518a] mt-1"
+                  size={20}
+                />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      </section>
+
+      {/* ================= SOLUTIONS ================= */}
+      <section ref={solutionRef} className="py-28 overflow-hidden">
+        <motion.div
+          style={{ x: solutionX, y: solutionY }}
+          className="relative mx-auto max-w-[720px]"
+        >
+          <div className="relative h-[240px] sm:h-[320px] md:h-[380px]">
+            <Image
+              src={solutionImg}
+              alt="Solutions"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="max-w-5xl mx-auto px-6 mt-16"
+        >
+          <h3 className="text-3xl font-bold text-[#07518a] mb-8">
+            Solutions
+          </h3>
+
+          <ul className="space-y-6">
+            {study.solutions.map((item, idx) => (
+              <motion.li
+                key={idx}
+                variants={itemVariant}
+                className="flex gap-4 items-start text-gray-700"
+              >
+                <CheckCircle
+                  className="text-green-600 mt-1"
+                  size={20}
+                />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      </section>
+
+      {/* ================= RESULTS ================= */}
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="max-w-5xl mx-auto px-6 py-32"
+      >
+        <h3 className="text-3xl font-bold text-center text-[#07518a] mb-14">
+          Results
+        </h3>
+
+        <div className="grid gap-6 max-w-3xl mx-auto">
+          {study.results.map((item, idx) => (
+            <motion.div
+              key={idx}
+              variants={fadeUp}
+              className="p-6 bg-white/80 backdrop-blur border-l-4 border-[#07518a]"
+            >
+              <p className="text-gray-700 font-medium">{item}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+    </div>
   );
 }

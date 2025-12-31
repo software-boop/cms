@@ -23,6 +23,9 @@ const nextConfig = {
       },
     ],
   },
+   compiler: {
+    styledComponents: true,
+  },
 
   experimental: {
     optimizePackageImports: ["lucide-react"],

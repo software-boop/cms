@@ -336,7 +336,7 @@ export default function BrihaspathiMediaShowcaseFull() {
   );
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-10">
+    <section className="mx-auto max-w-6xl px-6 py-10 mt-40">
       <header className="mb-6">
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
           In the News & Media

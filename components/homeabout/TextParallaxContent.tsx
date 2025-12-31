@@ -1,28 +1,24 @@
+"use client";
+
 import React, { ReactNode, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import type { StaticImageData } from "next/image";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 gsap.registerPlugin(ScrollTrigger);
 
 /* ------------------------------------------------------------------ */
-/* IMAGE IMPORTS */
+/* IMAGES */
 /* ------------------------------------------------------------------ */
-
 import india_image from "./scroll/125521.jpg";
-import scrollsecond from './scroll/home1.jpg'
-import scrollthird from './scroll/home2.jpg'
+import scrollsecond from "./scroll/home1.jpg";
+import scrollthird from "./scroll/home2.jpg";
 
-// icons
 import strength from "./scroll/check.png";
 import trust from "./scroll/trust.png";
 import future from "./scroll/think_12430364.png";
 
-/* ------------------------------------------------------------------ */
-/* TYPES */
 /* ------------------------------------------------------------------ */
 
 interface TextParallaxContentProps {
@@ -40,12 +36,13 @@ interface ExampleContentProps {
 }
 
 /* ------------------------------------------------------------------ */
-/* MAIN EXPORT */
-/* ------------------------------------------------------------------ */
 
-const TextParallaxContentExample: React.FC = () => {
+const IMG_PADDING = 12;
+
+const TextParallaxContentExample = () => {
   return (
     <div className="bg-white">
+      {/* ================= SECTION 1 ================= */}
       <TextParallaxContent
         imgUrl={india_image}
         subheading="AI • IoT • Surveillance Intelligence"
@@ -54,11 +51,23 @@ const TextParallaxContentExample: React.FC = () => {
         <ExampleContent
           icon={strength}
           title="Our Core Strength"
-          paragraphOne="We don’t just deploy cameras — we deploy intelligence across India. Brihaspathi Technologies is nationally recognized for delivering AI-powered video analytics and AI-based security solutions that operate reliably at massive scale."
-          paragraphTwo="From smart city surveillance and integrated command control centers to advanced AI analytics such as ANPR, facial recognition, intrusion detection, and real-time monitoring, our systems convert raw video into actionable intelligence that improves safety and decision-making."
+          paragraphOne="
+            We don’t just deploy cameras — we deploy intelligence across India.
+            Brihaspathi Technologies is nationally recognized for delivering
+            AI-powered video analytics and mission-critical security solutions
+            that operate reliably at massive scale.
+          "
+          paragraphTwo="
+            From smart city surveillance and integrated command & control centers
+            to advanced AI analytics such as ANPR, facial recognition, intrusion
+            detection, crowd analysis, and real-time monitoring, our platforms
+            transform raw video into actionable intelligence that enhances public
+            safety, operational efficiency, and data-driven decision-making.
+          "
         />
       </TextParallaxContent>
 
+      {/* ================= SECTION 2 ================= */}
       <TextParallaxContent
         imgUrl={scrollsecond}
         subheading="Elections • Borders • National Infrastructure"
@@ -67,11 +76,23 @@ const TextParallaxContentExample: React.FC = () => {
         <ExampleContent
           icon={trust}
           title="Scale, Proof & Trust"
-          paragraphOne="When the nation needs absolute reliability, governments and enterprises choose Brihaspathi."
-          paragraphTwo="From General Elections to border security and national examinations, our systems operate where zero downtime and zero error are mandatory."
+          paragraphOne="
+            When the nation demands absolute reliability, governments and
+            large-scale enterprises choose Brihaspathi Technologies.
+            Our systems are deployed in environments where downtime,
+            inaccuracies, or delays are simply unacceptable.
+          "
+          paragraphTwo="
+            From General Elections and national examinations to border security,
+            critical infrastructure, and high-risk public deployments, our
+            platforms operate under extreme scale and pressure — delivering
+            consistent performance, regulatory compliance, and operational trust
+            when it matters most.
+          "
         />
       </TextParallaxContent>
 
+      {/* ================= SECTION 3 ================= */}
       <TextParallaxContent
         imgUrl={scrollthird}
         subheading="AI Security • Solar EPC • Make in India"
@@ -80,61 +101,87 @@ const TextParallaxContentExample: React.FC = () => {
         <ExampleContent
           icon={future}
           title="Future-Ready Vision"
-          paragraphOne="The future of infrastructure must be intelligent and sustainable — and we are building both."
-          paragraphTwo="Backed by Make-in-India manufacturing, we are technology builders committed for the next 10–20 years."
+          paragraphOne="
+            The future of national infrastructure must be intelligent,
+            secure, and sustainable — and we are engineering exactly that.
+            Our solutions seamlessly integrate AI security, smart energy,
+            and digital infrastructure into a unified ecosystem.
+          "
+          paragraphTwo="
+            Backed by Make-in-India manufacturing and long-term R&D commitment,
+            Brihaspathi Technologies is not building short-term products —
+            we are building foundational technology platforms designed to
+            scale, adapt, and serve the nation over the next 10–20 years.
+          "
         />
       </TextParallaxContent>
     </div>
   );
 };
 
+
 export default TextParallaxContentExample;
-
-/* ------------------------------------------------------------------ */
-/* CONSTANTS */
-/* ------------------------------------------------------------------ */
-
-const IMG_PADDING = 12;
 
 /* ------------------------------------------------------------------ */
 /* PARALLAX WRAPPER */
 /* ------------------------------------------------------------------ */
 
-const TextParallaxContent: React.FC<TextParallaxContentProps> = ({
+const TextParallaxContent = ({
   imgUrl,
   subheading,
   heading,
   children,
-}) => {
+}: TextParallaxContentProps) => {
   return (
-    <div style={{ paddingLeft: IMG_PADDING, paddingRight: IMG_PADDING }}>
-      <div className="relative h-[150vh]">
+    <div className="px-3">
+      {/* Desktop Parallax */}
+      <div className="relative hidden md:block h-[200vh]">
         <StickyImage imgUrl={imgUrl} />
         <OverlayCopy subheading={subheading} heading={heading} />
       </div>
+
+      {/* Mobile Image */}
+      <div className="relative md:hidden rounded-2xl overflow-hidden">
+        <Image
+          src={imgUrl}
+          alt={heading}
+          className="h-[70vh] w-full object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute bottom-6 px-6 text-white">
+          <p className="mb-2 text-sm uppercase tracking-wide">
+            {subheading}
+          </p>
+          <h2 className="text-3xl font-bold leading-tight">
+            {heading}
+          </h2>
+        </div>
+      </div>
+
       {children}
     </div>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/* STICKY IMAGE (FRAMER MOTION) */
+/* STICKY IMAGE (DESKTOP ONLY) */
 /* ------------------------------------------------------------------ */
 
-const StickyImage: React.FC<{ imgUrl: StaticImageData }> = ({ imgUrl }) => {
-  const targetRef = useRef<HTMLDivElement | null>(null);
+const StickyImage = ({ imgUrl }: { imgUrl: StaticImageData }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: ref,
     offset: ["end end", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   return (
     <motion.div
-      ref={targetRef}
+      ref={ref}
       style={{
         backgroundImage: `url(${imgUrl.src})`,
         backgroundSize: "cover",
@@ -143,7 +190,7 @@ const StickyImage: React.FC<{ imgUrl: StaticImageData }> = ({ imgUrl }) => {
         top: IMG_PADDING,
         scale,
       }}
-      className="sticky z-0 overflow-hidden rounded-3xl"
+      className="sticky rounded-3xl"
     >
       <motion.div
         className="absolute inset-0 bg-black/70"
@@ -154,17 +201,20 @@ const StickyImage: React.FC<{ imgUrl: StaticImageData }> = ({ imgUrl }) => {
 };
 
 /* ------------------------------------------------------------------ */
-/* OVERLAY COPY */
+/* OVERLAY COPY (DESKTOP ONLY) */
 /* ------------------------------------------------------------------ */
 
-const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
+const OverlayCopy = ({
   subheading,
   heading,
+}: {
+  subheading: string;
+  heading: string;
 }) => {
   return (
-    <div className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white">
-      <p className="mb-3 text-center text-lg md:text-3xl">{subheading}</p>
-      <h1 className="text-center text-4xl font-bold md:text-7xl">
+    <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+      <p className="mb-3 text-xl">{subheading}</p>
+      <h1 className="text-center text-6xl font-bold max-w-4xl">
         {heading}
       </h1>
     </div>
@@ -172,90 +222,48 @@ const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
 };
 
 /* ------------------------------------------------------------------ */
-/* CONTENT SECTION (GSAP ANIMATED) */
+/* CONTENT SECTION */
 /* ------------------------------------------------------------------ */
 
-const ExampleContent: React.FC<ExampleContentProps> = ({
+const ExampleContent = ({
   title,
   paragraphOne,
   paragraphTwo,
   icon,
-}) => {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const imageRef = useRef<HTMLDivElement | null>(null);
-  const rightRef = useRef<HTMLDivElement | null>(null);
+}: ExampleContentProps) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!ref.current) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      tl.from(titleRef.current, {
-        y: -80,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      })
-        .from(
-          imageRef.current,
-          {
-            y: 80,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out",
-          },
-          "-=0.4"
-        )
-        .from(
-          rightRef.current,
-          {
-            x: 120,
-            opacity: 0,
-            duration: 0.9,
-            ease: "power3.out",
-          },
-          "-=0.6"
-        );
-    }, sectionRef);
-
-    return () => ctx.revert();
+    gsap.from(ref.current.children, {
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top 80%",
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+    });
   }, []);
 
   return (
     <div
-      ref={sectionRef}
-      className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12"
+      ref={ref}
+      className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-12 gap-8 py-24"
     >
-      {/* LEFT */}
-      <div className="col-span-1 md:col-span-4 flex flex-col gap-4">
-        <h2 ref={titleRef} className="text-3xl font-bold">
-          {title}
-        </h2>
-        <div ref={imageRef}>
-          <Image
-            src={icon}
-            alt={title}
-            width={200}
-            height={80}
-            className="object-contain"
-          />
-        </div>
+      <div className="md:col-span-4 flex flex-col gap-4">
+        <h3 className="text-3xl font-bold">{title}</h3>
+        <Image src={icon} alt={title} width={200} />
       </div>
 
-      {/* RIGHT */}
-      <div ref={rightRef} className="col-span-1 md:col-span-8">
-        <p className="mb-4 text-xl text-neutral-600 md:text-2xl">
+      <div className="md:col-span-8">
+        <p className="mb-4 text-lg text-neutral-600">
           {paragraphOne}
         </p>
-        <p className="mb-8 text-xl text-neutral-600 md:text-2xl">
+        <p className="text-lg text-neutral-600">
           {paragraphTwo}
         </p>
       </div>

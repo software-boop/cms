@@ -6,26 +6,27 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PeopleCultureSection from "./PeopleCultureSection";
 import CertificationsSection from "./CertificationsSection";
 
-
-
 gsap.registerPlugin(ScrollTrigger);
 
-const backgroundImage =
-  "/dark-blue-digital-grid-png-technology-background.png";
+/* ---------------- ASSETS ---------------- */
 const logo = "/highbtlogo white- tm.png";
 
+/* ---------------- BRAND ---------------- */
 const BRAND = "#07518a";
-const ACCENT = "#f59e0b";
 
+/* ---------------- COMPONENT ---------------- */
 export default function Who() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // ✅ Disable pinning on mobile & tablet
+    if (window.innerWidth < 1024) return;
+
     if (!sectionRef.current || !leftRef.current || !rightRef.current) return;
 
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: "top top",
       end: () =>
@@ -36,107 +37,147 @@ export default function Who() {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      trigger.kill();
     };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
+      className="relative w-full bg-white overflow-hidden"
     >
-      {/* BACKGROUND */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      />
-      <div className="absolute inset-0 bg-[#07518a]/85" />
+      <div className="w-full bg-white py-16 sm:py-20">
+  <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center">
+    {/* Overline */}
+    <p className="mb-3 text-xs uppercase tracking-[0.3em] text-[#07518a]">
+      Who We Are
+    </p>
+
+    {/* Heading */}
+    <h2 className="mb-6 text-2xl sm:text-3xl md:text-4xl font-extrabold text-black leading-tight">
+      A solutions partner turning{" "}
+      <span className="text-[#07518a]">complex technology</span>{" "}
+      into powerful outcomes
+    </h2>
+
+    {/* Description */}
+    <p className="mx-auto max-w-3xl text-sm sm:text-base md:text-lg leading-relaxed text-gray-700">
+      We focus on what matters most —{" "}
+      <span className="font-medium text-black">safety</span>,{" "}
+      <span className="font-medium text-black">uptime</span>, and{" "}
+      <span className="font-medium text-black">efficiency</span> — delivering
+      dependable solutions for enterprises, institutions, and city-scale
+      projects across India.
+    </p>
+  </div>
+</div>
 
       {/* CONTENT */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-10">
-          {/* LEFT — PINNED */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          {/* ================= LEFT — PINNED ================= */}
           <div
             ref={leftRef}
-            className="lg:col-span-4 pt-24 pb-24"
+            className="
+              lg:col-span-4
+              pt-20 pb-20
+              lg:pt-28 lg:pb-28
+            "
           >
-            <div className="inline-flex items-center gap-2 mb-4">
-              <span className="h-1 w-6 rounded-full bg-orange-400" />
-              <span className="text-xs uppercase tracking-widest text-orange-300">
+            {/* Label */}
+            <div className="inline-flex items-center gap-2 mb-5">
+              <span
+                className="h-1 w-6 rounded-full"
+                style={{ backgroundColor: BRAND }}
+              />
+              <span
+                className="text-xs uppercase tracking-widest font-medium"
+                style={{ color: BRAND }}
+              >
                 Who We Are
               </span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-extrabold leading-tight text-white">
+            {/* Heading */}
+            <h2 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold leading-tight text-black">
               The Guru of <br />
-              <span className="text-orange-300">
+              <span style={{ color: BRAND }}>
                 Tomorrow’s Technology
               </span>
             </h2>
 
+            {/* Logo */}
             <img
               src={logo}
               alt="Brihaspathi Logo"
-              className="mt-6 w-44 opacity-90"
+              className="mt-6 w-40 opacity-90"
             />
           </div>
 
-          {/* RIGHT — SCROLLING */}
+          {/* ================= RIGHT — SCROLLING ================= */}
           <div
             ref={rightRef}
-            className="lg:col-span-8 pt-24 pb-40 space-y-16"
+            className="
+              lg:col-span-8
+              pt-10 lg:pt-28
+              pb-28
+              space-y-10
+            "
           >
-            <p className="text-lg md:text-xl leading-relaxed text-blue-100">
-              <strong className="text-white">
+            <p className="text-base sm:text-lg leading-relaxed text-black/70">
+              <strong className="text-black">
                 Brihaspathi Technologies Limited (BTL)
               </strong>{" "}
               is a premier digital transformation and sovereign security partner
               for industry-leading organizations and government entities. Since{" "}
-              <span className="text-orange-300 font-semibold">2006</span>, we
-              have pioneered the{" "}
-              <span className="text-white font-semibold">
+              <span className="font-semibold" style={{ color: BRAND }}>
+                2006
+              </span>
+              , we have pioneered the{" "}
+              <span className="font-semibold text-black">
                 Make in India
               </span>{" "}
-              movement in high-tech surveillance and IoT.
+              movement in high-tech surveillance, AI, and IoT systems.
             </p>
 
-            <p className="text-lg md:text-xl leading-relaxed text-blue-100">
+            <p className="text-base sm:text-lg leading-relaxed text-black/70">
               Rooted in a legacy of trust, we create long-term value for our{" "}
-              <span className="text-orange-300 font-semibold">
+              <span className="font-semibold" style={{ color: BRAND }}>
                 300+ specialists
               </span>
               , clients, and communities. Our infrastructure includes a
               state-of-the-art manufacturing facility in{" "}
-              <span className="text-white font-semibold">Siddipet</span>, backed
-              by operations across{" "}
-              <span className="text-white font-semibold">
+              <span className="font-semibold text-black">
+                Siddipet
+              </span>
+              , backed by operations across{" "}
+              <span className="font-semibold text-black">
                 India, USA, and Dubai
               </span>
               .
             </p>
 
-            <p className="text-lg md:text-xl leading-relaxed text-blue-100">
+            <p className="text-base sm:text-lg leading-relaxed text-black/70">
               Our partnerships endure across technology cycles — from early web
-              engineering in the mid-2000s to today’s{" "}
-              <span className="text-orange-300 font-semibold">
+              engineering to today’s{" "}
+              <span className="font-semibold" style={{ color: BRAND }}>
                 Generative AI
               </span>{" "}
               and{" "}
-              <span className="text-orange-300 font-semibold">
+              <span className="font-semibold" style={{ color: BRAND }}>
                 Thermal IoT solutions
               </span>
-              — enabling enterprises and nations to remain resilient and
-              secure.
+              — enabling enterprises and nations to remain resilient, secure,
+              and future-ready.
             </p>
-
-            {/* CTA */}
-       
           </div>
         </div>
-  <PeopleCultureSection/>
-  <CertificationsSection/>
+
+        {/* ================= ADDITIONAL SECTIONS ================= */}
+         <CertificationsSection />
+        <PeopleCultureSection />
+       
       </div>
-    
     </section>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useRef, useMemo } from "react";
 import {
   motion,
   useScroll,
@@ -7,152 +8,205 @@ import {
   useSpring,
   MotionValue,
 } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
-export const HeroParallax = ({
-  products,
-}: {
-  products: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  }[];
-}) => {
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
-  const ref = React.useRef(null);
+/* ================= TYPES ================= */
+
+export type HeroProduct = {
+  title: string;
+  link: string;
+  thumbnail: string;
+};
+
+type HeroParallaxProps = {
+  products: HeroProduct[];
+};
+
+/* ================= HERO PARALLAX ================= */
+
+export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  /* ---------- RESPONSIVE CONTROLS ---------- */
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
+
+  const cardsPerRow = isMobile ? 3 : 5;
+  const translateAmount = isMobile ? 300 : 1000;
+
+  /* ---------- SAFE ROW SPLIT ---------- */
+  const rows = useMemo(() => {
+    return [
+      products.slice(0, cardsPerRow),
+      products.slice(cardsPerRow, cardsPerRow * 2),
+      products.slice(cardsPerRow * 2, cardsPerRow * 3),
+    ];
+  }, [products, cardsPerRow]);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
+  /* ---------- SPRING CONFIG ---------- */
+  const springConfig = {
+    stiffness: 280,
+    damping: 32,
+    bounce: 0,
+  };
 
+  /* ---------- TRANSFORMS ---------- */
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
+    useTransform(scrollYProgress, [0, 1], [0, translateAmount]),
     springConfig
   );
+
   const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1000]),
+    useTransform(scrollYProgress, [0, 1], [0, -translateAmount]),
     springConfig
   );
+
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
+    useTransform(scrollYProgress, [0, 0.25], [12, 0]),
     springConfig
   );
-  const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig
-  );
+
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
+    useTransform(scrollYProgress, [0, 0.25], [10, 0]),
     springConfig
   );
+
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.25], [-400, 300]),
     springConfig
   );
+
+  const opacity = useSpring(
+    useTransform(scrollYProgress, [0, 0.2], [0.3, 1]),
+    springConfig
+  );
+
   return (
-    <div
+    <section
       ref={ref}
-      style={{marginTop:"800px"}}
-      className="h-[300vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] "
+      className="
+        relative h-[260vh] md:h-[300vh]
+        overflow-hidden
+        py-32 md:py-40
+        antialiased
+        [perspective:1000px]
+        [transform-style:preserve-3d]
+    
+      "
     >
       <Header />
+
       <motion.div
-        style={{
-          rotateX,
-          rotateZ,
-          translateY,
-          opacity,
-        }}
-        className=""
+        style={{ rotateX, rotateZ, translateY, opacity }}
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-          {firstRow.map((product) => (
+        {/* ROW 1 */}
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-12 md:space-x-20 mb-16">
+          {rows[0].map((product) => (
             <ProductCard
+              key={product.title}
               product={product}
               translate={translateX}
-              key={product.title}
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
-          {secondRow.map((product) => (
+
+        {/* ROW 2 */}
+        <motion.div className="flex flex-row space-x-12 md:space-x-20 mb-16">
+          {rows[1].map((product) => (
             <ProductCard
+              key={product.title}
               product={product}
               translate={translateXReverse}
-              key={product.title}
             />
           ))}
         </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
-          {thirdRow.map((product) => (
+
+        {/* ROW 3 */}
+        <motion.div className="flex flex-row-reverse space-x-reverse space-x-12 md:space-x-20">
+          {rows[2].map((product) => (
             <ProductCard
+              key={product.title}
               product={product}
               translate={translateX}
-              key={product.title}
             />
           ))}
         </motion.div>
       </motion.div>
-    </div>
+    </section>
   );
 };
 
-export const Header = () => {
+/* ================= HEADER ================= */
+
+export const Header: React.FC = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
-      <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-        The Ultimate <br /> development studio
-      </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-        We build beautiful products with the latest technologies and frameworks.
-        We are a team of passionate developers and designers that love to build
-        amazing products.
-      </p>
-    </div>
+ <div className="relative mx-auto max-w-7xl px-4 py-20 md:py-32">
+  <h1 className="text-3xl md:text-7xl font-extrabold text-[#07518a] leading-tight">
+    Brihaspathi <br /> In the News
+  </h1>
+
+  <p className="max-w-3xl mt-6 text-base md:text-xl text-neutral-600">
+    Brihaspathi Technologies has been widely featured across leading national
+    and regional newspapers for its achievements in technology innovation,
+    manufacturing expansion, funding milestones, and large-scale government
+    projects.
+  </p>
+
+  <p className="max-w-3xl mt-4 text-sm md:text-base text-neutral-500">
+    This section highlights verified media coverage, press releases, and public
+    announcements that reflect our growth journey, industry impact, and
+    recognition across India.
+  </p>
+</div>
+
+
   );
 };
 
-export const ProductCard = ({
+/* ================= PRODUCT CARD ================= */
+
+type ProductCardProps = {
+  product: HeroProduct;
+  translate: MotionValue<number>;
+};
+
+export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   translate,
-}: {
-  product: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  };
-  translate: MotionValue<number>;
 }) => {
   return (
     <motion.div
-      style={{
-        x: translate,
-      }}
-      whileHover={{
-        y: -20,
-      }}
-      key={product.title}
-      className="group/product h-96 w-[30rem] relative flex-shrink-0"
+      style={{ x: translate }}
+      whileHover={{ y: -16 }}
+      className="
+        group relative
+        h-64 sm:h-80 md:h-96
+        w-[18rem] sm:w-[24rem] md:w-[30rem]
+        flex-shrink-0
+        rounded-xl
+        overflow-hidden
+      
+      "
     >
-      <Link
-        href={product.link}
-        className="block group-hover/product:shadow-2xl "
-      >
+      <Link href={product.link} className="block h-full w-full">
         <img
           src={product.thumbnail}
-          height="600"
-          width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0"
           alt={product.title}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       </Link>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-300" />
+
+      {/* Title */}
+      <h2 className="absolute bottom-4 left-4 text-white text-sm md:text-base opacity-0 group-hover:opacity-100 transition-opacity">
         {product.title}
       </h2>
     </motion.div>

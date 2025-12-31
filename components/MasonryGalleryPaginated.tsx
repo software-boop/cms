@@ -5,12 +5,11 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  FC
+  FC,
 } from "react";
 
-import { useTransition, animated, useSpring } from "@react-spring/web";
+import { animated, useTransition, useSpring } from "@react-spring/web";
 import { Pagination } from "antd";
-
 import {
   ChevronLeft,
   ChevronRight,
@@ -18,14 +17,11 @@ import {
   Download,
   ZoomIn,
   ZoomOut,
-  Maximize2,
 } from "lucide-react";
 
 import "antd/dist/reset.css";
 
-/* ----------------------------------------------------------
-   TYPES
----------------------------------------------------------- */
+/* -------------------------------- TYPES -------------------------------- */
 interface ImageItem {
   id: number;
   image: string;
@@ -38,385 +34,170 @@ interface GridItem extends ImageItem {
   width: number;
 }
 
-interface SmartImageProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
-  onLoadFail?: () => void;
-}
-
-interface PreviewModalProps {
-  images: ImageItem[];
-  currentIndex: number;
-  onClose: () => void;
-  onNavigate: (direction: "next" | "prev" | number) => void;
-}
-
-/* ----------------------------------------------------------
-   CONSTANTS
----------------------------------------------------------- */
+/* -------------------------------- CONSTANTS -------------------------------- */
 const HEIGHTS = [220, 260, 300, 340, 380, 420];
 
-/* ----------------------------------------------------------
-   IMAGE DATA BUILDERS
----------------------------------------------------------- */
-const latestNewsImages: string[] = [
+/* -------------------------------- IMAGE SOURCES -------------------------------- */
+const LATEST_NEWS: string[] = [
   "https://ik.imagekit.io/tsuss6ulm/Samarth%20Rashtra,%20P-8,%20Nov%2021.jpg",
   "https://ik.imagekit.io/tsuss6ulm/Nai%20Soch%20Express,%20P-2,%20Nov%2024.jpg",
   "https://ik.imagekit.io/tsuss6ulm/Taasir,%20P-3,%20Nov%2022.jpg",
   "https://ik.imagekit.io/tsuss6ulm/Hamara%20Samaj,%20P-3,%20Nov%2022.jpg",
   "https://ik.imagekit.io/tsuss6ulm/Sanmarg,%20P-2,%20Nov%2024.jpg",
-  "https://ik.imagekit.io/tsuss6ulm/Jagriti%20Times,%20P-3,%20Nov%2024.jpg",
-  "https://ik.imagekit.io/tsuss6ulm/Sampurn%20Bharat,%20P-2,%20Nov%2024.jpg",
-  "https://ik.imagekit.io/tsuss6ulm/Satta%20Ki%20Khoj,%20P-2,%20Nov%2024.jpg",
-  "https://ik.imagekit.io/tsuss6ulm/Mithila%20Gaurav,%20P-3,%20Nov%2022.jpg",
-  "https://ik.imagekit.io/tsuss6ulm/Bihar%20Din%20Raat,%20P-8,%20Nov%2021.jpg",
 ];
 
-function buildLatestImages(): ImageItem[] {
-  return latestNewsImages.map((url, index) => ({
-    id: 1000 + index,
-    image: url,
-    height: HEIGHTS[index % HEIGHTS.length],
+const BASE_COUNT = 96;
+const BASE_URL = "https://ik.imagekit.io/waxuvuasch/news";
+
+/* -------------------------------- BUILD DATA -------------------------------- */
+const buildImages = (): ImageItem[] => {
+  const latest = LATEST_NEWS.map((img, i) => ({
+    id: 1000 + i,
+    image: img,
+    height: HEIGHTS[i % HEIGHTS.length],
   }));
-}
 
-function buildBaseImages(count = 96): ImageItem[] {
-  const baseURL = "https://ik.imagekit.io/waxuvuasch/news";
+  const older = Array.from({ length: BASE_COUNT }, (_, i) => ({
+    id: i + 1,
+    image: `${BASE_URL}/${i + 1}.${i + 1 <= 82 ? "jpeg" : "jpg"}`,
+    height: HEIGHTS[i % HEIGHTS.length],
+  }));
 
-  return Array.from({ length: count }, (_, i) => {
-    const id = i + 1;
-    const ext = id <= 82 ? "jpeg" : "jpg";
-
-    return {
-      id,
-      image: `${baseURL}/${id}.${ext}`,
-      height: HEIGHTS[i % HEIGHTS.length],
-    };
-  });
-}
-
-function buildMasonryData(): ImageItem[] {
-  return [...buildLatestImages(), ...buildBaseImages()];
-}
-
-/* ----------------------------------------------------------
-   SMART IMAGE
----------------------------------------------------------- */
-const SmartImage: FC<SmartImageProps> = ({
-  src,
-  alt,
-  onLoadFail,
-  onClick,
-  ...props
-}) => {
-  const [current, setCurrent] = useState(src || "");
-  const [visible, setVisible] = useState(true);
-  const [loaded, setLoaded] = useState(false);
-  const triedJpg = useRef(false);
-
-  if (!visible) return null;
-
-  return (
-    <div className="relative w-full h-full">
-      {!loaded && (
-        <div className="absolute inset-0 bg-gray-300 animate-pulse" />
-      )}
-
-      <img
-        {...props}
-        src={current}
-        alt={alt}
-        onClick={onClick}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        // onError={() => {
-        //   if (!triedJpg.current && /\.jpeg$/i.test(current)) {
-        //     triedJpg.current = true;
-        //     setCurrent(current.replace(/\.jpeg$/i, ".jpg"));
-        //   } else {
-        //     setVisible(false);
-        //     onLoadFail?.();
-        //   }
-        // }}
-
-  
-
-        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 cursor-pointer 
-        ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
-      />
-    </div>
-  );
+  return [...latest, ...older];
 };
 
-/* ----------------------------------------------------------
-   PREVIEW MODAL
----------------------------------------------------------- */
-const ImagePreviewModal: FC<PreviewModalProps> = ({
-  images,
-  currentIndex,
-  onClose,
-  onNavigate,
-}) => {
+/* -------------------------------- PREVIEW MODAL -------------------------------- */
+const PreviewModal: FC<{
+  images: ImageItem[];
+  index: number;
+  onClose: () => void;
+  setIndex: (i: number) => void;
+}> = ({ images, index, onClose, setIndex }) => {
   const [zoom, setZoom] = useState(1);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const img = images[index];
 
-  const currentImage = images[currentIndex];
+  const anim = useSpring({ opacity: 1, from: { opacity: 0 } });
 
-  const modalAnimation = useSpring({ opacity: 1, from: { opacity: 0 } });
-  const imageAnimation = useSpring({
-    opacity: 1,
-    transform: `scale(${zoom})`,
-    from: { opacity: 0, transform: "scale(0.95)" },
-  });
-
-  /* ---- FIXED Keyboard Handler (No TypeScript errors) ---- */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") onNavigate("prev");
-      if (e.key === "ArrowRight") onNavigate("next");
+      if (e.key === "ArrowRight") setIndex((index + 1) % images.length);
+      if (e.key === "ArrowLeft")
+        setIndex((index - 1 + images.length) % images.length);
     };
-
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [onClose, onNavigate]);
-
-  const handleDownload = () => {
-    const a = document.createElement("a");
-    a.href = currentImage.image;
-    a.download = `news-${currentImage.id}.jpg`;
-    a.click();
-  };
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen();
-      setIsFullscreen(false);
-    }
-  };
+  }, [index, images.length, onClose, setIndex]);
 
   return (
     <animated.div
-      style={modalAnimation}
-      className="fixed inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center z-[9999]"
+      style={anim}
+      className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center"
       onClick={onClose}
     >
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/80 to-transparent flex justify-between items-center">
-        <h2 className="text-white text-lg font-semibold">
-          Preview {currentIndex + 1} / {images.length}
-        </h2>
-
-        <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-full text-white"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-        >
-          <X />
-        </button>
-      </div>
-
-      {/* Image */}
-      <div
-        className="flex-1 flex items-center justify-center px-20"
+      <img
+        src={img.image}
+        className="max-h-[90vh] max-w-[90vw] object-contain"
+        style={{ transform: `scale(${zoom})` }}
         onClick={(e) => e.stopPropagation()}
-      >
-        <animated.img
-          src={currentImage.image}
-          alt="preview-img"
-          style={imageAnimation}
-          className="max-w-full max-h-full object-contain rounded-lg"
-        />
+      />
+
+      <button className="absolute top-6 right-6 text-white" onClick={onClose}>
+        <X size={32} />
+      </button>
+
+      <div className="absolute bottom-6 flex gap-4">
+        <button onClick={() => setZoom((z) => Math.max(0.6, z - 0.2))}>
+          <ZoomOut className="text-white" />
+        </button>
+        <button onClick={() => setZoom((z) => Math.min(3, z + 0.2))}>
+          <ZoomIn className="text-white" />
+        </button>
+        <a href={img.image} download>
+          <Download className="text-white" />
+        </a>
       </div>
 
-      {/* Controls */}
-      <div className="absolute bottom-6 flex items-center gap-4">
-        <button
-          className="p-3 bg-white/20 hover:bg-white/40 text-white rounded-lg"
-          onClick={(e) => {
-            e.stopPropagation();
-            setZoom((p) => Math.max(0.5, p - 0.3));
-          }}
-        >
-          <ZoomOut />
-        </button>
-
-        <button
-          className="px-4 py-3 bg-white/20 hover:bg-white/40 text-white rounded-lg"
-          onClick={(e) => {
-            e.stopPropagation();
-            setZoom(1);
-          }}
-        >
-          {Math.round(zoom * 100)}%
-        </button>
-
-        <button
-          className="p-3 bg-white/20 hover:bg-white/40 text-white rounded-lg"
-          onClick={(e) => {
-            e.stopPropagation();
-            setZoom((p) => Math.min(3, p + 0.3));
-          }}
-        >
-          <ZoomIn />
-        </button>
-
-        <button
-          className="p-3 bg-white/20 hover:bg-white/40 text-white rounded-lg"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFullscreen();
-          }}
-        >
-          <Maximize2 />
-        </button>
-
-        <button
-          className="p-3 bg-white/20 hover:bg-white/40 text-white rounded-lg"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDownload();
-          }}
-        >
-          <Download />
-        </button>
-      </div>
-
-      {/* Navigation */}
       <button
+        className="absolute left-6 text-white"
         onClick={(e) => {
           e.stopPropagation();
-          onNavigate("prev");
-          setZoom(1);
+          setIndex((index - 1 + images.length) % images.length);
         }}
-        className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/20 hover:bg-white/40 rounded-full text-white"
       >
-        <ChevronLeft size={34} />
+        <ChevronLeft size={36} />
       </button>
 
       <button
+        className="absolute right-6 text-white"
         onClick={(e) => {
           e.stopPropagation();
-          onNavigate("next");
-          setZoom(1);
+          setIndex((index + 1) % images.length);
         }}
-        className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/20 hover:bg-white/40 rounded-full text-white"
       >
-        <ChevronRight size={34} />
+        <ChevronRight size={36} />
       </button>
     </animated.div>
   );
 };
 
-/* ----------------------------------------------------------
-   MASONRY GALLERY
----------------------------------------------------------- */
-const MasonryGalleryPaginated: FC = () => {
-  const allImages = useMemo(() => buildMasonryData(), []);
-  const [validData, setValidData] = useState<ImageItem[]>(allImages);
+/* -------------------------------- MASONRY -------------------------------- */
+const MasonryGallery: FC = () => {
+  const allImages = useMemo(buildImages, []);
+  const [page, setPage] = useState(1);
+  const [preview, setPreview] = useState<number | null>(null);
 
-  const [columns, setColumns] = useState(4);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const pageSize = 18;
+  const paged = useMemo(
+    () => allImages.slice((page - 1) * pageSize, page * pageSize),
+    [page, allImages]
+  );
 
-  const ref = useRef<HTMLDivElement | null>(null);
-  const pageSize = 15;
-
-  const handleNavigate = (direction: "next" | "prev" | number) => {
-    if (typeof direction === "number") {
-      setPreviewIndex(direction);
-      return;
-    }
-
-    setPreviewIndex((prev) => {
-      if (prev === null) return 0;
-      const max = pagedData.length - 1;
-
-      if (direction === "prev") return prev > 0 ? prev - 1 : max;
-      return prev < max ? prev + 1 : 0;
-    });
-  };
-
-  const handleImageFail = (id: number) => {
-    setValidData((prev) => prev.filter((img) => img.id !== id));
-  };
+  const ref = useRef<HTMLDivElement>(null);
+  const [cols, setCols] = useState(4);
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    const updateColumns = () => {
+    const resize = () => {
       const w = window.innerWidth;
-      if (w >= 1600) setColumns(6);
-      else if (w >= 1200) setColumns(5);
-      else if (w >= 900) setColumns(4);
-      else if (w >= 600) setColumns(3);
-      else setColumns(2);
+      setCols(w >= 1600 ? 6 : w >= 1200 ? 5 : w >= 900 ? 4 : w >= 600 ? 3 : 2);
+      if (ref.current) setWidth(ref.current.offsetWidth);
     };
-
-    updateColumns();
-    window.addEventListener("resize", updateColumns);
-
-    return () => window.removeEventListener("resize", updateColumns);
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
-  useEffect(() => {
-    const measure = () => {
-      if (ref.current) setContainerWidth(ref.current.offsetWidth);
-    };
-
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    if (ref.current) observer.observe(ref.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const pagedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return validData.slice(start, start + pageSize);
-  }, [currentPage, validData]);
-
-  const [columnHeights, gridItems] = useMemo(() => {
-    if (!pagedData.length) return [[0], []] as [number[], GridItem[]];
-
-    const heights = new Array(columns).fill(0);
+  const { items, height } = useMemo(() => {
+    const colHeights = Array(cols).fill(0);
+    const colWidth = width / cols || 1;
     const items: GridItem[] = [];
-    const colWidth = containerWidth / columns || 1;
 
-    pagedData.forEach((item) => {
-      const col = heights.indexOf(Math.min(...heights));
-      const x = colWidth * col;
-      const y = heights[col];
-
-      heights[col] += item.height;
-
-      items.push({ ...item, x, y, width: colWidth });
+    paged.forEach((img) => {
+      const col = colHeights.indexOf(Math.min(...colHeights));
+      items.push({
+        ...img,
+        x: col * colWidth,
+        y: colHeights[col],
+        width: colWidth,
+      });
+      colHeights[col] += img.height;
     });
 
-    return [heights, items];
-  }, [pagedData, columns, containerWidth]);
+    return { items, height: Math.max(...colHeights, 0) };
+  }, [paged, cols, width]);
 
-  const transitions = useTransition(gridItems, {
-    keys: (item) => item.id,
-    from: { opacity: 0, y: 60, scale: 0.9 },
-    enter: { opacity: 1, y: 0, scale: 1 },
-    leave: { opacity: 0, y: -30, scale: 0.9 },
-    config: { tension: 280, friction: 30 },
+  const transitions = useTransition(items, {
+    keys: (i) => i.id,
+    from: { opacity: 0, y: 40 },
+    enter: { opacity: 1, y: 0 },
     trail: 25,
   });
 
   return (
     <>
-      <div
-        className="relative w-full"
-        ref={ref}
-        style={{ height: Math.max(...columnHeights, 0) }}
-      >
-        {transitions((style, item, _, index) => (
+      <div ref={ref} style={{ height }} className="relative w-full">
+        {transitions((style, item, _, i) => (
           <animated.div
             key={item.id}
             style={{
@@ -427,68 +208,49 @@ const MasonryGalleryPaginated: FC = () => {
               width: item.width,
               height: item.height,
             }}
-            className="p-3"
+            className="p-2"
           >
-            <div className="relative w-full h-full rounded-xl shadow-lg overflow-hidden bg-gray-100 group">
-              <SmartImage
-                src={item.image}
-                alt={`news-${item.id}`}
-                onLoadFail={() => handleImageFail(item.id)}
-                onClick={() => setPreviewIndex(index)}
-              />
-
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition duration-300 flex items-end">
-                <button
-                  onClick={() => setPreviewIndex(index)}
-                  className="w-full bg-white/90 text-black py-2 font-semibold text-center"
-                >
-                  View Full Image
-                </button>
-              </div>
-            </div>
+            <img
+              src={item.image}
+              className="w-full h-full object-cover rounded-xl cursor-pointer"
+              onClick={() => setPreview(i)}
+            />
           </animated.div>
         ))}
       </div>
 
-      <div className="my-8">
+      {/* ✅ NO SCROLL TO TOP */}
+      <div className="mt-10 flex justify-center">
         <Pagination
-          current={currentPage}
-          total={validData.length}
+          current={page}
           pageSize={pageSize}
-          onChange={(page) => {
-            setCurrentPage(page);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
+          total={allImages.length}
+          onChange={(p) => setPage(p)}
         />
       </div>
 
-      {previewIndex !== null && (
-        <ImagePreviewModal
-          images={pagedData}
-          currentIndex={previewIndex}
-          onClose={() => setPreviewIndex(null)}
-          onNavigate={handleNavigate}
+      {preview !== null && (
+        <PreviewModal
+          images={paged}
+          index={preview}
+          setIndex={setPreview}
+          onClose={() => setPreview(null)}
         />
       )}
     </>
   );
 };
 
-/* ----------------------------------------------------------
-   PAGE WRAPPER
----------------------------------------------------------- */
-const MasonryDemo: FC = () => {
+/* -------------------------------- PAGE -------------------------------- */
+export default function Page() {
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-[1800px] mx-auto bg-white p-8 rounded-2xl shadow-xl">
-        <h1 className="text-4xl font-extrabold text-[#07518a] mb-6">
-          Brihaspathi News Gallery
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+      <div className="max-w-[1800px] mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#07518a] mb-8">
+          Brihaspathi News & Media Coverage
         </h1>
-
-        <MasonryGalleryPaginated />
+        <MasonryGallery />
       </div>
     </div>
   );
-};
-
-export default MasonryDemo;
+}

@@ -41,10 +41,9 @@ const CULTURE_DATA: CultureItem[] = [
   },
 ];
 
-
-/* ================= VARIANTS (TYPE SAFE) ================= */
+/* ================= ANIMATION VARIANTS ================= */
 const leftTextVariants: Variants = {
-  hidden: { opacity: 0, x: -80 },
+  hidden: { opacity: 0, x: -60 },
   show: {
     opacity: 1,
     x: 0,
@@ -53,7 +52,7 @@ const leftTextVariants: Variants = {
 };
 
 const rightTextVariants: Variants = {
-  hidden: { opacity: 0, x: 80 },
+  hidden: { opacity: 0, x: 60 },
   show: {
     opacity: 1,
     x: 0,
@@ -62,7 +61,7 @@ const rightTextVariants: Variants = {
 };
 
 const imageVariants: Variants = {
-  hidden: { opacity: 0, y: 60 },
+  hidden: { opacity: 0, y: 40 },
   show: {
     opacity: 1,
     y: 0,
@@ -73,52 +72,62 @@ const imageVariants: Variants = {
 /* ================= COMPONENT ================= */
 export default function PeopleCultureSection() {
   return (
-    <section className="relative w-full py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="relative w-full bg-white py-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* HEADER */}
         <div className="max-w-3xl mb-16">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Our People & Culture
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-black">
+            Our People &{" "}
+            <span style={{ color: BRAND }}>Culture</span>
           </h2>
-          <p className="mt-4 text-lg text-blue-100">
+          <p className="mt-4 text-base sm:text-lg text-gray-600">
             Engineering change through diversity — nurturing the best minds to
-            solve the world’s most complex security and automation challenges.
+            solve complex security, automation, and infrastructure challenges.
           </p>
         </div>
 
-        {/* ZIG ZAG SECTIONS */}
-        <div className="space-y-24">
+        {/* ZIG-ZAG SECTIONS */}
+        <div className="space-y-20 sm:space-y-24">
           {CULTURE_DATA.map((item, index) => {
             const isEven = index % 2 === 0;
 
             return (
               <div
                 key={item.title}
-                className="grid lg:grid-cols-12 gap-12 items-center"
+                className="grid gap-10 lg:grid-cols-12 items-center"
               >
                 {/* TEXT */}
                 <motion.div
                   variants={isEven ? leftTextVariants : rightTextVariants}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
                   className={`lg:col-span-6 ${
                     isEven ? "order-1" : "order-2"
                   }`}
                 >
                   <div className="max-w-xl">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="h-1 w-10 bg-orange-400 rounded-full" />
-                      <span className="text-xs uppercase tracking-widest text-orange-300">
+                      <span
+                        className="h-1 w-10 rounded-full"
+                        style={{ backgroundColor: ACCENT }}
+                      />
+                      <span
+                        className="text-xs uppercase tracking-widest"
+                        style={{ color: ACCENT }}
+                      >
                         Culture Pillar
                       </span>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                    <h3
+                      className="text-2xl sm:text-3xl font-bold"
+                      style={{ color: BRAND }}
+                    >
                       {item.title}
                     </h3>
 
-                    <p className="mt-4 text-lg text-blue-100 leading-relaxed">
+                    <p className="mt-4 text-base sm:text-lg text-gray-700 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -129,12 +138,12 @@ export default function PeopleCultureSection() {
                   variants={imageVariants}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
                   className={`lg:col-span-6 flex justify-center ${
-                    isEven ? "order-2" : "order-1  "
+                    isEven ? "order-2" : "order-1"
                   }`}
                 >
-                  <div className="relative w-[260px] sm:w-[320px] rounded-xl overflow-hidden shadow-lg">
+                  <div className="relative w-[240px] sm:w-[320px] md:w-[360px] rounded-xl overflow-hidden shadow-lg">
                     <Image
                       src={item.image}
                       alt={item.title}
