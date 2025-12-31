@@ -219,11 +219,10 @@
 //     </html>
 //   );
 // }
-import "./globals.css";
-import type { Metadata } from "next";
 import BackToTopButton from "@/components/BackToTopButton";
-import NavigationMenuDemo from "@/components/NavigationMenuDemo";
-
+import "./globals.css";
+import { NavigationMenuDemo } from "@/components/NavigationMenuDemo";
+import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 
 // ===== Font Setup =====
@@ -264,12 +263,15 @@ export default function RootLayout({
         <NavigationMenuDemo />
 
         {/* ===== Main Content ===== */}
-        <main className="min-h-[70vh]">{children}</main>
+        <main className="min-h-[70vh]">{children}
 
-        {/* ===== Back To Top ===== */}
-        <BackToTopButton />
 
-        {/* ===== Footer (optional) ===== */}
+          
+        </main>
+       <BackToTopButton/>
+
+        {/* ===== Footer ===== */}
+        {/* Add footer here if needed */}
       </body>
     </html>
   );
