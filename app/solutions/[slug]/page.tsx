@@ -4,6 +4,7 @@ import React, { use } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import HeadphoneScroll from "@/components/HeadphoneScroll";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import {
@@ -56,7 +57,7 @@ function RenderSubPoints({ subPoints }: { subPoints?: SubPoint[] }) {
   if (!subPoints) return null;
 
   return (
-    <motion.div 
+    <motion.div
       variants={staggerContainer}
       initial="initial"
       whileInView="whileInView"
@@ -65,8 +66,8 @@ function RenderSubPoints({ subPoints }: { subPoints?: SubPoint[] }) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {subPoints.map((point, idx) => (
-            <motion.div 
-              key={idx} 
+            <motion.div
+              key={idx}
               variants={fadeInUp}
               whileHover={{ y: -4 }}
               className="group relative overflow-hidden bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
@@ -99,7 +100,7 @@ function RenderComponents({ components }: { components?: Component[] }) {
   if (!components) return null;
 
   return (
-    <motion.div 
+    <motion.div
       variants={staggerContainer}
       initial="initial"
       whileInView="whileInView"
@@ -116,23 +117,23 @@ function RenderComponents({ components }: { components?: Component[] }) {
             >
               {comp.icon && (
                 <div className="mb-5 p-4 bg-[#07518a]/10 rounded-2xl">
-                  <Image 
-                    src={comp.icon} 
-                    alt={comp.name} 
-                    width={56} 
-                    height={56} 
-                    className="object-contain" 
+                  <Image
+                    src={comp.icon}
+                    alt={comp.name}
+                    width={56}
+                    height={56}
+                    className="object-contain"
                   />
                 </div>
               )}
-              
+
               <h4 className="font-bold text-gray-900 text-lg mb-3">
                 {comp.name}
               </h4>
               <p className="text-gray-600 text-sm leading-relaxed">
                 {comp.description}
               </p>
-              
+
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-[#07518a] group-hover:w-2/3 transition-all duration-300 rounded-full" />
             </motion.div>
           ))}
@@ -149,8 +150,8 @@ function RenderFeatureLists({ featureLists }: { featureLists?: FeatureList[] }) 
     <div className="w-full bg-gradient-to-br from-[#07518a] to-[#053d6b] py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto space-y-10">
         {featureLists.map((list, idx) => (
-          <motion.div 
-            key={idx} 
+          <motion.div
+            key={idx}
             variants={fadeInUp}
             initial="initial"
             whileInView="whileInView"
@@ -162,10 +163,10 @@ function RenderFeatureLists({ featureLists }: { featureLists?: FeatureList[] }) 
                 <span className="w-1.5 h-10 bg-white rounded-full" />
                 {list.title}
               </h4>
-              
+
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {list.items.map((item, i) => (
-                  <motion.li 
+                  <motion.li
                     key={i}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -190,7 +191,7 @@ function RenderFeatureLists({ featureLists }: { featureLists?: FeatureList[] }) 
 
 function RenderImageContentSection({ section, index }: { section: Section; index: number }) {
   const isEven = index % 2 === 0;
-  const bgStyle = isEven 
+  const bgStyle = isEven
     ? { borderRadius: '67% 33% 28% 72% / 59% 52% 48% 41%' }
     : { borderRadius: '15% 85% 53% 47% / 55% 41% 59% 45%' };
 
@@ -198,15 +199,15 @@ function RenderImageContentSection({ section, index }: { section: Section; index
     <div className="w-full bg-[#e6e7e5] py-20 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
         <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-10 lg:gap-16`}>
-          
+
           {/* Bubbly Content Background */}
-          <motion.div 
+          <motion.div
             variants={isEven ? slideInLeft : slideInRight}
             initial="initial"
             whileInView="whileInView"
             className="w-full lg:w-1/2"
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 3 }}
@@ -222,15 +223,15 @@ function RenderImageContentSection({ section, index }: { section: Section; index
               }}
             >
               {/* Shine Effects */}
-              <div 
+              <div
                 className="absolute w-[35px] h-[35px] bg-white/80 rounded-full"
                 style={{ top: '50px', left: '80px' }}
               />
-              <div 
+              <div
                 className="absolute w-[15px] h-[15px] bg-white/80 rounded-full"
                 style={{ top: '90px', left: '110px' }}
               />
-              
+
               {/* Text Content Inside Bubble */}
               <div className="relative flex flex-col items-center justify-center text-center gap-4 z-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-lg">
@@ -238,17 +239,17 @@ function RenderImageContentSection({ section, index }: { section: Section; index
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
-                
+
                 <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
                   {section.title}
                 </h3>
-                
+
                 {section.description && (
                   <p className="text-base text-white/90 leading-relaxed max-w-md">
                     {section.description}
                   </p>
                 )}
-                
+
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -266,7 +267,7 @@ function RenderImageContentSection({ section, index }: { section: Section; index
           </motion.div>
 
           {/* Image Side - Normal with Rounded Corners */}
-          <motion.div 
+          <motion.div
             variants={isEven ? slideInRight : slideInLeft}
             initial="initial"
             whileInView="whileInView"
@@ -274,9 +275,9 @@ function RenderImageContentSection({ section, index }: { section: Section; index
           >
             {section.image && (
               <div className="relative w-full aspect-[4/3] max-w-[600px] mx-auto rounded-3xl overflow-hidden shadow-2xl">
-                <Image 
-                  src={section.image} 
-                  alt={section.title} 
+                <Image
+                  src={section.image}
+                  alt={section.title}
                   fill
                   className="object-cover"
                   priority={index === 0}
@@ -294,16 +295,16 @@ function RenderImageContentSection({ section, index }: { section: Section; index
 
 function RenderSection({ section, isNested = false, index = 0 }: { section: Section; isNested?: boolean; index?: number }) {
   const isEven = index % 2 === 0;
-  
+
   return (
-    <motion.section 
+    <motion.section
       initial="initial"
       whileInView="whileInView"
       viewport={{ once: true, margin: "-100px" }}
       className={`${isNested ? 'py-10' : 'py-0'} w-full`}
     >
       <div className={`${isNested ? 'bg-gray-50 rounded-3xl p-8 md:p-10' : ''}`}>
-        
+
         {/* Image + Content Section with Alternating Layout */}
         {!isNested && section.image && (
           <RenderImageContentSection section={section} index={index} />
@@ -313,14 +314,14 @@ function RenderSection({ section, isNested = false, index = 0 }: { section: Sect
         {!isNested && !section.image && (
           <div className={`w-full ${isEven ? 'bg-gradient-to-r from-white to-slate-50' : 'bg-gradient-to-r from-slate-50 to-white'} py-16 px-6 md:px-12 lg:px-20`}>
             <div className="max-w-7xl mx-auto">
-              <motion.div 
+              <motion.div
                 variants={fadeInUp}
                 className="max-w-4xl"
               >
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                   {section.title}
                 </h2>
-                
+
                 {section.description && (
                   <p className="text-lg md:text-xl text-gray-600 leading-relaxed mt-4">
                     {section.description}
@@ -333,7 +334,7 @@ function RenderSection({ section, isNested = false, index = 0 }: { section: Sect
 
         {isNested && (
           <>
-            <motion.h3 
+            <motion.h3
               variants={fadeInUp}
               className="text-2xl md:text-3xl font-bold text-gray-900 mb-4"
             >
@@ -341,7 +342,7 @@ function RenderSection({ section, isNested = false, index = 0 }: { section: Sect
             </motion.h3>
 
             {section.description && (
-              <motion.p 
+              <motion.p
                 variants={fadeInUp}
                 className="text-base md:text-lg text-gray-600 leading-relaxed mb-6"
               >
@@ -350,17 +351,17 @@ function RenderSection({ section, isNested = false, index = 0 }: { section: Sect
             )}
 
             {section.image && (
-              <motion.div 
-                variants={fadeIn} 
+              <motion.div
+                variants={fadeIn}
                 initial="initial"
                 whileInView="whileInView"
                 viewport={{ once: true }}
                 className="relative w-full h-[350px] md:h-[450px] rounded-3xl overflow-hidden mb-8 shadow-lg"
               >
-                <Image 
-                  src={section.image} 
-                  alt={section.title} 
-                  fill 
+                <Image
+                  src={section.image}
+                  alt={section.title}
+                  fill
                   className="object-cover"
                 />
               </motion.div>
@@ -406,7 +407,7 @@ export default function SolutionDetailsPage({
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* HERO BANNER - 80vh Full Width */}
-      <motion.div 
+      <motion.div
         style={{ opacity }}
         className="relative h-[80vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#07518a] via-[#064a7d] to-[#053d6b]"
       >
@@ -414,18 +415,18 @@ export default function SolutionDetailsPage({
         {solution.mainbanner && (
           <>
             <div className="absolute inset-0">
-              <Image 
-                src={solution.mainbanner} 
-                alt="Solution Banner" 
-                fill 
+              <Image
+                src={solution.mainbanner}
+                alt="Solution Banner"
+                fill
                 className="object-cover opacity-20"
-                priority 
+                priority
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-[#07518a]/80" />
           </>
         )}
-        
+
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -449,18 +450,18 @@ export default function SolutionDetailsPage({
                 className="mb-6 md:mb-8 inline-block"
               >
                 <div className="p-5 bg-white/10 backdrop-blur-md rounded-2xl">
-                  <Image 
-                    src={solution.icon} 
-                    alt="Solution Icon" 
-                    width={80} 
-                    height={80} 
-                    className="brightness-0 invert" 
+                  <Image
+                    src={solution.icon}
+                    alt="Solution Icon"
+                    width={80}
+                    height={80}
+                    className="brightness-0 invert"
                   />
                 </div>
               </motion.div>
             )}
-            
-            <motion.h1 
+
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -468,7 +469,7 @@ export default function SolutionDetailsPage({
             >
               {solution.title}
             </motion.h1>
-            
+
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: 120 }}
@@ -492,7 +493,7 @@ export default function SolutionDetailsPage({
           >
             <span className="text-white/80 text-xs font-medium uppercase tracking-wide">Scroll</span>
             <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1.5">
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, 12, 0], opacity: [1, 0, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="w-1.5 h-3 bg-white rounded-full"
@@ -502,7 +503,7 @@ export default function SolutionDetailsPage({
         </motion.div>
       </motion.div>
 
-      {/* MAIN CONTENT - FULL WIDTH */}
+      
       <div className="w-full">
         {solution.subsections?.map((section, idx) => (
           <RenderSection key={idx} section={section} index={idx} />
@@ -510,7 +511,7 @@ export default function SolutionDetailsPage({
       </div>
 
       {/* BACK NAVIGATION - FULL WIDTH */}
-      <motion.footer 
+      <motion.footer
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -525,10 +526,10 @@ export default function SolutionDetailsPage({
               href="/solutions"
               className="inline-flex items-center gap-3 bg-[#07518a] text-white px-10 py-4 rounded-full font-bold text-base hover:bg-[#064a7d] transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              <svg 
+              <svg
                 className="w-5 h-5"
-                fill="none" 
-                stroke="currentColor" 
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />

@@ -138,9 +138,8 @@ const PrestigiousProjects = () => {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: "-80px" }}
-                  className={`relative h-[360px] md:h-[440px] ${
-                    isEven ? "" : "lg:order-1"
-                  }`}
+                  className={`relative h-[360px] md:h-[440px] ${isEven ? "" : "lg:order-1"
+                    }`}
                 >
                   {typeof project.avatar === "string" ? (
                     <Image

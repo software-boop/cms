@@ -23,6 +23,7 @@ export interface Section {
   image?: any;
   mainimage?: any;
   mainbanner?: any;
+  customComponent?: "HEADPHONE_SCROLL";
   description?: string;
   subPoints?: SubPoint[];
   components?: Component[];
@@ -101,7 +102,7 @@ import VendorQualificationIcon from "./Solar/solaricons/Vendor Qualification.png
 
 
 // vms//
-import Aivms_banner from './vsm_images/73170.jpg' 
+import Aivms_banner from './vsm_images/73170.jpg'
 import vms_manin_image from './vsm_images/IMG_20231130_033658.jpg'
 
 /* ===================== AI VMS ICON IMPORTS ===================== */
@@ -231,6 +232,7 @@ import Sb6Img from "./bussollutionimage/sb6.png";
 export const smartBusData: Section = {
   title: "Empowering Public Transport: The Next-Gen Smart Bus Experience",
   slug: "smart-bus-solution",
+  customComponent: "HEADPHONE_SCROLL",
   mainimage: DashboardSmartBusSolutionPic,
   mainbanner: DashboardSmartBusSolutionPic,
   icon: TechnologyIcon,
@@ -267,42 +269,42 @@ export const smartBusData: Section = {
       image: SmartFeaturesForBusesPic,
     },
 
-{
-  title: "Driver Behaviour",
-  components: [
     {
-      name: "Driver Behaviour",
-      description: "Monitors driver actions to improve safety and compliance.",
-      icon: Sb1Img,
-    },
-     {
+      title: "Driver Behaviour",
+      components: [
+        {
+          name: "Driver Behaviour",
+          description: "Monitors driver actions to improve safety and compliance.",
+          icon: Sb1Img,
+        },
+        {
           name: "Drowsiness Detection",
           description: "Detects fatigue and alerts to prevent accidents.",
           icon: Sb2Img,
         },
-                {
+        {
           name: "Harsh Braking & Acceleration",
           description: "Tracks aggressive driving events for safer operations.",
           icon: Sb3Img,
         },
-          {
+        {
           name: "Overspeed Monitoring",
           description: "Alerts when the driver exceeds configured speed limits.",
           icon: Sb4Img,
-        }, 
-           {
+        },
+        {
           name: "Mobile Usage Detection",
           description: "Detects distraction from phone usage while driving.",
           icon: Sb5Img,
-        }, 
-         {
+        },
+        {
           name: "Compliance Reports",
           description: "Generates driver performance reports for training and audits.",
           icon: Sb6Img,
         },
 
-  ],
-},
+      ],
+    },
 
     {
       title: "Core Components",
@@ -692,8 +694,8 @@ export const smartBusData: Section = {
 // }; 
 
 export const aiVmsData: Section = {
-   mainimage: vms_manin_image,
-mainbanner: Aivms_banner,
+  mainimage: vms_manin_image,
+  mainbanner: Aivms_banner,
   title: "Revolutionizing Surveillance: AI-Powered Video Management System",
   slug: "ai-vms-video-management-system",
 

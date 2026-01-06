@@ -3,7 +3,8 @@ import DemoPage from '@/components/aboutdemo'
 import AnimatedCapabilitiesOrbit from '@/components/AnimatedCapabilitiesOrbit'
 import { Achievements, Process, Work } from '@/components/homeabout/Achiementsdemo'
 import BTPL from '@/components/homeabout/Soline'
-import React from 'react'
+import React from 'react' 
+
 import AboutHero from './About'
 import MissionVisionPhilosophy from './MissionVisionPhilosophy'
 import BrihaspathiDeployments from './BrihaspathiDeployments'
@@ -24,6 +25,9 @@ import GsapScrollShowcase from './our-team/GsapScrollShowcase'
 import HeroReveal from '@/components/ui/HeroReveal'
 import { Skiper30 } from './components/Skiper30'
 import { Skiper39 } from './components/Skiper39'
+import Company3DViewer from '@/components/Company3DViewer'
+import AIDemoEmbed from './who-we-are/components/AIDemoEmbed'
+import SpaceWebsite from '@/components/SpaceWebsite'
 
 
 
@@ -32,15 +36,33 @@ function page() {
   return (
     <div>
 
-
+{/* <SpaceWebsite/> */}
 <AboutHero/>
+    {/* <div className="relative w-full h-[60vh] md:h-[80vh] lg:h-[90vh] overflow-hidden bg-black">
+      <video
+        className="w-full h-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/your-poster.jpg" // optional poster image
+      >
+        <source
+          src="https://ik.imagekit.io/cbrrjodcw/Smoothly_transition_from_1080p_202601061032.mp4?tr=orig"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+    </div> */}
+
 <TestimonialCarousel/>
  {/* <GsapScrollShowcase  group={ORG_GROUPS[0]}   titleText="FAFFA"/>
 <TeamShowcase group={ORG_GROUPS[0]}/>  */}
 {/* <HeroReveal/> */}
 
 
-
+  
 <Skiper30/>
 {/* <Skiper39/> */}
 
@@ -136,7 +158,22 @@ function page() {
 {/* <WhatWeDoSection/> */}
 <OurJourney/>
 
-
+{/* 
+<div className="card card-sm bg-base-200 max-w-60 shadow">
+  <figure className="hover-gallery">
+    <img src="https://img.daisyui.com/images/stock/daisyui-hat-1.webp" />
+    <img src="https://img.daisyui.com/images/stock/daisyui-hat-2.webp" />
+    <img src="https://img.daisyui.com/images/stock/daisyui-hat-3.webp" />
+    <img src="https://img.daisyui.com/images/stock/daisyui-hat-4.webp" />
+  </figure>
+  <div className="card-body">
+    <h2 className="card-title flex justify-between">
+      daisyUI Hat
+      <span className="font-normal">$25</span>
+    </h2>
+    <p>High Quality classic cap hat with stitch logo</p>
+  </div>
+</div> */}
 
 <ValuesSection/>
 <BrihaspathiDeployments/>

@@ -5,6 +5,7 @@ import axios from "axios";
 import ProjectCard from "./components/ProjectCard";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+import HeadphoneScroll from "@/components/HeadphoneScroll";
 
 const API = "http://172.30.0.200:1334/api";
 
@@ -35,6 +36,7 @@ export default function ProjectsPage() {
 
   return (
     <motion.main className="max-w-6xl mx-auto px-4 py-10">
+
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

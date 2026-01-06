@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 import SolutionsSection from "@/components/SolutionsSection";
@@ -32,6 +33,7 @@ import { Ourcapabilities } from "@/components/homeabout/our-capabilities";
 import Clientvideo from "@/components/homeabout/Clientvideo";
 import BTPL from "@/components/homeabout/Soline";
 import HeroReveal from "@/components/ui/HeroReveal";
+import SpaceWebsite from "@/components/SpaceWebsite";
 
 // import DemoOne from "@/components/gallareydemo";
 
@@ -43,9 +45,18 @@ export default function Home() {
       {/* HERO SECTION */}
   
         <SplineSceneBasic />
-        <div className="">
+        <div className=""> 
+{/* <DotLottieReact 
+src="https://lottie.host/6823e256-30a5-4cb4-8735-13adfb593187/j3Oq4rPBYB.lottie"
+    loop
+      autoplay
+
+/> */}
+
+
 
             <DemoOne/>
+            {/* <SpaceWebsite height="80vh" fullWidth={false} /> */}
         </div>
    {/* <div className="">     <HeroParallaxDemo/></div> */}
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useRef } from "react";
+import { use, useRef, useEffect } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,10 +16,17 @@ import {
   CheckCircle,
 } from "lucide-react";
 
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
 import { getCaseStudy } from "../../data";
 
 import challengeImg from "../../casestudyimages/c1-01.png";
 import solutionImg from "../../casestudyimages/c2-01.png";
+
+/* ================= GSAP ================= */
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ================= BACKGROUND ================= */
 
@@ -70,6 +77,9 @@ export default function CaseStudyPage({
   const challengeRef = useRef<HTMLDivElement>(null);
   const solutionRef = useRef<HTMLDivElement>(null);
 
+  const objectiveSectionRef = useRef<HTMLElement>(null);
+  const objectiveTextRef = useRef<HTMLHeadingElement>(null);
+
   /* ================= SCROLL PROGRESS ================= */
 
   const { scrollYProgress: challengeScroll } = useScroll({
@@ -89,6 +99,37 @@ export default function CaseStudyPage({
 
   const solutionX = useTransform(solutionScroll, [0, 1], ["0%", "40%"]);
   const solutionY = useTransform(solutionScroll, [0, 1], ["24px", "0px"]);
+
+  /* ================= GSAP PROJECT OBJECTIVE ================= */
+
+  useEffect(() => {
+    if (!objectiveSectionRef.current || !objectiveTextRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        objectiveTextRef.current,
+        {
+          opacity: 0,
+          y: 80,
+          scale: 0.96,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: objectiveSectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }, objectiveSectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div
@@ -143,6 +184,25 @@ export default function CaseStudyPage({
           />
         </div>
       </motion.section>
+
+      {/* ================= PROJECT OBJECTIVE ================= */}
+      <section
+        ref={objectiveSectionRef}
+        className="text-center py-24 px-6"
+      >
+        <h1
+          ref={objectiveTextRef}
+          className="
+            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+            font-semibold
+            leading-tight
+            text-[#07518a]
+            max-w-5xl mx-auto
+          "
+        >
+          {study.project_objective}
+        </h1>
+      </section>
 
       {/* ================= CHALLENGES ================= */}
       <section ref={challengeRef} className="py-28 overflow-hidden">
