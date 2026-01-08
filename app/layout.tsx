@@ -224,6 +224,7 @@ import "./globals.css";
 import { NavigationMenuDemo } from "@/components/NavigationMenuDemo";
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
+import HoverFooter from "@/components/HoverFooter";
 
 // ===== Font Setup =====
 const inter = Inter({
@@ -272,6 +273,8 @@ export default function RootLayout({
 
         {/* ===== Footer ===== */}
         {/* Add footer here if needed */}
+
+        <HoverFooter/>
       </body>
     </html>
   );

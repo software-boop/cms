@@ -28,6 +28,7 @@ import { Skiper39 } from './components/Skiper39'
 import Company3DViewer from '@/components/Company3DViewer'
 import AIDemoEmbed from './who-we-are/components/AIDemoEmbed'
 import SpaceWebsite from '@/components/SpaceWebsite'
+import IndiaBranchesMap from '@/components/homeabout/Indiabranch'
 
 
 
@@ -55,7 +56,7 @@ function page() {
         Your browser does not support the video tag.
       </video>
     </div> */}
-
+<IndiaBranchesMap/>
 <TestimonialCarousel/>
  {/* <GsapScrollShowcase  group={ORG_GROUPS[0]}   titleText="FAFFA"/>
 <TeamShowcase group={ORG_GROUPS[0]}/>  */}

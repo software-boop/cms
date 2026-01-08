@@ -8,8 +8,8 @@ function page() {
   return (
     <div className=''>
       {/* <ParallaxScroll/> */}
-      {/* <SpaceWebsite/> */}
-      <Skiper38 />
+      <SpaceWebsite/>
+      {/* <Skiper38 /> */}
 
     </div>
   )
