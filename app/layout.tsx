@@ -243,9 +243,9 @@ const manrope = Manrope({
 
 // ===== Metadata =====
 export const metadata: Metadata = {
-  title: "SkyVolt | Powering India's Clean Energy Future",
+  title: "Brihaspathi technologies limited",
   description:
-    "SkyVolt Renewable Pvt. Ltd. – Driving India's solar revolution through smart EPC solutions and sustainable technology.",
+    "Brihaspathi Technologies Limited – Empowering a connected, secure, and sustainable future through innovative e-security, AI, IoT, renewable energy, and next-generation technology solutions since 2006.",
 };
 
 // ===== Root Layout =====
