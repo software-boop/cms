@@ -24,6 +24,9 @@ export interface Service {
   valueProposition: string;
 }
 
+
+
+
 export const servicesData: Service[] = [
 //   {
 //     title: "System Integration & Turnkey Delivery",
@@ -118,7 +121,7 @@ export const servicesData: Service[] = [
    {
     title: "System Integration & Turnkey Delivery",
     slug: "system-integration-turnkey-delivery",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_0754e12fd05e98396bd4695f1c03d21ddr.jpeg",
     description: "We provide end-to-end system integration for surveillance, solar, and IoT solutions, covering design, multi-vendor integration, deployment, testing, commissioning, and lifecycle management. Our turnkey approach ensures seamless interoperability across hardware, software, networks, and platforms.",
     overview: "As a leading integrator, we deliver comprehensive turnkey solutions that combine security, renewable energy, and IT systems. Founded in 2006, with 18+ years of excellence, we focus on future-ready technology for secure and smart worlds, aligning with 'Make in India' for self-reliance.",
     keyFeatures: [
@@ -206,7 +209,7 @@ export const servicesData: Service[] = [
   {
     title: "Solution Engineering & Consulting",
     slug: "solution-engineering-consulting",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_99cf8662196f446bd644bb8b8493d101dr (1).jpeg",
     description: "Our engineering team collaborates with government and institutions to translate requirements into scalable technical solutions, including analysis, architecture, project reports, and support for tenders.",
     overview: "With a dynamic team of 300+ professionals, we offer consulting in E-Security, IoT, IT, and renewable energy. Our expertise spans from requirement analysis to tender support, ensuring compliant, future-ready architectures for diverse sectors.",
     keyFeatures: [
@@ -292,7 +295,7 @@ export const servicesData: Service[] = [
   {
     title: "Command & Control Centre Engineering",
     slug: "command-control-centre-engineering",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_23c2e95d4db5a8085d24d8149e209d34dr.jpeg",
     description: "We design and implement Integrated Command & Control Centres (ICCC), including video walls, consoles, monitoring platforms, and backend infrastructure for real-time oversight.",
     overview: "Our ICCCs serve as central hubs for real-time monitoring in high-stakes environments. Leveraging VMS and analytics, we ensure 360° awareness for elections, exams, and security, with seamless integration of AI and IoT.",
     keyFeatures: [
@@ -377,7 +380,7 @@ export const servicesData: Service[] = [
   {
     title: "IT, Network & Digital Infrastructure",
     slug: "it-network-digital-infrastructure",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_58d7195cc00c45d9e1e4b033aaa469a0dr.jpeg",
     description: "We deliver secure IT and telecom infrastructure, including data centers, servers, storage, networks, and cybersecurity architectures.",
     overview: "Serving as the backbone for modern operations, our IT and telecom solutions integrate high-speed internet, cloud, 5G, and automation. We provide comprehensive products like fiber optics, servers, and routers for seamless connectivity across India.",
     keyFeatures: [
@@ -463,7 +466,7 @@ export const servicesData: Service[] = [
   {
     title: "AI, Video Analytics & Platform Integration",
     slug: "ai-video-analytics-platform-integration",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_02b3b2939fa1f239644437eb7c2baae5dr.jpeg",
     description: "We deploy AI-based analytics for video surveillance, transport, and safety, integrating with VMS, ICCCs, and legacy systems for actionable insights.",
     overview: "Leveraging AI-driven software, our analytics transform surveillance with features like object detection and facial recognition. Integrated with in-house VMS, we ensure real-time intelligence for security and operations.",
     keyFeatures: [
@@ -549,7 +552,7 @@ export const servicesData: Service[] = [
   {
     title: "Program Management & Operations (O&M)",
     slug: "program-management-operations-om",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_6aedc53dd4fa349b3474b15a466f460bdr.jpeg",
     description: "We execute large-scale projects with structured management, SLA-based operations, maintenance contracts, and managed services.",
     overview: "With 1,200+ completed projects, we manage end-to-end operations for government and institutional initiatives, ensuring SLA compliance, maintenance, and 24/7 monitoring for reliability.",
     keyFeatures: [
@@ -633,7 +636,7 @@ export const servicesData: Service[] = [
   {
     title: "Software Products & Services",
     slug: "software-products-services",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_0a2f05f5fd66075a5fb423de8edd29fddr.jpeg",
     description: "We offer AI-driven software development, including web design, app development, IoT applications, E-Communication, and Biz Track ERP for enterprises.",
     overview: "From foundational web development in 2006 to advanced AI software, we provide comprehensive software solutions like E-Communication platforms and automation-centric ERP, enhancing business efficiency across domains.",
     keyFeatures: [
@@ -712,7 +715,7 @@ export const servicesData: Service[] = [
   {
     title: "Renewable Energy Solutions",
     slug: "renewable-energy-solutions",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_0ec60332bbdcdd09c3e46cc3f284ea16dr (1).jpeg",
     description: "We provide solar rooftop systems, smart poles, and integrated renewable solutions for residential and commercial applications.",
     overview: "Committed to a greener future, we integrate solar technology with surveillance and IoT, supporting 'Make in India' with high-quality, efficient systems that minimize carbon footprints.",
     keyFeatures: [
@@ -793,7 +796,7 @@ export const servicesData: Service[] = [
   {
     title: "Smart Bus Solutions",
     slug: "smart-bus-solutions",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_ce854c95264034882294dfbfc253026cdr (1).jpeg",
     description: "We offer technology-integrated bus systems for efficiency, safety, and reliability in public and private transit.",
     overview: "Modernizing transportation with AI CCTV, GPS, and analytics, our smart bus solutions enhance passenger experience and operator oversight.",
     keyFeatures: [
@@ -868,7 +871,7 @@ export const servicesData: Service[] = [
   {
     title: "Law Enforcement - In-Car Surveillance",
     slug: "law-enforcement-in-car-surveillance",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_c4eb0a7bde8108db0434b643fced3b56dr (1).jpeg",
     description: "We provide AI-powered in-car systems for police with video monitoring, recognition, and analytics.",
     overview: "Designed for modern policing, our in-car surveillance enhances operations with 360° awareness, evidence collection, and incident response.",
     keyFeatures: [
@@ -945,7 +948,7 @@ export const servicesData: Service[] = [
   {
     title: "AI Biometric with Aadhaar Authentication",
     slug: "ai-biometric-aadhaar-authentication",
-    mainimage:"",
+    mainimage:"/Service_images/Whisk_7201afdec8bd7b4a6aa4c45f3d5a4c01dr (1).jpeg",
     description: "We offer next-gen AI biometrics integrated with Aadhaar for contactless identity verification.",
     overview: "Designed for institutions, our biometric solutions ensure fraud-proof attendance and compliance with UIDAI standards, enhancing transparency.",
     keyFeatures: [

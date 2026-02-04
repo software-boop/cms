@@ -1,21 +1,21 @@
-// app/board/page.tsx
+// app/about/Board_of_directors/page.tsx
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import {
   motion,
-  MotionConfig,
-  useReducedMotion,
   useScroll,
   useTransform,
+  useSpring,
+  useMotionValue,
 } from "framer-motion";
-import { Linkedin } from "lucide-react";
+import { Linkedin, ArrowUpRight } from "lucide-react";
 
 // Image Imports
-import md from "../../src/board-directors-images/MD'S Corporate Head shot..png";
-import hyma from "../../src/board-directors-images/HYMAVATHI.jpg";
-import murali from "../../src/board-directors-images/Murali.jpg";
+import md from "../../../components/Board_of_directors/MD'S Corporate Head shot..png";
+import hyma from "../../../components/Board_of_directors/HYMAVATHI.jpg";
+import murali from "../../../components/Board_of_directors/Murali.jpg";
 
 /* =========================
    Brand / Types / Helpers
@@ -27,7 +27,7 @@ type Person = {
   name: string;
   designation: string;
   bio?: string;
-  photo?: string | StaticImageData; // 🔹 Fix: Allow static imports
+  photo?: string | StaticImageData;
   linkedin?: string;
 };
 
@@ -52,8 +52,8 @@ const BOARD: OrgGroup = {
     {
       id: 1,
       name: "Rajasekhar Papolu",
-      designation: "Management",
-      bio: "With a Computer Science Engineering background and 18 years’ experience, Managing Director Rajasekhar Papolu drives vision and growth. He integrates AI, advances software development, strengthening presence in India. His sales-and-services expands opportunities in software and security systems. Skilled in sales, business development, and project management, he champions innovation and excellence.",
+      designation: "chairman & Managing director",
+      bio: "With a Computer Science Engineering background and 18 years' experience, Managing Director Rajasekhar Papolu drives vision and growth. He integrates AI, advances software development, strengthening presence in India. His sales-and-services expands opportunities in software and security systems. Skilled in sales, business development, and project management, he champions innovation and excellence.",
       linkedin: "https://www.linkedin.com/in/rajas2121/",
       photo: md,
     },
@@ -81,147 +81,238 @@ const BOARD: OrgGroup = {
 ========================= */
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.8, ease },
-  },
-};
-
-const containerStagger = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
-  },
-};
-
 /* =========================
-   Zig-Zag Row
+   Interactive Card Component
 ========================= */
-function ZigZagRow({ person, index }: { person: Person; index: number }) {
+function InteractiveCard({ person, index }: { person: Person; index: number }) {
   const isEven = index % 2 === 0;
   const photoSrc = person.photo || initialsAvatar(person.name);
+  const [isHovered, setIsHovered] = useState(false);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["-20% 80%", "60% 20%"],
+    offset: ["start end", "end start"],
   });
 
-  const yImg = useTransform(
-    scrollYProgress,
-    [0, 1],
-    isEven ? ["-10px", "10px"] : ["10px", "-10px"]
-  );
-  const rImg = useTransform(
-    scrollYProgress,
-    [0, 1],
-    isEven ? ["-1.2deg", "1.2deg"] : ["1.2deg", "-1.2deg"]
-  );
+  // Smooth spring physics
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
-  const xImgInitial = isEven ? -60 : 60;
-  const xTextInitial = isEven ? 60 : -60;
+  // Parallax transforms
+  const yImg = useTransform(smoothProgress, [0, 1], isEven ? [-40, 40] : [40, -40]);
+  const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+  const opacity = useTransform(smoothProgress, [0, 0.2, 0.8, 1], [0.4, 1, 1, 0.4]);
+
+  // Mouse position for tilt effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [5, -5]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-5, 5]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setIsHovered(false);
+  };
 
   return (
     <motion.div
       ref={ref}
-      variants={containerStagger}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ amount: 0.35, once: false }}
-      className="grid items-center gap-8 py-10 md:grid-cols-2 "
-      style={{ scrollMarginTop: 80 }}
+      style={{ opacity }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ amount: 0.3, once: false }}
+      className="grid items-center gap-6 py-8 md:grid-cols-2 md:gap-12 lg:gap-16"
     >
-      {/* Image */}
+      {/* Image Section */}
       <motion.div
-        variants={{
-          hidden: { opacity: 0, x: xImgInitial, filter: "blur(6px)" },
-          show: {
-            opacity: 1,
-            x: 0,
-            filter: "blur(0px)",
-            transition: { duration: 0.9, ease },
-          },
-        }}
-        className={isEven ? "" : "order-last md:order-none"}
+        style={{ scale }}
+        className={`${isEven ? "" : "md:order-last"} w-full`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={handleMouseLeave}
       >
         <motion.div
-          style={{ y: yImg, rotate: rImg }}
-          className="relative mx-auto aspect-[4/4] w-full max-w-[560px] overflow-hidden rounded-3xl shadow-xl ring-1 ring-black/5"
+          style={{ 
+            y: yImg,
+            rotateX: isHovered ? rotateX : 0,
+            rotateY: isHovered ? rotateY : 0,
+          }}
+          onMouseMove={handleMouseMove}
+          className="group relative mx-auto aspect-[4/5] w-full max-w-[400px] overflow-hidden rounded-3xl shadow-2xl transition-shadow duration-500 hover:shadow-[0_25px_50px_-12px_rgba(7,81,138,0.4)]"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
         >
           <Image
             src={photoSrc}
             alt={person.name}
             fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 560px"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            sizes="(max-width: 768px) 100vw, 400px"
             priority={index === 0}
           />
+          
+          {/* Gradient overlay */}
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             style={{
-              background:
-                "linear-gradient(180deg, rgba(7,81,138,0) 40%, rgba(7,81,138,0.15) 100%)",
+              background: `linear-gradient(180deg, transparent 0%, ${BRAND}40 100%)`,
             }}
           />
+
+          {/* Shine effect */}
+          <motion.div
+            className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100"
+            style={{
+              background:
+                "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
+            }}
+            animate={isHovered ? { x: ["-100%", "100%"] } : {}}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          />
+
+          {/* Border glow */}
+          <div className="absolute inset-0 rounded-3xl ring-1 ring-black/5 transition-all duration-500 group-hover:ring-2 group-hover:ring-white/20" />
         </motion.div>
       </motion.div>
 
-      {/* Text content */}
+      {/* Content Section */}
       <motion.div
-        variants={{
-          hidden: { opacity: 0, x: xTextInitial, filter: "blur(6px)" },
-          show: {
-            opacity: 1,
-            x: 0,
-            filter: "blur(0px)",
-            transition: { duration: 0.9, ease, delay: 0.05 },
-          },
-        }}
+        initial={{ opacity: 0, x: isEven ? 60 : -60 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ amount: 0.4, once: false }}
+        transition={{ duration: 0.8, ease }}
+        className="w-full"
       >
-        <div className="mx-auto max-w-[640px] overflow-hidden rounded-2xl border border-neutral-200/60 bg-white/80 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur lg:mt-36">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3
-              className="text-2xl font-bold leading-tight"
-              style={{ color: BRAND }}
-            >
-              {person.name}
-            </h3>
+        <motion.div
+          whileHover={{ y: -4 }}
+          transition={{ duration: 0.3 }}
+          className="group relative overflow-hidden rounded-2xl border border-neutral-200/60 bg-white/90 p-6 shadow-lg backdrop-blur-sm transition-all duration-500 hover:shadow-2xl lg:p-8"
+        >
+          {/* Animated gradient background */}
+          <motion.div
+            className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(800px circle at 50% 50%, ${BRAND}08, transparent 40%)`,
+            }}
+          />
 
-            {person.linkedin && (
-              <a
-                href={person.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:brightness-105"
-                style={{ backgroundColor: BRAND }}
-              >
-                <Linkedin size={18} /> LinkedIn
-              </a>
-            )}
+          <div className="relative z-10">
+            {/* Header */}
+            <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div className="flex-1 min-w-0">
+                <h3
+                  className="text-2xl font-bold leading-tight transition-colors duration-300 lg:text-3xl"
+                  style={{ color: BRAND }}
+                >
+                  {person.name}
+                </h3>
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="mt-2 h-1 w-16 rounded-full origin-left"
+                  style={{ backgroundColor: BRAND }}
+                />
+              </div>
+
+              {person.linkedin && (
+                <motion.a
+                  href={person.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:shadow-lg hover:brightness-110"
+                  style={{ backgroundColor: BRAND }}
+                >
+                  <Linkedin size={18} />
+                  <span className="hidden sm:inline">LinkedIn</span>
+                  <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </motion.a>
+              )}
+            </div>
+
+            {/* Designation badge */}
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-block rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-300 hover:scale-105"
+              style={{
+                color: BRAND,
+                backgroundColor: "rgba(7,81,138,0.08)",
+                border: "1px solid rgba(7,81,138,0.22)",
+              }}
+            >
+              {person.designation}
+            </motion.span>
+
+            {/* Bio */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mt-4 text-base leading-7 text-neutral-700 lg:text-lg lg:leading-8"
+            >
+              {person.bio || "Bio coming soon."}
+            </motion.p>
           </div>
 
-          <span
-            className="mt-1 inline-block rounded-full px-3 py-1 text-xs font-semibold"
-            style={{
-              color: BRAND,
-              backgroundColor: "rgba(7,81,138,0.08)",
-              border: "1px solid rgba(7,81,138,0.22)",
-            }}
-          >
-            {person.designation}
-          </span>
-
-          <motion.p variants={fadeInUp} className="mt-4 text-base leading-7 text-neutral-900">
-            {person.bio || "Bio coming soon."}
-          </motion.p>
-        </div>
+          {/* Corner decoration */}
+          <motion.div
+            className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20"
+            style={{ backgroundColor: BRAND }}
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/* =========================
+   Floating Shapes Background
+========================= */
+function FloatingShapes() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: 300 + i * 100,
+            height: 300 + i * 100,
+            backgroundColor: `${BRAND}${i === 0 ? "08" : i === 1 ? "05" : "03"}`,
+            left: `${10 + i * 30}%`,
+            top: `${20 + i * 25}%`,
+            filter: "blur(60px)",
+          }}
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -30, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 15 + i * 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -230,46 +321,91 @@ function ZigZagRow({ person, index }: { person: Person; index: number }) {
 ========================= */
 export default function Page() {
   const group = BOARD;
-  const reduce = useReducedMotion();
+  const headerRef = useRef<HTMLElement>(null);
 
   return (
-    <MotionConfig transition={{ duration: 0.9, ease }} reducedMotion={reduce ? "always" : "never"}>
-      <main className="relative mt-24">
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(1200px 600px at 10% -10%, rgba(7,81,138,0.08), transparent 55%), radial-gradient(900px 500px at 90% 110%, rgba(7,81,138,0.07), transparent 45%)",
-          }}
-        />
+    <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-neutral-50 to-white">
+      {/* Animated background */}
+      <FloatingShapes />
 
-        <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="relative pt-20 pb-16">
+        <section className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Header */}
           <motion.header
-            initial={{ opacity: 0, y: 10 }}
+            ref={headerRef}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease }}
-            className="mb-10 text-center md:mb-14"
+            transition={{ duration: 1, ease }}
+            className="mb-12 text-center md:mb-20"
           >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+              className="mb-4 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider"
+              style={{
+                color: BRAND,
+                backgroundColor: "rgba(7,81,138,0.1)",
+                border: "1px solid rgba(7,81,138,0.2)",
+              }}
+            >
+              Leadership
+            </motion.div>
+
             <h1
-              className="text-3xl font-extrabold tracking-tight sm:text-4xl"
+              className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
               style={{ color: BRAND }}
             >
               {group.title}
             </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-neutral-600">
-              Meet the leaders guiding strategy, innovation, and execution.
-            </p>
+
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mx-auto mt-4 h-1 w-24 rounded-full"
+              style={{ backgroundColor: BRAND }}
+            />
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mx-auto mt-6 max-w-2xl text-base text-neutral-600 sm:text-lg"
+            >
+              Meet the visionary leaders guiding our strategy, driving innovation, and
+              executing excellence across every dimension of our organization.
+            </motion.p>
           </motion.header>
 
-          <div className="space-y-10 md:space-y-14">
+          {/* Director Cards */}
+          <div className="space-y-16 md:space-y-24 lg:space-y-32">
             {group.people.map((p, i) => (
-              <ZigZagRow key={p.id} person={p} index={i} />
+              <InteractiveCard key={p.id} person={p} index={i} />
             ))}
           </div>
 
-          <div className="mt-14 h-px w-full bg-gradient-to-r from-transparent via-neutral-300/60 to-transparent" />
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease }}
+            className="mt-20 h-px w-full bg-gradient-to-r from-transparent via-neutral-300/60 to-transparent"
+          />
         </section>
       </main>
-    </MotionConfig>
+
+      {/* Global styles to prevent horizontal scroll */}
+      <style jsx global>{`
+        html, body {
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
+    </div>
   );
 }

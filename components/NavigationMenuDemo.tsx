@@ -269,12 +269,12 @@ export function NavigationMenuDemo() {
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.3 }}
                             >
-                              <div className="flex items-center gap-2 mb-4">
+                              {/* <div className="flex items-center gap-2 mb-4">
                                 <div className="h-1 w-8 bg-[#07518a] rounded-full"></div>
                                 <h3 className="font-bold text-[#07518a] text-sm uppercase tracking-wide">
                                   {category}
                                 </h3>
-                              </div>
+                              </div> */}
                               <ul className="space-y-3">
                                 {items.map((item) => (
                                   <li key={item.id}>
@@ -362,9 +362,9 @@ export function NavigationMenuDemo() {
 
               {/* Services */}
               <Link
-                href="/services"
+                href="/our-services"
                 className={`relative px-3 py-2 text-sm lg:text-base font-medium transition-all duration-200 rounded-md ${
-                  pathname === "/services"
+                  pathname === "/our-services"
                     ? useWhiteLogo ? "text-white" : "text-[#07518a]"
                     : useWhiteLogo ? "text-white/80 hover:text-white hover:bg-white/10" : "text-[#07518a]/70 hover:text-[#07518a] hover:bg-[#07518a]/5"
                 }`}
@@ -381,7 +381,7 @@ export function NavigationMenuDemo() {
               </Link>
 
               {/* Products */}
-              <Link
+              {/* <Link
                 href="/products"
                 className={`relative px-3 py-2 text-sm lg:text-base font-medium transition-all duration-200 rounded-md ${
                   pathname === "/products"
@@ -398,7 +398,7 @@ export function NavigationMenuDemo() {
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
-              </Link>
+              </Link> */}
 
               {/* Contact - Regular Link */}
               <Link

@@ -29,6 +29,7 @@ import Company3DViewer from '@/components/Company3DViewer'
 import AIDemoEmbed from './who-we-are/components/AIDemoEmbed'
 import SpaceWebsite from '@/components/SpaceWebsite'
 import IndiaBranchesMap from '@/components/homeabout/Indiabranch'
+import TeamCarousel from './our-team/TeamCarousel'
 
 
 
@@ -57,6 +58,7 @@ function page() {
       </video>
     </div> */}
 <IndiaBranchesMap/>
+
 <TestimonialCarousel/>
  {/* <GsapScrollShowcase  group={ORG_GROUPS[0]}   titleText="FAFFA"/>
 <TeamShowcase group={ORG_GROUPS[0]}/>  */}
@@ -64,8 +66,9 @@ function page() {
 
 
   
-<Skiper30/>
+{/* <Skiper30/> */}
 {/* <Skiper39/> */}
+
 
 <Process/>  
 <div className="w-full bg-white py-20">
@@ -157,6 +160,7 @@ function page() {
   </div>
 </div>
 {/* <WhatWeDoSection/> */}
+<TeamCarousel/>
 <OurJourney/>
 
 {/* 

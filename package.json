@@ -45,11 +45,13 @@
     "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.9.6",
     "sass": "^1.97.1",
+    "split-type": "^0.3.4",
     "styled-components": "^6.1.19",
     "swr": "^2.3.6",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",
-    "usehooks-ts": "^3.1.1"
+    "usehooks-ts": "^3.1.1",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

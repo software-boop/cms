@@ -1,11 +1,13 @@
 import React from 'react'
 import ServicesGrid from './ServicesGrid'
+import HeadphoneScroll from '@/components/HeadphoneScroll'
 
 function page() {
   return (
-    <div>
-
-        <ServicesGrid/>
+    <div className=''>
+ <HeadphoneScroll/>
+        <ServicesGrid/> 
+       
     </div>
   )
 }

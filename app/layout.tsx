@@ -263,11 +263,10 @@ export default function RootLayout({
         {/* ===== Header Navigation ===== */}
         <NavigationMenuDemo />
 
-        {/* ===== Main Content ===== */}
         <main className="min-h-[70vh]">{children}
 
 
-          
+
         </main>
        <BackToTopButton/>
 

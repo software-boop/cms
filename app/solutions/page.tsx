@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { allSolutions } from "./data";
+import AIBusSolutionScroll from "@/components/AIBusSolutionScroll";
 
 export const metadata = {
   title: "Solutions - Our Innovative Offerings",
@@ -13,8 +14,9 @@ export const metadata = {
 export default function SolutionsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-100">
+      <AIBusSolutionScroll/>
       {/* HERO SECTION */}
-      <div className="relative bg-gradient-to-br from-[#07518a] via-[#064a7d] to-[#053d6b] py-20 px-6">
+      <div className="relative bg-gradient-to-br from-[#a2a7ab] via-[#7f99ad] to-[#60778b] py-20 px-6">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -23,11 +25,11 @@ export default function SolutionsPage() {
         </div>
         
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#07518a] mb-6">
             Our Solutions
           </h1>
           <div className="h-1.5 w-32 bg-white/80 mx-auto rounded-full mb-6" />
-          <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-black/90 max-w-3xl mx-auto leading-relaxed">
             Discover cutting-edge solutions designed to transform industries
             with AI, IoT, and sustainable technologies.
           </p>

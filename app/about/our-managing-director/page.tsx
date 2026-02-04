@@ -110,15 +110,16 @@ function Hero({ data }: { data: PageOneProfile }) {
   };
 
   return (
-    <section
+ <div>
+     <section
       aria-label="Hero"
-      className="relative overflow-hidden h-[92svh] min-h-[560px]"
-      style={{ backgroundColor: BRAND }}
+      className="relative overflow-hidden h-[92svh] min-h-[700px] bg-gray-400"
+      // style={{ backgroundColor: BRAND }}
     >
       {/* Subtle sheen */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 "
         style={{
           background:
             "radial-gradient(1200px 600px at -10% -20%, rgba(255,255,255,0.12), transparent 60%), radial-gradient(1200px 600px at 110% -10%, rgba(255,255,255,0.08), transparent 60%)",
@@ -163,14 +164,14 @@ function Hero({ data }: { data: PageOneProfile }) {
           </div>
 
           <h1
-            className="mt-3 font-black tracking-tight text-white"
+            className="mt-3 font-black tracking-tight text-[#07518a]"
             style={{ fontSize: "clamp(28px, 4.5vw, 56px)", lineHeight: 1.08 }}
           >
             {data.name}
           </h1>
 
           <blockquote
-            className="mt-5 border-l-4 pl-4 text-white/95 sm:mt-6"
+            className="mt-5 border-l-4 pl-4 text-white/90 sm:mt-6"
             style={{ borderColor: "rgba(255,255,255,0.6)" }}
           >
             <p
@@ -212,6 +213,7 @@ function Hero({ data }: { data: PageOneProfile }) {
         </motion.div>
       </div>
     </section>
+ </div>
   );
 }
 
@@ -241,3 +243,15 @@ export default function Page() {
     </main>
   );
 }
+// import ManagingDirectorPage from '@/components/homeabout/ManagingDirectorPage'
+// import React from 'react'
+
+// function page() {
+//   return (
+//     <div>
+//       <ManagingDirectorPage/>
+//     </div>
+//   )
+// }
+
+// export default page

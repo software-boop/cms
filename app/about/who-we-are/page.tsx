@@ -7,7 +7,7 @@ import Who from "../components/who";
 
 import { CardSwap, Card } from "./components";
 import { LayeredText } from "./components/layered-text";
-import SpaceWebsite from "../../lifeat-brihaspathi/components/SpaceWebsite";
+// import SpaceWebsite from "../../lifeat-brihaspathi/components/SpaceWebsite";
 
 import { Skiper38 } from "./components/Skiper38";
 
@@ -16,7 +16,10 @@ export default function Page() {
     <div className="w-full overflow-hidden">
 
       <Skiper38 />
-      {/* <BannerSection /> */}
+      {/* <BannerSection /> */} 
+      
+
+      
 
       {/* ================= MAIN SPLIT SECTION ================= */}
       <main

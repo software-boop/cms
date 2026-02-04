@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { Spotlight } from "@/components/spotlight";
 import AIVMSHeroLeft from "./Surveillance";
 
+
+
 const videoSrc =
   "https://ik.imagekit.io/tsuss6ulm/corpo%20video%202%20-.mp4";
 
